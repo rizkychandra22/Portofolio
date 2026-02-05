@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Content\Form;
 
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -37,28 +38,70 @@ class Contact extends Component
         $this->validate();
 
         try {
-            $body = "Nama: {$this->name}\n" .
-                    "Email: {$this->email}\n" .
-                    "Subjek: {$this->subject}\n\n" .
-                    "Pesan:\n{$this->message}";
+            // View Pesan Email
+            $data = [
+                'name' => $this->name,
+                'email' => $this->email,
+                'subject' => $this->subject,
+                'messageContent' => $this->message,
+            ];
 
-            // Mail::raw HANYA butuh string $body dan function callback
-            Mail::raw($body, function($message) {
-                $message->to('rizkychandra2204@gmail.com')
-                        ->from('rizkychandra2204@gmail.com', 'Web-Portofolio')
-                        ->replyTo($this->email, $this->name) // Pakai $this langsung
-                        ->subject('Pesan baru dari: ' . $this->name);
-            });
+            // Render View HTML untuk pesan email
+            $htmlContent = view('emails.contact', $data)->render();
 
-            $this->reset(['name', 'email', 'subject', 'message']);
-            $this->sent = true;
+            // Kirim via API Resend
+            $response = Http::withToken('re_69Ytfhov_2wsLXrqqFCnpxZgDciRcHssL')
+                ->post('https://api.resend.com/emails', [
+                    'from'    => 'onboarding@resend.dev',
+                    'to'      => 'rizkychandra2204@gmail.com',
+                    'subject' => 'Pesan Baru: ' . $this->subject,
+                    'html'    => $htmlContent, 
+                ]);
 
-        } catch (Throwable $e) {
-            Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
+            if ($response->successful()) {
+                $this->reset(['name', 'email', 'subject', 'message']);
+                $this->sent = true;
+            } else {
+                throw new \Exception('Resend Error: ' . $response->body());
+            }
+
+        } catch (\Throwable $e) {
+            Log::error('Resend View Error: ' . $e->getMessage());
             $this->error = true;
-            $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.' . $e->getMessage();
+            $this->errorMessage = 'Gagal mengirim: ' . $e->getMessage();
         }
     }
+
+    // public function sendMessage()
+    // {
+    //     $this->resetState();
+    //     $this->validate();
+
+    //     try {
+    //         $data = [
+    //             'name' => $this->name,
+    //             'email' => $this->email,
+    //             'subject' => $this->subject,
+    //             'messageContent' => $this->message,
+    //         ];
+
+    //         // Mail Laravel (SMTP Brevo)
+    //         Mail::send('emails.contact', $data, function($message) use ($data) {
+    //             $message->to('rizkychandra2204@gmail.com')
+    //                     ->from('rizkychandra2204@gmail.com', 'Web-Portofolio') 
+    //                     ->replyTo($data['email'], $data['name'])
+    //                     ->subject('Pesan baru dari: ' . $data['name']);
+    //         });
+
+    //         $this->reset(['name', 'email', 'subject', 'message']);
+    //         $this->sent = true;
+
+    //     } catch (Throwable $e) {
+    //         Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
+    //         $this->error = true;
+    //         $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.' . $e->getMessage();
+    //     }
+    // }
 
     private function resetState(): void
     {

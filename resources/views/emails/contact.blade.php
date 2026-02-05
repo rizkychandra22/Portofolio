@@ -5,27 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontak Pesan Baru</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #f4f4f4; padding: 20px; text-align: center; }
-        .content { padding: 20px; }
-        .footer { background-color: #f4f4f4; padding: 10px; text-align: center; font-size: 12px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        .header { background-color: #2563eb; color: #ffffff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 30px; background-color: #ffffff; }
+        .item { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .footer { background-color: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #6b7280; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Pesan dari Web Portofolio</h1>
+            <h1>Pesan Portofolio Baru</h1>
         </div>
         <div class="content">
-            <p><strong>Nama:</strong> {{ $name }}</p>
-            <p><strong>Email:</strong> {{ $email }}</p>
-            <p><strong>Subjek:</strong> {{ $subject }}</p>
-            <p><strong>Pesan:</strong></p>
-            <p>{{ $messageContent }}</p>
+            <div class="item"><strong>Nama:</strong> {{ $name }}</div>
+            <div class="item"><strong>Email:</strong> {{ $email }}</div>
+            <div class="item"><strong>Subjek:</strong> {{ $subject }}</div>
+            <div style="margin-top: 20px;">
+                <strong>Isi Pesan:</strong>
+                <p style="background: #f3f4f6; padding: 15px; border-radius: 5px;">{{ $messageContent }}</p>
+            </div>
         </div>
         <div class="footer">
-            <p>Email ini dikirim dari halaman kontak portofolio.</p>
+            <p>Email ini dikirim otomatis dari sistem Web Portofolio Anda.</p>
         </div>
     </div>
 </body>
