@@ -49,7 +49,7 @@ class Contact extends Component
                 $message->to('rizkychandra2204@gmail.com')
                         ->from(config('mail.from.address'), config('mail.from.name')) 
                         ->replyTo($data['email'], $data['name'])
-                        ->subject('Pesan baru: ' . $data['name']);
+                        ->subject('Pesan baru dari: ' . $data['name']);
             });
 
             $this->reset(['name', 'email', 'subject', 'message']);
