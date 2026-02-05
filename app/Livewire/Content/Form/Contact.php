@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Content\Form;
 
-use App\Services\GmailService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class Contact extends Component
@@ -31,32 +31,34 @@ class Contact extends Component
         $this->validateOnly($property);
     }
 
-    public function sendMessage(GmailService $gmail)
+    public function sendMessage()
     {
         $this->resetState();
         $this->validate();
 
         try {
-            $html = view('emails.contact', [
+            $data = [
                 'name' => $this->name,
                 'email' => $this->email,
                 'subject' => $this->subject,
                 'messageContent' => $this->message,
-            ])->render();
+            ];
 
-            $gmail->send(
-                'rizkychandra2204@gmail.com',
-                'Pesan baru: ' . $this->name,
-                $html
-            );
+            // Mail Laravel (SMTP Brevo)
+            Mail::send('emails.contact', $data, function($message) use ($data) {
+                $message->to('rizkychandra2204@gmail.com')
+                        ->from(config('mail.from.address'), config('mail.from.name')) 
+                        ->replyTo($data['email'], $data['name'])
+                        ->subject('Pesan baru dari: ' . $data['name']);
+            });
 
             $this->reset(['name', 'email', 'subject', 'message']);
             $this->sent = true;
 
         } catch (Throwable $e) {
-            Log::error('Gagal mengirim email kontak: ' . $e->getMessage());
+            Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
             $this->error = true;
-            $this->errorMessage = 'Gagal mengirim pesan. Pastikan autentikasi Gmail sudah benar.';
+            $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.';
         }
     }
 
