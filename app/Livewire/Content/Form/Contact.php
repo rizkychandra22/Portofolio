@@ -9,6 +9,7 @@ use Throwable;
 
 class Contact extends Component
 {
+    // Form properties
     public string $name = '';
     public string $email = '';
     public string $subject = '';
@@ -21,7 +22,7 @@ class Contact extends Component
     protected array $rules = [
         'name'    => 'required|min:2',
         'email'   => 'required|email',
-        'subject' => 'required|min:3',
+        'subject' => 'required|min:2',
         'message' => 'required|min:7',
     ];
 
@@ -30,7 +31,7 @@ class Contact extends Component
         $this->validateOnly($property);
     }
 
-    public function send(GmailService $gmail)
+    public function sendMessage(GmailService $gmail)
     {
         $this->resetState();
         $this->validate();
@@ -52,7 +53,7 @@ class Contact extends Component
             $this->reset(['name', 'email', 'subject', 'message']);
             $this->sent = true;
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('Gagal mengirim email kontak: ' . $e->getMessage());
             $this->error = true;
             $this->errorMessage = 'Gagal mengirim pesan. Pastikan autentikasi Gmail sudah benar.';

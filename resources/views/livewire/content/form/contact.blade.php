@@ -1,57 +1,51 @@
 <div>
-    <form wire:submit.prevent="send" class="php-email-form">
+    <form wire:submit.prevent="sendMessage" class="php-email-form">
         <div class="row gy-4">
-            <div class="col-md-6">
-                <input type="text" wire:model.live="name" class="form-control" placeholder="{{ app()->getLocale() == 'id' ? 'Nama Anda' : 'Your Name' }}">
-                @error('name')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-            <div class="col-md-6">
-                <input type="email" class="form-control" wire:model.live="email" placeholder="{{ app()->getLocale() == 'id' ? 'Email Anda' : 'Your Email' }}">
-                @error('email')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
             <div class="col-12">
-                <input type="text" class="form-control" wire:model.live="subject" placeholder="{{ app()->getLocale() == 'id' ? 'Judul Pesan' : 'Message Title' }}">
-                @error('subject')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                @if($sent)
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ app()->getLocale() == 'id' ? 'Pesan Anda telah terkirim. Terima kasih!' : 'Your message has been sent. Thank you!' }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if($error)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ $errorMessage }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
             </div>
-            <div class="col-12">
-                <textarea class="form-control" wire:model.live="message" rows="6" placeholder="{{ app()->getLocale() == 'id' ? 'Pesan Anda' : 'Your Message' }}"></textarea>
-                @error('message')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+
+            <div class="col-md-6" wire:key="name-field">
+                <input type="text" wire:model.blur="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ app()->getLocale() == 'id' ? 'Nama Anda' : 'Your Name' }}">
+                @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
+
+            <div class="col-md-6" wire:key="email-field">
+                <input type="email" wire:model.blur="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ app()->getLocale() == 'id' ? 'Email Anda' : 'Your Email' }}">
+                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-12" wire:key="subject-field">
+                <input type="text" wire:model.blur="subject" class="form-control @error('subject') is-invalid @enderror" placeholder="{{ app()->getLocale() == 'id' ? 'Judul Pesan' : 'Message Title' }}">
+                @error('subject') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-12" wire:key="message-field">
+                <textarea wire:model.blur="message" class="form-control @error('message') is-invalid @enderror" rows="6" placeholder="{{ app()->getLocale() == 'id' ? 'Pesan Anda' : 'Your Message' }}"></textarea>
+                @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
             <div class="col-12">
-                <button
-                    type="submit"
-                    class="btn w-100 d-block text-center py-3"
-                    style="font-weight:600"
-                    wire:loading.attr="disabled"
-                    wire:target="send">
-                    <span wire:loading.remove wire:target="send">
+                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage" class="btn w-100 d-block text-center py-3">
+                    <span wire:loading.remove wire:target="sendMessage">
                         {{ app()->getLocale() == 'id' ? 'Kirim Pesan' : 'Send Message' }}
                     </span>
-                    <span wire:loading wire:target="send">
-                        {{ app()->getLocale() == 'id' ? 'Mengirim...' : 'Sending...' }}
+                    <span wire:loading wire:target="sendMessage">
+                        <i class="fas fa-spinner fa-spin"></i> {{ app()->getLocale() == 'id' ? 'Mengirim...' : 'Sending...' }}
                     </span>
                 </button>
-                @if($error)
-                    <div class="error-message mt-3">
-                        {{ $errorMessage }}
-                    </div>
-                @endif
-                @if($sent)
-                    <div class="sent-message mt-3">
-                        {{ app()->getLocale() == 'id'
-                            ? 'Pesan Anda telah terkirim. Terima kasih!'
-                            : 'Your message has been sent. Thank you!'
-                        }}
-                    </div>
-                @endif
             </div>
         </div>
     </form>
