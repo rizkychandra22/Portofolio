@@ -5,7 +5,6 @@ namespace App\Livewire\Content\Form;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class Contact extends Component
@@ -33,13 +32,11 @@ class Contact extends Component
     }
 
     public function sendMessage()
-    public function sendMessage()
     {
         $this->resetState();
         $this->validate();
 
         try {
-            $data = [
             $data = [
                 'name' => $this->name,
                 'email' => $this->email,
@@ -60,9 +57,7 @@ class Contact extends Component
 
         } catch (Throwable $e) {
             Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
-            Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
             $this->error = true;
-            $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.';
             $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.';
         }
     }
