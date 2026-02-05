@@ -94,6 +94,21 @@ return [
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
+        'pgsql_railway' => [
+            'driver' => 'pgsql',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_RAILWAY'),
+            'port' => env('DB_PORT_RAILWAY'),
+            'database' => env('DB_DATABASE_RAILWAY'),
+            'username' => env('DB_USERNAME_RAILWAY'),
+            'password' => env('DB_PASSWORD_RAILWAY'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'require', 
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),

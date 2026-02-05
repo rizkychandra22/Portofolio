@@ -47,7 +47,7 @@ class Contact extends Component
             // Mail Laravel (SMTP Brevo)
             Mail::send('emails.contact', $data, function($message) use ($data) {
                 $message->to('rizkychandra2204@gmail.com')
-                        ->from(config('mail.from.address'), config('mail.from.name')) 
+                        ->from('rizkychandra2204@gmail.com', 'Web-Portofolio') 
                         ->replyTo($data['email'], $data['name'])
                         ->subject('Pesan baru dari: ' . $data['name']);
             });
@@ -58,7 +58,7 @@ class Contact extends Component
         } catch (Throwable $e) {
             Log::error('Gagal mengirim email kontak via Brevo: ' . $e->getMessage());
             $this->error = true;
-            $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.';
+            $this->errorMessage = 'Gagal mengirim pesan. Silakan coba lagi nanti.' . $e->getMessage();
         }
     }
 
