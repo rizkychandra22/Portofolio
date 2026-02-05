@@ -37,19 +37,17 @@ class Contact extends Component
         $this->validate();
 
         try {
-            $data = [
-                'name' => $this->name,
-                'email' => $this->email,
-                'subject' => $this->subject,
-                'messageContent' => $this->message,
-            ];
+            $body = "Nama: {$this->name}\n" .
+                    "Email: {$this->email}\n" .
+                    "Subjek: {$this->subject}\n\n" .
+                    "Pesan:\n{$this->message}";
 
-            // Mail Laravel (SMTP Brevo)
-            Mail::send('emails.contact', $data, function($message) use ($data) {
+            // Mail::raw HANYA butuh string $body dan function callback
+            Mail::raw($body, function($message) {
                 $message->to('rizkychandra2204@gmail.com')
-                        ->from('rizkychandra2204@gmail.com', 'Web-Portofolio') 
-                        ->replyTo($data['email'], $data['name'])
-                        ->subject('Pesan baru dari: ' . $data['name']);
+                        ->from('rizkychandra2204@gmail.com', 'Web-Portofolio')
+                        ->replyTo($this->email, $this->name) // Pakai $this langsung
+                        ->subject('Pesan baru dari: ' . $this->name);
             });
 
             $this->reset(['name', 'email', 'subject', 'message']);
