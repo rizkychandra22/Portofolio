@@ -5,7 +5,6 @@ namespace App\Livewire\Content\Form;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class Contact extends Component
@@ -50,12 +49,13 @@ class Contact extends Component
             $htmlContent = view('emails.contact', $data)->render();
 
             // Kirim via API Resend
-            $response = Http::withToken('re_69Ytfhov_2wsLXrqqFCnpxZgDciRcHssL')
+            $response = Http::withToken(config('services.resend.key'))
                 ->post('https://api.resend.com/emails', [
-                    'from'    => 'onboarding@resend.dev',
-                    'to'      => 'rizkychandra2204@gmail.com',
-                    'subject' => 'Pesan Baru: ' . $this->subject,
-                    'html'    => $htmlContent, 
+                    'from'      => config('app.name') . " <" . config('mail.from.address') . ">",
+                    'to'        => 'rizkychandra2204@gmail.com',
+                    'reply_to'  => $this->email,
+                    'subject'   => 'Pesan Baru: ' . $this->subject,
+                    'html'      => $htmlContent, 
                 ]);
 
             if ($response->successful()) {

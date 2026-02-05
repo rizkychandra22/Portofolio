@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kontak Pesan Baru</title>
+    <title>Kontak Pesan Portofolio</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
         .container { max-width: 600px; margin: 20px auto; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-        .header { background-color: #2563eb; color: #ffffff; padding: 30px; text-align: center; }
-        .header h1 { margin: 0; font-size: 24px; }
+        .header { background-color: #555fff; color: #ffffff; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 17px; }
         .content { padding: 30px; background-color: #ffffff; }
         .item { margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .footer { background-color: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #6b7280; }
@@ -17,8 +17,9 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Pesan Portofolio Baru</h1>
+            <h1>Pesan dari Web Portofolio</h1>
         </div>
+        <br>
         <div class="content">
             <div class="item"><strong>Nama:</strong> {{ $name }}</div>
             <div class="item"><strong>Email:</strong> {{ $email }}</div>
