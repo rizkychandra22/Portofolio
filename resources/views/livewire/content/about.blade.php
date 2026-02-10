@@ -6,7 +6,7 @@
                     <div class="profile-card">
                         <div class="profile-header">
                             <div class="profile-image">
-                                <img src="{{ $imageAbout->foto_about ?? '/snapfolio/assets/img/content/foto2.jpg' }}" crossorigin="anonymous" alt="Profile Image" class="img-fluid" fetchpriority="high">
+                                <img src="{{ Storage::url($imageAbout->foto_about) ?? '/snapfolio/assets/img/content/foto-about.jpg' }}" crossorigin="anonymous" alt="Profile Image" class="img-fluid" fetchpriority="high">
                             </div>
                             <div class="profile-badge">
                                 <i class="bi bi-check-circle-fill"></i>

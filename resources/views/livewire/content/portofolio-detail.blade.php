@@ -38,16 +38,16 @@
                         <div class="swiper-wrapper align-items-center">
                             {{-- Menampilkan Gambar Utama Project --}}
                             <div class="swiper-slide">
-                                <a href="{{ $portofolio->image_project ?? '' }}" class="glightbox" data-gallery="portfolio-gallery">
-                                    <img src="{{ $portofolio->image_project ?? '' }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high">
+                                <a href="{{ Storage::url($portofolio->image_project) ?? '' }}" class="glightbox" data-gallery="portfolio-gallery">
+                                    <img src="{{ Storage::url($portofolio->image_project) ?? '' }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high">
                                 </a>
                             </div>
 
                             {{-- Menampilkan Gambar Tambahan dari Tabel portofolio_images --}}
                             @foreach($portofolio->images as $galeri)
                                 <div class="swiper-slide">
-                                    <a href="{{ $galeri->image_path ?? '' }}" class="glightbox" data-gallery="portfolio-gallery">
-                                        <img src="{{ $galeri->image_path ?? '' }}" crossorigin="anonymous" class="img-fluid" loading="lazy">
+                                    <a href="{{ Storage::url($galeri->image_path) ?? '' }}" class="glightbox" data-gallery="portfolio-gallery">
+                                        <img src="{{ Storage::url($galeri->image_path) ?? '' }}" crossorigin="anonymous" class="img-fluid" loading="lazy">
                                     </a>
                                 </div>
                             @endforeach

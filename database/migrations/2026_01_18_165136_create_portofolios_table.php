@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('date_project');
             $table->string('link_project')->nullable();
             $table->string('image_project');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

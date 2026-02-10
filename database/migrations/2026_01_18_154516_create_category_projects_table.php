@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('data_filter_category');
             $table->string('name_category_id');
             $table->string('name_category_en');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

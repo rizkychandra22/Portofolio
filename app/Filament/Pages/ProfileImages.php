@@ -1,0 +1,147 @@
+<?php
+
+namespace App\Filament\Pages;
+
+use App\Models\ImageProfile;
+use Filament\Pages\Page;
+use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ViewField;
+use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use BackedEnum;
+use Illuminate\Support\Facades\Storage;
+
+class ProfileImages extends Page implements Forms\Contracts\HasForms
+{
+    use Forms\Concerns\InteractsWithForms;
+
+    protected static BackedEnum | string | null $navigationIcon = 'heroicon-o-user';
+    // protected static ?string $navigationLabel = 'Foto Profile';
+    // protected static ?string $pluralModelLabel = 'Foto Profile';
+
+    protected string $view = 'filament.pages.profile-images';
+
+    public array $data = [];
+    public array $oldImage = [];
+
+    public function mount(): void
+    {
+        $profile = ImageProfile::first();
+
+        $this->oldImage = [
+            'foto_home'   => $profile?->foto_home,
+            'foto_about'  => $profile?->foto_about,
+            'foto_resume' => $profile?->foto_resume,
+        ];
+
+        $this->form->fill([]);
+    }
+
+    public function form(Schema $form): Schema
+    {
+        return $form
+            ->schema([
+                Section::make('Preview & Upload Foto')
+                    ->description('Foto di atas adalah foto yang sedang aktif.')
+                    ->schema([
+                        Grid::make(3)->schema([
+
+                            /** FOTO HOME */
+                            Grid::make(1)->schema([
+                                ViewField::make('preview_home')
+                                    ->view('filament.components.image-preview')
+                                    ->viewData(fn () => [
+                                        'path' => $this->oldImage['foto_home'] ?? null,
+                                    ]),
+
+                                $this->fileUpload('foto_home', 'Foto Utama Home'),
+                            ]),
+
+                            /** FOTO ABOUT */
+                            Grid::make(1)->schema([
+                                ViewField::make('preview_about')
+                                    ->view('filament.components.image-preview')
+                                    ->viewData(fn () => [
+                                        'path' => $this->oldImage['foto_about'] ?? null,
+                                    ]),
+
+                                $this->fileUpload('foto_about', 'Foto Utama About'),
+                            ]),
+
+                            /** FOTO RESUME */
+                            Grid::make(1)->schema([
+                                ViewField::make('preview_resume')
+                                    ->view('filament.components.image-preview')
+                                    ->viewData(fn () => [
+                                        'path' => $this->oldImage['foto_resume'] ?? null,
+                                    ]),
+
+                                $this->fileUpload('foto_resume', 'Foto Utama Resume'),
+                            ]),
+                        ]),
+                    ]),
+            ])
+            ->statePath('data');
+    }
+
+    /** FILE UPLOAD STANDARD */
+    protected function fileUpload(string $name, string $label): FileUpload
+    {
+        return FileUpload::make($name)
+            ->label($label)
+            ->image()
+            ->disk('public')
+            ->directory('profile')
+            ->visibility('public')
+            // ->preserveFilenames()
+            ->moveFiles()
+            ->maxSize(2048)
+            ->imagePreviewHeight(250)
+            ->storeFiles(true)
+            ->dehydrateStateUsing(fn ($state) =>
+                is_array($state) ? collect($state)->first() : $state
+            );
+    }
+
+    public function save(): void
+    {
+        $profile = ImageProfile::firstOrCreate(['id' => 1]);
+
+        $data = array_filter(
+            $this->form->getState(),
+            fn ($value) => ! is_null($value)
+        );
+
+        foreach ($data as $field => $newPath) {
+            if (! empty($profile->$field) && $profile->$field !== $newPath &&
+                Storage::disk('public')->exists($profile->$field)
+            ) {
+                Storage::disk('public')->delete($profile->$field);
+            }
+            $profile->$field = $newPath;
+        }
+
+        $profile->save();
+
+        // Refresh preview
+        $this->oldImage = [
+            'foto_home'   => $profile->foto_home,
+            'foto_about'  => $profile->foto_about,
+            'foto_resume' => $profile->foto_resume,
+        ];
+
+        // Reset upload state untuk preview
+        $this->form->fill([
+            'data' => $this->oldImage,
+        ]);
+
+        Notification::make()
+            ->title('Berhasil')
+            ->body('Foto profile berhasil diperbarui')
+            ->success()
+            ->send();
+    }
+}

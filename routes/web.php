@@ -30,6 +30,8 @@ Route::get('/', function () {
     return redirect()->route('home', ['locale' => 'en']);
 });
 
+Route::redirect('/user', '/dashboard/user/login');
+
 // Group dengan prefix lang/{locale}
 Route::prefix('lang/{locale}')
     ->where(['locale' => 'en|id'])

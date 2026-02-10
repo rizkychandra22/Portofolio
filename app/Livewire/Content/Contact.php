@@ -26,7 +26,6 @@ class Contact extends Component
         }
     }
 
-
     public function render()
     {
         $currentPage = (app()->getLocale() == 'id') ? $this->page_id : $this->page_en;

@@ -4,12 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PortofolioDescription extends Model
 {
-    protected $fillable = ['portofolio_id', 'type', 'title_id', 'title_en', 'content_id', 'content_en', 'icon', 'sort_order'];
+    use SoftDeletes;
+    
+    protected $fillable = [
+        'portofolio_id', 'type', 'title_id', 'title_en', 
+        'content_id', 'content_en', 'icon',
+    ];
 
-    public function portofolio(): BelongsTo
+    public function portofolio(): BelongsTo 
     {
         return $this->belongsTo(Portofolio::class);
     }

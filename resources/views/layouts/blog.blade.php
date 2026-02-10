@@ -39,7 +39,7 @@
     <link rel="alternate" hreflang="x-default" href="{{ url('/lang/en') }}">
 
     {{-- Favicons --}}
-    <link href="{{ $image->foto_resume ?? '/snapfolio/assets/img/content/foto-ijazah.jpg' }}" rel="icon" crossorigin="anonymous">
+    <link href="{{ Storage::url($image->foto_resume) ?? '/snapfolio/assets/img/content/foto-about.jpg' }}" rel="icon" crossorigin="anonymous">
 
     {{-- Fonts --}}
     <link href="https://fonts.googleapis.com" rel="preconnect">

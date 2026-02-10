@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('title_en')->nullable(); 
             $table->text('content_id');
             $table->text('content_en');
-            $table->string('icon')->default('bi bi-check-circle'); // Default icon
-            $table->integer('sort_order')->default(0); // Untuk urutan
+            $table->string('icon')->default('bi bi-check-circle'); 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
