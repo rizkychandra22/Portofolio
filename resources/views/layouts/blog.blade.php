@@ -18,12 +18,16 @@
     <meta name="author" content="Rizky Chandra Khusuma">
     <meta name="robots" content="index, follow">
 
-    {{-- Open Graph / Facebook (Sosial Media) --}}
+    {{-- Open Graph Meta (Sosial Media) --}}
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio' }}">
-    <meta property="og:description" content="Lihat karya dan pengalaman kerja Rizky Chandra di Portofolio.">
-    <meta property="og:image" content="{{ $image->foto_home ?? asset('default-og.jpg') }}" crossorigin="anonymous">
+    <meta property="og:title" content="{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio Rizky Chandra' }}">
+    <meta property="og:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer specializing in Laravel and modern web design.">
+
+    {{-- Instagram & Threads --}}
+    <meta property="og:image" content="{{ $image?->foto_home ? Storage::url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Portofolio Rizky Chandra">
 
     {{-- Twitter --}}
@@ -31,7 +35,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="{{ $title ?? 'Portofolio Rizky Chandra' }}">
     <meta name="twitter:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer.">
-    <meta name="twitter:image" content="{{ $image->foto_home ?? asset('default-og.jpg') }}">
+    <meta name="twitter:image" content="{{ $image?->foto_home ? Storage::url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
 
     {{-- Link Alternate untuk SEO Multibahasa --}}
     <link rel="alternate" hreflang="id" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'id'])) }}">
@@ -39,23 +43,24 @@
     <link rel="alternate" hreflang="x-default" href="{{ url('/lang/en') }}">
 
     {{-- Favicons --}}
-    <link href="{{ Storage::url($image->foto_resume) ?? '/snapfolio/assets/img/content/foto-about.jpg' }}" rel="icon" crossorigin="anonymous">
+    <link href="{{ $sosialMedia?->foto_resume ? Storage::url($sosialMedia->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
 
     {{-- Fonts --}}
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
 
     {{-- Vendor CSS Files --}}
-    <link href="{{ asset('snapfolio/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('snapfolio/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="/!template-stisla/dist/assets/modules/fontawesome/css/all.min.css">
-    <link href="{{ asset('snapfolio/assets/vendor/aos/aos.css') }}" rel="stylesheet">
-    <link href="{{ asset('snapfolio/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('snapfolio/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {{-- <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/aos/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/glightbox/css/glightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/swiper/swiper-bundle.min.css') }}">
 
     {{-- Main CSS File --}}
-    <link href="{{ asset('snapfolio/assets/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('snapfolio/assets/css/main.css') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -118,6 +123,7 @@
     <script src="{{ asset('snapfolio/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
     <script src="{{ asset('snapfolio/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
     <script src="{{ asset('snapfolio/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    
     <script src="{{ asset('snapfolio/assets/js/main.js') }}"></script>
 
     @livewireScripts
@@ -126,20 +132,22 @@
     <script>
         document.addEventListener('livewire:navigated', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Reset UI State
             const preloader = document.querySelector('#preloader');
             if (preloader) { preloader.remove(); }
-            
-            // 1. Re-init AOS (Animasi)
+
+            // Re-init AOS (Animasi)
             if (typeof AOS !== 'undefined') {
                 AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
             }
 
-            // 2. Re-init Glightbox (Popup Gambar)
+            // Re-init Glightbox
             if (typeof GLightbox !== 'undefined') {
                 GLightbox({ selector: '.glightbox' });
             }
 
-            // 3. Re-init Swiper (Slider di Detail Project)
+            // Re-init Swiper
             if (typeof Swiper !== 'undefined') {
                 document.querySelectorAll('.init-swiper').forEach(function(swiperElement) {
                     let configElement = swiperElement.querySelector('.swiper-config');
@@ -150,14 +158,14 @@
                 });
             }
 
-            // 4. Re-init Isotope (Filter Portofolio)
+            // Re-init Isotope
             if (typeof Isotope !== 'undefined') {
                 document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
                     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
                     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
                     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
-
                     let container = isotopeItem.querySelector('.isotope-container');
+                    
                     if (container) {
                         let initIsotope = new Isotope(container, {
                             itemSelector: '.isotope-item',
@@ -177,7 +185,7 @@
                 });
             }
             
-            // Re-init PureCounter jika ada
+            // Re-init PureCounter
             if (typeof PureCounter !== 'undefined') {
                 new PureCounter();
             }

@@ -16,10 +16,10 @@ class CategoryProjectForm
         return $schema
             ->components([
                 Section::make('Manage Category')
-                    ->description('Input nama kategori (ID) untuk translate otomatis, dan filter untuk category portofolio.')
+                    ->description('Input Name Category akan otomatis melakukan translate ke bahasa Inggris, dan filter untuk category portofolio.')
                     ->schema([
                         TextInput::make('name_category_id')
-                            ->label('Name Category (ID)')
+                            ->label('Category')
                             ->placeholder('Contoh: Aplikasi Web')
                             ->required()
                             ->live(onBlur: true)
@@ -34,7 +34,7 @@ class CategoryProjectForm
                                 }
                             }),
                         TextInput::make('data_filter_category')
-                            ->label('Data Filter Project')
+                            ->label('Sort Filter')
                             ->placeholder('Contoh: web-app')
                             ->required()
                             ->unique(ignoreRecord: true) 

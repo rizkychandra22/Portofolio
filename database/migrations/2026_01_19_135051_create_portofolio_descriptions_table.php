@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('portofolio_descriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('portofolio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('portofolio_id')->constrained('portofolios')->cascadeOnDelete();
             $table->enum('type', ['overview', 'feature']);
             $table->string('title_id')->nullable(); 
             $table->string('title_en')->nullable(); 
             $table->text('content_id');
             $table->text('content_en');
-            $table->string('icon')->default('bi bi-check-circle'); 
+            $table->string('icon')->nullable(); 
             $table->softDeletes();
             $table->timestamps();
         });

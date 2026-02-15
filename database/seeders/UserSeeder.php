@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'address_id' => 'Jalan Palasari no. 15, Sukakarya Warudoyong Kota Sukabumi',
             'address_en' => 'Palasari Street No. 15, Sukakarya Warudoyong, Sukabumi City',
-            'phone' => '+62895605050961',
+            'phone' => '+6285860517808',
             'discord' => 'rizkychandra2204',
             'github' => 'rizkychandra22',
             'instagram' => '_chndr_22',

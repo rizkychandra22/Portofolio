@@ -29,14 +29,14 @@ class Portofolio extends Model
 
     public function descriptions(): HasMany 
     {
-        return $this->hasMany(PortofolioDescription::class);
+        return $this->hasMany(PortofolioDescription::class, 'portofolio_id');
     }
 
     protected static function boot()
     {
         parent::boot();
 
-        // 1. Update File Cover
+        // 1. Update File Galeri (Hapus foto lama jika ada foto baru)
         static::updating(function ($model) {
             if ($model->isDirty('image_project')) {
                 $oldFile = $model->getOriginal('image_project');
@@ -52,13 +52,13 @@ class Portofolio extends Model
             $model->descriptions()->get()->each->delete();
         });
 
-        // 3. Cascade Restore (PENTING: Agar anak-anaknya ikut aktif lagi)
+        // 3. Cascade Restore (Agar relasi database ikut aktif lagi)
         static::restoring(function ($model) {
             $model->images()->onlyTrashed()->get()->each->restore();
             $model->descriptions()->onlyTrashed()->get()->each->restore();
         });
 
-        // 4. Cascade Force Delete (Hapus Permanen & File fisik)
+        // 4. Cascade Force Delete (Hapus Permanen file gambar)
         static::forceDeleting(function ($model) {
             if ($model->image_project && Storage::disk('public')->exists($model->image_project)) {
                 Storage::disk('public')->delete($model->image_project);

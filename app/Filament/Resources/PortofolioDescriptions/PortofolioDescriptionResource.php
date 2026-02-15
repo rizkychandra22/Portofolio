@@ -14,6 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PortofolioDescriptionResource extends Resource
@@ -21,18 +22,24 @@ class PortofolioDescriptionResource extends Resource
     protected static ?string $model = PortofolioDescription::class;
 
     protected static string | \UnitEnum | null $navigationGroup = 'Group Content';
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
-    protected static ?string $pluralModelLabel = 'Overview Description';
-    protected static ?string $navigationLabel = 'Description';
-    protected static ?string $modelLabel = 'New Description';
-    protected static ?string $breadcrumb = 'Description';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
+    protected static ?string $pluralModelLabel = 'Overview Meta Content';
+    protected static ?string $navigationLabel = 'Meta Content';
+    protected static ?string $modelLabel = 'New Meta Content';
+    protected static ?string $breadcrumb = 'Meta Content';
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $recordTitleAttribute = 'content_id';
+    protected static ?string $recordTitleAttribute = 'id';
 
-    public static function form(Schema $schema): Schema
+    public static function getRecordTitle(?Model $record): string|null
     {
-        return PortofolioDescriptionForm::configure($schema);
+        $title = $record?->portofolio?->name_project_id;
+        return $title ? 'Meta Content ' . $title : null;
+    }
+
+    public static function form(Schema $schema, bool $isRelation = false): Schema
+    {
+        return PortofolioDescriptionForm::configure($schema, $isRelation);
     }
 
     public static function table(Table $table): Table

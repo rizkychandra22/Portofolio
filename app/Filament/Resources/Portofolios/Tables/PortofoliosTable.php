@@ -14,6 +14,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,10 +26,10 @@ class PortofoliosTable
         return $table
             ->columns([
                 ImageColumn::make('image_project')
-                    ->label('Image')
+                    ->label('Image Cover')
                     ->disk('public')
                     ->visibility('public')
-                    ->size(60)
+                    ->size(70)
                     ->square(),
                 TextColumn::make('category.name_category_id')
                     ->label('Category')
@@ -37,7 +38,7 @@ class PortofoliosTable
                     ->badge()
                     ->color('info'),
                 TextColumn::make('name_project_id')
-                    ->label('Name Project (ID)')
+                    ->label('Name Project')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('name_project_en')
@@ -73,6 +74,11 @@ class PortofoliosTable
             
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('name_category_id')
+                    ->relationship('category', 'name_category_id')
+                    ->label('Category')
+                    ->preload()
+                    ->searchable(),
                 Filter::make('date_project')
                     ->form([
                         DatePicker::make('dari_tanggal')->label('Project From Date'),

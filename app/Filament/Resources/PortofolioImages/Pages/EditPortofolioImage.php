@@ -25,12 +25,24 @@ class EditPortofolioImage extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        PortofolioImage::where('portofolio_id', $record->portofolio_id)->forceDelete();
+        $newImages = $data['image_path'] ?? [];
+        $existingImages = PortofolioImage::where('portofolio_id', $record->portofolio_id)
+            ->pluck('image_path')
+            ->toArray();
 
-        $images = $data['image_path'] ?? [];
-        foreach ($images as $path) {
+        // 1. Hapus gambar yang di-unselect user dari Database
+        $deletedImages = array_diff($existingImages, $newImages);
+        foreach ($deletedImages as $path) {
+            PortofolioImage::where('portofolio_id', $record->portofolio_id)
+                ->where('image_path', $path)
+                ->forceDelete(); 
+        }
+
+        // 2. Tambah gambar yang baru diupload ke Database
+        $imagesToAdd = array_diff($newImages, $existingImages);
+        foreach ($imagesToAdd as $path) {
             PortofolioImage::create([
-                'portofolio_id' => $data['portofolio_id'],
+                'portofolio_id' => $record->portofolio_id,
                 'image_path'    => $path,
             ]);
         }

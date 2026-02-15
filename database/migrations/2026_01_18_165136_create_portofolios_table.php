@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('portofolios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_project_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('category_project_id')->constrained('category_projects')->cascadeOnDelete();
             $table->string('name_project_id');
             $table->string('name_project_en');
             $table->date('date_project');

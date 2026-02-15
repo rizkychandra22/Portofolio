@@ -11,6 +11,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -18,6 +19,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -29,16 +31,21 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('dashboard/user')
             ->login()
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn () => new HtmlString('
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+                ')
+            )
             ->colors([
-                'primary' => Color::Amber,
-                // 'primary' => Color::Blue,
+                'primary' => Color::Amber
             ])
             ->userMenuItems([
-                'account' => MenuItem::make()
+                'account' => MenuItem::make()->sort(-1)
                     ->label(fn () => auth()->user()->name)
                     ->icon(fn () => auth()->user()->getFilamentAvatarUrl())
-                    ->url(fn (): string => Dashboard::getUrl())
-                    ->sort(-1),
+                    ->url(fn (): string => Dashboard::getUrl()),
             ])
             ->favicon(fn () => auth()->user()?->getFilamentAvatarUrl())
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

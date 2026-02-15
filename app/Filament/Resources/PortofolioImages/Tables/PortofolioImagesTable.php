@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PortofolioImages\Tables;
 
+use App\Models\PortofolioImage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -14,9 +15,11 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class PortofolioImagesTable
 {
@@ -25,7 +28,7 @@ class PortofolioImagesTable
         return $table
             ->columns([
                 TextColumn::make('portofolio.name_project_id')
-                    ->label('Name Project (ID)')
+                    ->label('Name Project')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('portofolio.name_project_en')
@@ -33,8 +36,8 @@ class PortofolioImagesTable
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault:true),
-                ImageColumn::make('portofolio.images.image_path')
-                    ->label('Galery Project')
+                ImageColumn::make('image_path')
+                    ->label('Image Project')
                     ->disk('public')
                     ->visibility('public')
                     ->size(50)
@@ -43,7 +46,12 @@ class PortofolioImagesTable
                     ->limit(5)
                     ->ring(3)
                     ->overlap(3)
-                    ->limitedRemainingText(),
+                    ->limitedRemainingText()
+                    ->getStateUsing(function (Model $record) {
+                        return PortofolioImage::where('portofolio_id', $record->portofolio_id)
+                            ->pluck('image_path')
+                            ->toArray();
+                    }),
                 TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime('d-m-Y H:i')
@@ -58,6 +66,11 @@ class PortofolioImagesTable
 
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('portofolio_id')
+                    ->relationship('portofolio', 'name_project_id')
+                    ->label('Name Project')
+                    ->preload()
+                    ->searchable(),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('dari_tanggal')->label('Created From Date'),

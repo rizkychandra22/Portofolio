@@ -54,8 +54,8 @@
     <div class="social-links text-center">
         <a href="https://linkedin.com/in/{{ $sosialMedia->linkedin ?? '' }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
         <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" class="discord"><i class="bi bi-discord"></i></a>
-        <a href="https://tiktok.com/{{ $sosialMedia->tiktok ?? '' }}" target="_blank" class="instagram"><i class="bi bi-tiktok"></i></a>
-        <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" class="google-plus"><i class="bi bi-github"></i></a>
+        <a href="https://tiktok.com/{{ $sosialMedia->tiktok ?? '' }}" target="_blank" class="tiktok"><i class="bi bi-tiktok"></i></a>
+        <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" class="github"><i class="bi bi-github"></i></a>
         <a href="https://instagram.com/{{ $sosialMedia->instagram ?? '' }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
     </div>
 </div>

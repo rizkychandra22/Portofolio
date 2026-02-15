@@ -5,10 +5,13 @@ namespace App\Filament\Resources\Portofolios;
 use App\Filament\Resources\Portofolios\Pages\CreatePortofolio;
 use App\Filament\Resources\Portofolios\Pages\EditPortofolio;
 use App\Filament\Resources\Portofolios\Pages\ListPortofolios;
+use App\Filament\Resources\Portofolios\RelationManagers\DescriptionsRelationManager;
+use App\Filament\Resources\Portofolios\RelationManagers\ImagesRelationManager;
 use App\Filament\Resources\Portofolios\Schemas\PortofolioForm;
 use App\Filament\Resources\Portofolios\Tables\PortofoliosTable;
 use App\Models\Portofolio;
 use BackedEnum;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -29,9 +32,9 @@ class PortofolioResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name_project_id';
 
-    public static function form(Schema $schema): Schema
+    public static function form(Schema $schema, bool $isRelation = false): Schema
     {
-        return PortofolioForm::configure($schema);
+        return PortofolioForm::configure($schema, $isRelation);
     }
 
     public static function table(Table $table): Table
@@ -41,8 +44,13 @@ class PortofolioResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
+       return [
+            RelationGroup::make('Overview Galery', [
+                ImagesRelationManager::class,
+            ])->icon('heroicon-o-camera'), 
+            RelationGroup::make('Overview Meta Content', [
+                DescriptionsRelationManager::class,
+            ])->icon('heroicon-o-chat-bubble-left-right'),
         ];
     }
 
@@ -61,5 +69,5 @@ class PortofolioResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
+    }   
 }

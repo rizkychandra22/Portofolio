@@ -4,38 +4,47 @@ namespace App\Filament\Resources\PortofolioImages\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class PortofolioImageForm
 {
-    public static function configure(Schema $schema): Schema
+    public static function configure(Schema $schema, bool $isRelation = false): Schema
     {
         return $schema
             ->components([
-                Section::make('Manage Portofolio')
+                Section::make('Manage Galery')
                     ->description('Pilih project portofolio terlebih dahulu untuk input galery portofolio.')
                     ->schema([
                         Select::make('portofolio_id')->columnSpan(2)
-                            ->label('Project Portofolio')
+                            ->label('Name Project')
                             ->relationship('portofolio', 'name_project_id')
                             ->preload()->live()
                             ->searchable()
-                            ->required(),
+                            ->required()
+                            ->dehydrated()
+                            ->disabled($isRelation)
+                            ->default(function ($livewire) {
+                                if ($livewire instanceof RelationManager) {
+                                    return $livewire->getOwnerRecord()->getKey();
+                                }
+                                return null;
+                            }),
                         FileUpload::make('image_path')->columnSpanFull()
-                            ->label('Upload Gallery')
+                            ->label('Upload Image')
                             ->disk('public')
                             ->visibility('public')
                             ->directory('portofolio-galery')
-                            ->reorderable()
-                            ->panelLayout('grid')
-                            ->removeUploadedFileButtonPosition('right')
                             ->multiple() 
                             ->image()
                             ->nullable()
                             ->moveFiles()
                             ->openable()
                             ->previewable()
+                            ->reorderable()
+                            ->panelLayout('grid')
+                            ->removeUploadedFileButtonPosition('right')
                             ->maxSize(2048)
                             ->imagePreviewHeight(250)
                             ->imageResizeTargetHeight(800)

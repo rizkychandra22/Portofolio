@@ -7,6 +7,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
@@ -14,7 +15,7 @@ use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class PortofolioForm
 {
-    public static function configure(Schema $schema): Schema
+    public static function configure(Schema $schema, bool $isRelation = false): Schema
     {
         return $schema
             ->components([
@@ -22,7 +23,7 @@ class PortofolioForm
                     ->description('Input project portofolio beserta category.')
                     ->schema([
                         FileUpload::make('image_project')->columnSpanFull()
-                            ->label('Image Project')
+                            ->label('Image Cover')
                             ->disk('public')
                             ->visibility('public')
                             ->directory('portofolio')
@@ -38,18 +39,26 @@ class PortofolioForm
                             ->imageResizeTargetWidth(1200)
                             ->imageResizeMode('cover'),
                         Select::make('category_project_id')
-                            ->label('Category Project')
+                            ->label('Category')
                             ->placeholder('Select Category Project')
                             ->relationship('category', 'name_category_id')
                             ->preload()
                             ->searchable()
-                            ->required(),
+                            ->required()
+                            ->dehydrated()
+                            ->disabled($isRelation)
+                            ->default(function ($livewire) {
+                                if ($livewire instanceof RelationManager) {
+                                    return $livewire->getOwnerRecord()->getKey();
+                                }
+                                return null;
+                            }),
                         DatePicker::make('date_project')
                             ->label('Date Project')
                             ->displayFormat('D, j F Y')
                             ->required(), 
                         TextInput::make('name_project_id')
-                            ->label('Name Project (ID)')
+                            ->label('Name Project')
                             ->placeholder('Contoh: Aplikasi Web E-Commerce')
                             ->required()
                             ->live(onBlur: true)

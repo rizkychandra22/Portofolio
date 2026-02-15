@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\ImageProfile;
+use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
@@ -11,14 +12,13 @@ use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use BackedEnum;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileImages extends Page implements Forms\Contracts\HasForms
 {
     use Forms\Concerns\InteractsWithForms;
 
-    protected static BackedEnum | string | null $navigationIcon = 'heroicon-o-user';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-user';
     // protected static ?string $navigationLabel = 'Foto Profile';
     // protected static ?string $pluralModelLabel = 'Foto Profile';
 

@@ -14,6 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PortofolioImageResource extends Resource
@@ -28,11 +29,27 @@ class PortofolioImageResource extends Resource
     protected static ?string $modelLabel = 'New Galery';
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $recordTitleAttribute = 'title';
+    protected static ?string $recordTitleAttribute = 'image_path';
 
-    public static function form(Schema $schema): Schema
+    public static function getRecordTitle(?Model $record): string|null
     {
-        return PortofolioImageForm::configure($schema);
+        $title = $record?->portofolio?->name_project_id;
+        return $title ? 'Galery ' . $title : null;
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title;
+    }
+
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()->with(['portofolio.category']);
+    }
+
+    public static function form(Schema $schema, bool $isRelation = false): Schema
+    {
+        return PortofolioImageForm::configure($schema, $isRelation);
     }
 
     public static function table(Table $table): Table
@@ -67,10 +84,11 @@ class PortofolioImageResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with(['portofolio.images'])
+            ->with(['portofolio'])
             ->whereIn('id', function ($query) {
                 $query->selectRaw('MIN(id)')
                     ->from('portofolio_images')
+                    ->whereNull('deleted_at')
                     ->groupBy('portofolio_id');
             })
             ->withoutGlobalScopes([

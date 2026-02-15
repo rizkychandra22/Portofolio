@@ -3,7 +3,6 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\Widget;
-use Illuminate\Support\Facades\Cache;
 
 class ViewWebsite extends Widget
 {
@@ -15,6 +14,6 @@ class ViewWebsite extends Widget
 
     public function getWebsiteUrl(): string
     {
-        return Cache::get('website_url', 'http://127.0.0.1:8000');
+        return route('home', ['locale' => app()->getLocale()]);
     }
 }

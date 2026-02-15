@@ -18,9 +18,10 @@ yarn-error.log
 # /public/storage
 /storage/*
 /storage/*.key
-/portofolio_me_pgsql.sql
-/backup_portofolio.sql
+/portofolio_backup.sql
+/project-portofolio_backup.sql
 
 # Kecualikan folder yang memang ingin di-track
-# !/storage/app/public/*
-# !/storage/app/document/*
+!/storage/app/public/*
+!/storage/app/document/*
+

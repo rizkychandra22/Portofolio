@@ -24,24 +24,23 @@ class CategoryProjectsTable
         return $table
             ->columns([
                 TextColumn::make('portofolios_count')
-                    ->label('Portofolio')
+                    ->label('Counts')
                     ->counts('portofolios')
                     ->badge() 
                     ->color('success')
                     ->sortable()
-                    // ->suffix(' Project'),
-                    ->formatStateUsing(fn (string $state): string => $state . ($state === '1' ? ' Project' : ' Projects')),
+                    ->suffix(fn ($state) => $state === 1 ? ' Project' : ' Projects'),
                 TextColumn::make('name_category_id')
-                    ->label('Name Category (ID)')
+                    ->label('Category')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('name_category_en')
-                    ->label('Name Category (EN)')
+                    ->label('Category (EN)')
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('data_filter_category')
-                    ->label('Data Filter')
+                    ->label('Sort Filter')
                     ->badge() 
                     ->color('info')
                     ->searchable()
