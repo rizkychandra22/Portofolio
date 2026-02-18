@@ -17,7 +17,7 @@ use App\Livewire\Contact;
 */
 
 Route::get('/', function () {
-    return redirect()->route('home', ['locale' => 'en']);
+    return redirect()->route('home', ['locale' => 'id']);
 });
 Route::prefix('lang/{locale}')
     ->where(['locale' => 'en|id'])
