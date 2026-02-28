@@ -13,8 +13,8 @@
 
     {{-- SEO Dasar Google --}}
     <title>{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio Rizky Chandra' }}</title>
-    <meta name="description" content="Portfolio profesional Rizky Chandra Khusuma, seorang Web Developer yang ahli dalam Laravel, Livewire, dan desain web modern.">
-    <meta name="keywords" content="Rizky Chandra, Rizky Chandra Khusuma, Web Developer Indonesia, Laravel Developer, Portofolio Software Engineer, Programmer, Jasa Pembuatan Website">
+    <meta name="description" content="{{ __('seo_description') }}">
+    <meta name="keywords" content="{{ __('seo_keyword') }}">
     <meta name="author" content="Rizky Chandra Khusuma">
     <meta name="robots" content="index, follow">
 
@@ -22,7 +22,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio Rizky Chandra' }}">
-    <meta property="og:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer specializing in Laravel and modern web design.">
+    <meta property="og:description" content="@lang('meta_description')">
 
     {{-- Instagram & Threads --}}
     <meta property="og:image" content="{{ $image?->foto_home ? Storage::url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
@@ -53,7 +53,6 @@
     {{-- Vendor CSS Files --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    {{-- <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/aos/aos.css') }}">
     <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/glightbox/css/glightbox.min.css') }}">
