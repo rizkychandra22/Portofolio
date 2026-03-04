@@ -13,8 +13,8 @@
 
     {{-- SEO Dasar Google --}}
     <title>{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio Rizky Chandra' }}</title>
-    <meta name="description" content="{{ __('seo_description') }}">
-    <meta name="keywords" content="{{ __('seo_keyword') }}">
+    <meta name="description" content="{{ __('translate.seo_description') }}">
+    <meta name="keywords" content="{{ __('translate.seo_keyword') }}">
     <meta name="author" content="Rizky Chandra Khusuma">
     <meta name="robots" content="index, follow">
 
@@ -22,7 +22,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="{{ $page ?? 'View' }} | {{ $title ?? 'Portofolio Rizky Chandra' }}">
-    <meta property="og:description" content="@lang('meta_description')">
+    <meta property="og:description" content="@lang('translate.meta_description')">
 
     {{-- Instagram & Threads --}}
     <meta property="og:image" content="{{ $image?->foto_home ? Storage::url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
