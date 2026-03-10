@@ -73,13 +73,17 @@ class PortofolioImageForm
                                 } catch (ValidationException $exception) {
                                     throw $exception;
                                 } catch (\Throwable $exception) {
+                                    $exceptionSummary = trim($exception::class . ': ' . $exception->getMessage());
+                                    $exceptionSummary = mb_substr($exceptionSummary, 0, 280);
+
                                     Log::error('Portfolio gallery upload failed', [
                                         'message' => $exception->getMessage(),
+                                        'exception_class' => $exception::class,
                                         'trace' => $exception->getTraceAsString(),
                                     ]);
 
                                     throw ValidationException::withMessages([
-                                        'image_path' => 'Gagal upload ke Cloudinary. Detail error sudah dicatat di log server.',
+                                        'image_path' => 'Gagal upload ke Cloudinary: ' . $exceptionSummary,
                                     ]);
                                 }
 

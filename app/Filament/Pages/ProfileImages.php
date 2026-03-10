@@ -135,14 +135,18 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                 } catch (ValidationException $exception) {
                     throw $exception;
                 } catch (\Throwable $exception) {
+                    $exceptionSummary = trim($exception::class . ': ' . $exception->getMessage());
+                    $exceptionSummary = mb_substr($exceptionSummary, 0, 280);
+
                     Log::error('Profile image upload failed', [
                         'field' => $name,
                         'message' => $exception->getMessage(),
+                        'exception_class' => $exception::class,
                         'trace' => $exception->getTraceAsString(),
                     ]);
 
                     throw ValidationException::withMessages([
-                        $errorKey => 'Gagal upload ke Cloudinary. Detail error sudah dicatat di log server.',
+                        $errorKey => 'Gagal upload ke Cloudinary: ' . $exceptionSummary,
                     ]);
                 }
 
