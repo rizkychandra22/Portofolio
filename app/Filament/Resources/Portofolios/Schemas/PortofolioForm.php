@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use function CloudinaryLabs\CloudinaryLaravel\cloudinary;
 
 class PortofolioForm
 {

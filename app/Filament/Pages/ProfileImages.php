@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use function CloudinaryLabs\CloudinaryLaravel\cloudinary;
 
 class ProfileImages extends Page implements Forms\Contracts\HasForms
 {
