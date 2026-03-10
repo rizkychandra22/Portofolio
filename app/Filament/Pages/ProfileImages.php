@@ -134,6 +134,7 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                     }
                 } catch (ValidationException $exception) {
                     throw $exception;
+                    
                 } catch (\Throwable $exception) {
                     $exceptionSummary = trim($exception::class . ': ' . $exception->getMessage());
                     $exceptionSummary = mb_substr($exceptionSummary, 0, 280);
