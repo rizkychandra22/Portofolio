@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -98,23 +99,50 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
             ->disk('cloudinary')
             ->directory('profile')
             ->saveUploadedFileUsing(function (TemporaryUploadedFile $file) use ($name): string {
+                $errorKey = "data.{$name}";
+
                 try {
                     if (! $file->exists()) {
                         throw ValidationException::withMessages([
-                            $name => 'Upload sementara tidak ditemukan. Di Laravel Cloud gunakan LIVEWIRE_TMP_DISK=cloudinary (atau storage bersama seperti S3), lalu jalankan optimize:clear.',
+                            $errorKey => 'Upload sementara tidak ditemukan. Di Laravel Cloud gunakan LIVEWIRE_TMP_DISK=cloudinary (atau storage bersama seperti S3), lalu jalankan optimize:clear.',
                         ]);
                     }
 
-                    $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-                        'resource_type' => 'image',
-                        'asset_folder'  => 'profile',
-                        'folder'        => 'profile',
-                    ]);
+                    $realPath = $file->getRealPath();
+
+                    if (! empty($realPath) && is_file($realPath)) {
+                        $uploaded = cloudinary()->uploadApi()->upload($realPath, [
+                            'resource_type' => 'image',
+                            'asset_folder'  => 'profile',
+                            'folder'        => 'profile',
+                        ]);
+                    } else {
+                        // Fallback for cloud runtimes where temp upload path is not directly readable.
+                        $ext = $file->getClientOriginalExtension() ?: 'jpg';
+                        $tmpPath = tempnam(sys_get_temp_dir(), 'cld_') . '.' . $ext;
+                        file_put_contents($tmpPath, $file->get());
+
+                        try {
+                            $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                'resource_type' => 'image',
+                                'asset_folder'  => 'profile',
+                                'folder'        => 'profile',
+                            ]);
+                        } finally {
+                            @unlink($tmpPath);
+                        }
+                    }
                 } catch (ValidationException $exception) {
                     throw $exception;
                 } catch (\Throwable $exception) {
+                    Log::error('Profile image upload failed', [
+                        'field' => $name,
+                        'message' => $exception->getMessage(),
+                        'trace' => $exception->getTraceAsString(),
+                    ]);
+
                     throw ValidationException::withMessages([
-                        $name => 'Gagal upload ke Cloudinary: ' . $exception->getMessage(),
+                        $errorKey => 'Gagal upload ke Cloudinary. Detail error sudah dicatat di log server.',
                     ]);
                 }
 

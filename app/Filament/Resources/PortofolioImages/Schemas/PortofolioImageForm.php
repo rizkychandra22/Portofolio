@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
@@ -46,16 +47,39 @@ class PortofolioImageForm
                                         ]);
                                     }
 
-                                    $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-                                        'resource_type' => 'image',
-                                        'asset_folder'  => 'project-detail',
-                                        'folder'        => 'project-detail',
-                                    ]);
+                                    $realPath = $file->getRealPath();
+
+                                    if (! empty($realPath) && is_file($realPath)) {
+                                        $uploaded = cloudinary()->uploadApi()->upload($realPath, [
+                                            'resource_type' => 'image',
+                                            'asset_folder'  => 'project-detail',
+                                            'folder'        => 'project-detail',
+                                        ]);
+                                    } else {
+                                        $ext = $file->getClientOriginalExtension() ?: 'jpg';
+                                        $tmpPath = tempnam(sys_get_temp_dir(), 'cld_') . '.' . $ext;
+                                        file_put_contents($tmpPath, $file->get());
+
+                                        try {
+                                            $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                                'resource_type' => 'image',
+                                                'asset_folder'  => 'project-detail',
+                                                'folder'        => 'project-detail',
+                                            ]);
+                                        } finally {
+                                            @unlink($tmpPath);
+                                        }
+                                    }
                                 } catch (ValidationException $exception) {
                                     throw $exception;
                                 } catch (\Throwable $exception) {
+                                    Log::error('Portfolio gallery upload failed', [
+                                        'message' => $exception->getMessage(),
+                                        'trace' => $exception->getTraceAsString(),
+                                    ]);
+
                                     throw ValidationException::withMessages([
-                                        'image_path' => 'Gagal upload ke Cloudinary: ' . $exception->getMessage(),
+                                        'image_path' => 'Gagal upload ke Cloudinary. Detail error sudah dicatat di log server.',
                                     ]);
                                 }
 
