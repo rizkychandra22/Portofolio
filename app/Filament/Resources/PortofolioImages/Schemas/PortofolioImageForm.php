@@ -10,7 +10,6 @@ use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
-use function CloudinaryLabs\CloudinaryLaravel\cloudinary;
 
 class PortofolioImageForm
 {
@@ -51,7 +50,7 @@ class PortofolioImageForm
                                     $realPath = $file->getRealPath();
 
                                     if (! empty($realPath) && is_file($realPath)) {
-                                        $uploaded = cloudinary()->uploadApi()->upload($realPath, [
+                                        $uploaded = app('cloudinary')->uploadApi()->upload($realPath, [
                                             'resource_type' => 'image',
                                             'asset_folder'  => 'project-detail',
                                             'folder'        => 'project-detail',
@@ -62,7 +61,7 @@ class PortofolioImageForm
                                         file_put_contents($tmpPath, $file->get());
 
                                         try {
-                                            $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                            $uploaded = app('cloudinary')->uploadApi()->upload($tmpPath, [
                                                 'resource_type' => 'image',
                                                 'asset_folder'  => 'project-detail',
                                                 'folder'        => 'project-detail',

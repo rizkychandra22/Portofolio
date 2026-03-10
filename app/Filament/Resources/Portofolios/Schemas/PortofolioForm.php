@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Stichoza\GoogleTranslate\GoogleTranslate;
-use function CloudinaryLabs\CloudinaryLaravel\cloudinary;
 
 class PortofolioForm
 {
@@ -42,7 +41,7 @@ class PortofolioForm
                                     $realPath = $file->getRealPath();
 
                                     if (! empty($realPath) && is_file($realPath)) {
-                                        $uploaded = cloudinary()->uploadApi()->upload($realPath, [
+                                        $uploaded = app('cloudinary')->uploadApi()->upload($realPath, [
                                             'resource_type' => 'image',
                                             'asset_folder'  => 'project',
                                             'folder'        => 'project',
@@ -53,7 +52,7 @@ class PortofolioForm
                                         file_put_contents($tmpPath, $file->get());
 
                                         try {
-                                            $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                            $uploaded = app('cloudinary')->uploadApi()->upload($tmpPath, [
                                                 'resource_type' => 'image',
                                                 'asset_folder'  => 'project',
                                                 'folder'        => 'project',

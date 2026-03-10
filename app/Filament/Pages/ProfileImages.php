@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
-use function CloudinaryLabs\CloudinaryLaravel\cloudinary;
 
 class ProfileImages extends Page implements Forms\Contracts\HasForms
 {
@@ -112,7 +111,7 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                     $realPath = $file->getRealPath();
 
                     if (! empty($realPath) && is_file($realPath)) {
-                        $uploaded = cloudinary()->uploadApi()->upload($realPath, [
+                        $uploaded = app('cloudinary')->uploadApi()->upload($realPath, [
                             'resource_type' => 'image',
                             'asset_folder'  => 'profile',
                             'folder'        => 'profile',
@@ -124,7 +123,7 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                         file_put_contents($tmpPath, $file->get());
 
                         try {
-                            $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                            $uploaded = app('cloudinary')->uploadApi()->upload($tmpPath, [
                                 'resource_type' => 'image',
                                 'asset_folder'  => 'profile',
                                 'folder'        => 'profile',
