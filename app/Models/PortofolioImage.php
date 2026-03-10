@@ -38,8 +38,8 @@ class PortofolioImage extends Model
                 $newFile = $model->image_path;
 
                 if ($oldFile && $newFile && $oldFile !== $newFile) {
-                    if (Storage::disk('public')->exists($oldFile)) {
-                        Storage::disk('public')->delete($oldFile);
+                    if (Storage::disk('cloudinary')->exists($oldFile)) {
+                        Storage::disk('cloudinary')->delete($oldFile);
                     }
                 }
             }
@@ -47,8 +47,8 @@ class PortofolioImage extends Model
 
         static::forceDeleting(function ($model) {
             $file = $model->getRawOriginal('image_path'); 
-            if ($file && Storage::disk('public')->exists($file)) {
-                Storage::disk('public')->delete($file);
+            if ($file && Storage::disk('cloudinary')->exists($file)) {
+                Storage::disk('cloudinary')->delete($file);
             }
         });
     }

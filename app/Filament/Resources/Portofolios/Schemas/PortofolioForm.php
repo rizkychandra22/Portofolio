@@ -11,6 +11,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class PortofolioForm
@@ -24,9 +25,22 @@ class PortofolioForm
                     ->schema([
                         FileUpload::make('image_project')->columnSpanFull()
                             ->label('Image Cover')
-                            ->disk('public')
+                            ->disk('cloudinary')
                             ->visibility('public')
-                            ->directory('portofolio')
+                            ->directory('project')
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                // Force Cloudinary Media Library folder placement, not only public_id prefix.
+                                $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+                                    'resource_type' => 'image',
+                                    'asset_folder' => 'project',
+                                    'folder' => 'project',
+                                ]);
+
+                                $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                                $format = $uploaded['format'] ?? $file->getClientOriginalExtension();
+
+                                return $format ? $publicId.'.'.$format : $publicId;
+                            })
                             ->removeUploadedFileButtonPosition('right')
                             ->image()
                             ->nullable()
@@ -73,8 +87,7 @@ class PortofolioForm
                         TextInput::make('link_project')
                             ->label('Link Project')
                             ->placeholder('Contoh: https://...')
-                            ->url() 
-                            ->required(),
+                            ->url(),
                         Hidden::make('name_project_en'),
                     ])->columns(2)->columnSpanFull()
             ]);

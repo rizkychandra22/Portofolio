@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Portofolios\Tables;
 
+use App\Support\CloudinaryUrl;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -27,9 +28,8 @@ class PortofoliosTable
             ->columns([
                 ImageColumn::make('image_project')
                     ->label('Image Cover')
-                    ->disk('public')
-                    ->visibility('public')
                     ->size(70)
+                    ->getStateUsing(fn ($record): string => CloudinaryUrl::fromPath($record->image_project))
                     ->square(),
                 TextColumn::make('category.name_category_id')
                     ->label('Category')

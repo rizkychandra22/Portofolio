@@ -6,7 +6,7 @@
                     <div class="profile-card">
                         <div class="profile-header">
                             <div class="profile-image">
-                                <img src="{{ $imageAbout?->foto_about ? Storage::url($imageAbout->foto_about) : asset('snapfolio/assets/img/content/foto-about.jpg') }}" crossorigin="anonymous" alt="Profile Image" class="img-fluid" fetchpriority="high">
+                                <img src="{{ $imageAbout?->foto_about ? \App\Support\CloudinaryUrl::fromPath($imageAbout->foto_about) : asset('snapfolio/assets/img/content/foto-about.jpg') }}" crossorigin="anonymous" alt="Profile Image" class="img-fluid" fetchpriority="high">
                             </div>
                             <div class="profile-badge">
                                 <i class="fas fa-check-circle"></i>

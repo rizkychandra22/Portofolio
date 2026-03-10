@@ -40,8 +40,8 @@ class Portofolio extends Model
         static::updating(function ($model) {
             if ($model->isDirty('image_project')) {
                 $oldFile = $model->getOriginal('image_project');
-                if ($oldFile && Storage::disk('public')->exists($oldFile)) {
-                    Storage::disk('public')->delete($oldFile);
+                if ($oldFile && Storage::disk('cloudinary')->exists($oldFile)) {
+                    Storage::disk('cloudinary')->delete($oldFile);
                 }
             }
         });
@@ -60,8 +60,8 @@ class Portofolio extends Model
 
         // 4. Cascade Force Delete (Hapus Permanen file gambar)
         static::forceDeleting(function ($model) {
-            if ($model->image_project && Storage::disk('public')->exists($model->image_project)) {
-                Storage::disk('public')->delete($model->image_project);
+            if ($model->image_project && Storage::disk('cloudinary')->exists($model->image_project)) {
+                Storage::disk('cloudinary')->delete($model->image_project);
             }
             $model->images()->withTrashed()->get()->each->forceDelete();
             $model->descriptions()->withTrashed()->get()->each->forceDelete();

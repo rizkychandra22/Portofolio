@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PortofolioImages\Tables;
 
 use App\Models\PortofolioImage;
+use App\Support\CloudinaryUrl;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -38,8 +39,6 @@ class PortofolioImagesTable
                     ->toggleable(isToggledHiddenByDefault:true),
                 ImageColumn::make('image_path')
                     ->label('Image Project')
-                    ->disk('public')
-                    ->visibility('public')
                     ->size(50)
                     ->circular()
                     ->stacked()
@@ -50,6 +49,7 @@ class PortofolioImagesTable
                     ->getStateUsing(function (Model $record) {
                         return PortofolioImage::where('portofolio_id', $record->portofolio_id)
                             ->pluck('image_path')
+                            ->map(fn (string $path) => CloudinaryUrl::fromPath($path))
                             ->toArray();
                     }),
                 TextColumn::make('created_at')

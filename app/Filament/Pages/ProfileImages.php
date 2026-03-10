@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ProfileImages extends Page implements Forms\Contracts\HasForms
 {
@@ -93,8 +94,21 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
         return FileUpload::make($name)
             ->label($label)
             ->image()
-            ->disk('public')
+            ->disk('cloudinary')
             ->directory('profile')
+            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                // Force Cloudinary Media Library folder placement, not only public_id prefix.
+                $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+                    'resource_type' => 'image',
+                    'asset_folder' => 'profile',
+                    'folder' => 'profile',
+                ]);
+
+                $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $format = $uploaded['format'] ?? $file->getClientOriginalExtension();
+
+                return $format ? $publicId.'.'.$format : $publicId;
+            })
             ->visibility('public')
             // ->preserveFilenames()
             ->moveFiles()
@@ -117,9 +131,9 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
 
         foreach ($data as $field => $newPath) {
             if (! empty($profile->$field) && $profile->$field !== $newPath &&
-                Storage::disk('public')->exists($profile->$field)
+                Storage::disk('cloudinary')->exists($profile->$field)
             ) {
-                Storage::disk('public')->delete($profile->$field);
+                Storage::disk('cloudinary')->delete($profile->$field);
             }
             $profile->$field = $newPath;
         }

@@ -1,12 +1,12 @@
 @php
-    use Illuminate\Support\Facades\Storage;
+    use App\Support\CloudinaryUrl;
 @endphp
 
 <div class="flex justify-center mb-2">
     @if ($path)
         <div class="w-full aspect-square overflow-hidden rounded-lg border border-gray-700 shadow-sm bg-gray-800">
             <img
-                src="{{ Storage::url($path) }}"
+                src="{{ CloudinaryUrl::fromPath($path) }}"
                 class="w-full h-full object-cover object-center"
                 alt="Preview Image"
             >

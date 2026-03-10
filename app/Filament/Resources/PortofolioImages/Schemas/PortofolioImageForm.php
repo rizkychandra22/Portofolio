@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class PortofolioImageForm
 {
@@ -33,9 +34,22 @@ class PortofolioImageForm
                             }),
                         FileUpload::make('image_path')->columnSpanFull()
                             ->label('Upload Image')
-                            ->disk('public')
+                            ->disk('cloudinary')
                             ->visibility('public')
-                            ->directory('portofolio-galery')
+                            ->directory('project-detail')
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                // Force Cloudinary Media Library folder placement, not only public_id prefix.
+                                $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
+                                    'resource_type' => 'image',
+                                    'asset_folder' => 'project-detail',
+                                    'folder' => 'project-detail',
+                                ]);
+
+                                $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                                $format = $uploaded['format'] ?? $file->getClientOriginalExtension();
+
+                                return $format ? $publicId.'.'.$format : $publicId;
+                            })
                             ->multiple() 
                             ->image()
                             ->nullable()
