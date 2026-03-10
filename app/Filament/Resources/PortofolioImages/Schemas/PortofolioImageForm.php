@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\ValidationException;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class PortofolioImageForm
@@ -38,18 +39,24 @@ class PortofolioImageForm
                             ->visibility('public')
                             ->directory('project-detail')
                             ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
-                                $ext     = $file->getClientOriginalExtension() ?: 'jpg';
-                                $tmpPath = tempnam(sys_get_temp_dir(), 'cld_') . '.' . $ext;
-                                file_put_contents($tmpPath, $file->get());
-
                                 try {
-                                    $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                    if (! $file->exists()) {
+                                        throw ValidationException::withMessages([
+                                            'image_path' => 'Upload sementara tidak ditemukan. Di Laravel Cloud gunakan LIVEWIRE_TMP_DISK=cloudinary (atau storage bersama seperti S3), lalu jalankan optimize:clear.',
+                                        ]);
+                                    }
+
+                                    $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
                                         'resource_type' => 'image',
                                         'asset_folder'  => 'project-detail',
                                         'folder'        => 'project-detail',
                                     ]);
-                                } finally {
-                                    @unlink($tmpPath);
+                                } catch (ValidationException $exception) {
+                                    throw $exception;
+                                } catch (\Throwable $exception) {
+                                    throw ValidationException::withMessages([
+                                        'image_path' => 'Gagal upload ke Cloudinary: ' . $exception->getMessage(),
+                                    ]);
                                 }
 
                                 $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
