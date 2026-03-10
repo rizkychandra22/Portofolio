@@ -26,9 +26,6 @@ class CloudinaryTestController extends Controller
                 ], 400);
             }
 
-            // test dengan call sederhana ke upload API (tidak perlu Admin API key)
-            $cloudinary = app('cloudinary');
-            
             return response()->json([
                 'success' => true,
                 'message' => 'Cloudinary environment configured correctly',
@@ -76,7 +73,7 @@ class CloudinaryTestController extends Controller
             if (! empty($realPath) && is_file($realPath)) {
                 Log::info('CloudinaryTest: Uploading via getRealPath');
                 
-                $uploaded = app('cloudinary')->uploadApi()->upload($realPath, [
+                $uploaded = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($realPath, [
                     'resource_type' => 'image',
                     'asset_folder'  => 'test',
                     'folder'        => 'test',
@@ -98,7 +95,7 @@ class CloudinaryTestController extends Controller
             file_put_contents($tmpPath, $file->get());
 
             try {
-                $uploaded = app('cloudinary')->uploadApi()->upload($tmpPath, [
+                $uploaded = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($tmpPath, [
                     'resource_type' => 'image',
                     'asset_folder'  => 'test',
                     'folder'        => 'test',

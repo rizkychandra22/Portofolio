@@ -111,7 +111,7 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                     $realPath = $file->getRealPath();
 
                     if (! empty($realPath) && is_file($realPath)) {
-                        $uploaded = app('cloudinary')->uploadApi()->upload($realPath, [
+                        $uploaded = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($realPath, [
                             'resource_type' => 'image',
                             'asset_folder'  => 'profile',
                             'folder'        => 'profile',
@@ -123,7 +123,7 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
                         file_put_contents($tmpPath, $file->get());
 
                         try {
-                            $uploaded = app('cloudinary')->uploadApi()->upload($tmpPath, [
+                            $uploaded = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($tmpPath, [
                                 'resource_type' => 'image',
                                 'asset_folder'  => 'profile',
                                 'folder'        => 'profile',

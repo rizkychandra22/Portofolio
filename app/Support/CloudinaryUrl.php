@@ -25,6 +25,6 @@ class CloudinaryUrl
             return '';
         }
 
-        return (string) app('cloudinary')->image($publicId)->toUrl();
+        return (string) app(\Cloudinary\Cloudinary::class)->image($publicId)->toUrl();
     }
 }
