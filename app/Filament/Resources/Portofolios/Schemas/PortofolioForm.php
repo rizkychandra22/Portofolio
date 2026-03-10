@@ -29,17 +29,33 @@ class PortofolioForm
                             ->visibility('public')
                             ->directory('project')
                             ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
-                                // Force Cloudinary Media Library folder placement, not only public_id prefix.
-                                $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-                                    'resource_type' => 'image',
-                                    'asset_folder' => 'project',
-                                    'folder' => 'project',
-                                ]);
+                                $ext     = $file->getClientOriginalExtension() ?: 'jpg';
+                                $tmpPath = tempnam(sys_get_temp_dir(), 'cld_') . '.' . $ext;
+                                file_put_contents($tmpPath, $file->get());
+
+                                try {
+                                    $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                                        'resource_type' => 'image',
+                                        'asset_folder'  => 'project',
+                                        'folder'        => 'project',
+                                    ]);
+                                } finally {
+                                    @unlink($tmpPath);
+                                }
 
                                 $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                                $format = $uploaded['format'] ?? $file->getClientOriginalExtension();
+                                $format   = $uploaded['format'] ?? $file->getClientOriginalExtension();
 
-                                return $format ? $publicId.'.'.$format : $publicId;
+                                return $format ? $publicId . '.' . $format : $publicId;
+                            })
+                            ->getUploadedFileUsing(function (string $file): ?array {
+                                // Use delivery URL helper to avoid Admin API calls when rendering existing files.
+                                return [
+                                    'name' => basename($file),
+                                    'size' => 0,
+                                    'type' => 'image/jpeg',
+                                    'url'  => \App\Support\CloudinaryUrl::fromPath($file),
+                                ];
                             })
                             ->removeUploadedFileButtonPosition('right')
                             ->image()

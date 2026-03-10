@@ -97,17 +97,26 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
             ->disk('cloudinary')
             ->directory('profile')
             ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
-                // Force Cloudinary Media Library folder placement, not only public_id prefix.
-                $uploaded = cloudinary()->uploadApi()->upload($file->getRealPath(), [
-                    'resource_type' => 'image',
-                    'asset_folder' => 'profile',
-                    'folder' => 'profile',
-                ]);
+                // Write to system /tmp so upload works on cloud (multi-instance containers
+                // don't share Livewire's local tmp disk between instances).
+                $ext = $file->getClientOriginalExtension() ?: 'jpg';
+                $tmpPath = tempnam(sys_get_temp_dir(), 'cld_') . '.' . $ext;
+                file_put_contents($tmpPath, $file->get());
+
+                try {
+                    $uploaded = cloudinary()->uploadApi()->upload($tmpPath, [
+                        'resource_type' => 'image',
+                        'asset_folder'  => 'profile',
+                        'folder'        => 'profile',
+                    ]);
+                } finally {
+                    @unlink($tmpPath);
+                }
 
                 $publicId = $uploaded['public_id'] ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $format = $uploaded['format'] ?? $file->getClientOriginalExtension();
+                $format   = $uploaded['format'] ?? $file->getClientOriginalExtension();
 
-                return $format ? $publicId.'.'.$format : $publicId;
+                return $format ? $publicId . '.' . $format : $publicId;
             })
             ->visibility('public')
             // ->preserveFilenames()

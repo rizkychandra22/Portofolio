@@ -13,7 +13,7 @@ class CreatePortofolioImage extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $images = $data['image_path'] ?? [];
+        $images = array_filter((array) ($data['image_path'] ?? []));
         $firstRecord = null;
 
         foreach ($images as $path) {
@@ -22,9 +22,16 @@ class CreatePortofolioImage extends CreateRecord
                 'image_path'    => $path,
             ]);
 
-            if (!$firstRecord) $firstRecord = $record;
+            if (! $firstRecord) {
+                $firstRecord = $record;
+            }
         }
 
-        return $firstRecord;
+        // Fallback: create a placeholder record if no images were uploaded
+        // (prevents a TypeError from Filament expecting a Model return).
+        return $firstRecord ?? PortofolioImage::create([
+            'portofolio_id' => $data['portofolio_id'],
+            'image_path'    => '',
+        ]);
     }
 }
