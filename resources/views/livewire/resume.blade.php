@@ -14,7 +14,7 @@
                 <div class="col-lg-4">
                     <div class="resume-side" data-aos="fade-right" data-aos-delay="100">
                         <div class="profile-img mb-4">
-                            <img src="{{ $imageResume?->foto_resume ? \App\Support\CloudinaryUrl::fromPath($imageResume->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" crossorigin="anonymous" alt="Rizky Chandra" class="img-fluid rounded shadow-sm" fetchpriority="high">
+                            <img src="{{ $imageResume?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($imageResume->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" crossorigin="anonymous" alt="Rizky Chandra" class="img-fluid rounded shadow-sm" fetchpriority="high">
                         </div>
                         {!! app()->getLocale() == 'id' ?
                             '   

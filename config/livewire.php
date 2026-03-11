@@ -64,7 +64,7 @@ return [
     */
 
     'temporary_file_upload' => [
-        'disk' => env('LIVEWIRE_TMP_DISK', env('FILESYSTEM_DISK', 'local')), // In cloud, default to shared app disk unless explicitly overridden.
+        'disk' => env('LIVEWIRE_TMP_DISK', 'public'),       // Example: 'local', 's3'              | Default: 'default'
         'rules' => 'nullable|image|max:2048',       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
         'directory' => 'livewire-tmp',   // Example: 'tmp'                      | Default: 'livewire-tmp'
         'middleware' => 'web',  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'

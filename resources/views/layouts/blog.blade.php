@@ -25,7 +25,7 @@
     <meta property="og:description" content="@lang('translate.meta_description')">
 
     {{-- Instagram & Threads --}}
-    <meta property="og:image" content="{{ $image?->foto_home ? \App\Support\CloudinaryUrl::fromPath($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
+    <meta property="og:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Portofolio Rizky Chandra">
@@ -35,7 +35,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="{{ $title ?? 'Portofolio Rizky Chandra' }}">
     <meta name="twitter:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer.">
-    <meta name="twitter:image" content="{{ $image?->foto_home ? \App\Support\CloudinaryUrl::fromPath($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
+    <meta name="twitter:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
 
     {{-- Link Alternate untuk SEO Multibahasa --}}
     <link rel="alternate" hreflang="id" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'id'])) }}">
@@ -43,7 +43,7 @@
     <link rel="alternate" hreflang="x-default" href="{{ url('/lang/en') }}">
 
     {{-- Favicons --}}
-    <link href="{{ $sosialMedia?->foto_resume ? \App\Support\CloudinaryUrl::fromPath($sosialMedia->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
+    <link href="{{ $sosialMedia?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($sosialMedia->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
