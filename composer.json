@@ -8,6 +8,7 @@
         "php": "^8.2",
         "ext-intl": "*",
         "ext-zip": "*",
+        "cloudinary-labs/cloudinary-laravel": "3.0.2",
         "filament/filament": "^4.7",
         "google/apiclient": "^2.19",
         "laravel/framework": "^11.0",
