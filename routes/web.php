@@ -41,8 +41,3 @@ Route::get('/view/cv/rizky-chandra-khusuma', function () {
 
 // Redirect User Login
 Route::redirect('/user', '/dashboard/user/login');
-
-// Cloudinary Debug & Test Routes
-// Note: Keep these accessible for production debugging. Remove after fixing uploads.
-Route::post('/api/cloudinary-test', [\App\Http\Controllers\CloudinaryTestController::class, 'test'])->name('cloudinary-test');
-Route::get('/api/cloudinary-info', [\App\Http\Controllers\CloudinaryTestController::class, 'info'])->name('cloudinary-info');
