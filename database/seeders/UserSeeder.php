@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'discord' => 'rizkychandra2204',
             'github' => 'rizkychandra22',
             'instagram' => '_chndr_22',
-            'linkedin' => 'rizky-chandra-77b830389',
+            'linkedin' => 'rizky-chandra-86p22n04',
             'tiktok' => '@gagal_ganteng04',
         ]);
     }
