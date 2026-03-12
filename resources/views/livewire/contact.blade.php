@@ -40,7 +40,7 @@
                             <div class="content">
                                 <h4>Lokasi</h4>
                                 <p>{{ $sosialMedia->{'address_' . app()->getLocale()} ?? '' }}</p>
-                                <p>Indonesia <img src="{{ asset('snapfolio/assets/img/flag-id.png') ?? '' }}" alt="Indonesia"></p>
+                                <p>Indonesia <img src="{{ asset('template/assets/img/flag-id.png') ?? '' }}" alt="Indonesia"></p>
                             </div>
                         </div>
 
