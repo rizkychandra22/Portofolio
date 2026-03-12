@@ -68,7 +68,9 @@ class Contact extends Component
         } catch (\Throwable $e) {
             Log::error('Resend View Error: ' . $e->getMessage());
             $this->error = true;
-            $this->errorMessage = 'Gagal mengirim: ' . $e->getMessage();
+            $this->errorMessage = app()->getLocale() == 'id' 
+                ? 'Sistem gagal mengirim pesan, silakan coba lagi.' 
+                : 'Failed to send message, please try again.';
         }
     }
 

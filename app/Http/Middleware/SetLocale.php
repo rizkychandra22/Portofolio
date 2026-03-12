@@ -17,9 +17,15 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $locale = $request->segment(1);
+        $locale = $request->route('locale');
 
-        if (in_array($locale, ['en', 'id'])) {
+        if (! $locale) {
+            $locale = $request->segment(1) === 'lang'
+                ? $request->segment(2)
+                : $request->segment(1);
+        }
+
+        if (in_array($locale, ['en', 'id'], true)) {
             App::setLocale($locale);
             Session::put('locale', $locale);
         } else {
