@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Portofolio;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 
 class PortofolioDetail extends Component
@@ -38,7 +39,10 @@ class PortofolioDetail extends Component
             'portofolio' => $portofolio
         ])->layout('layouts.blog', [
             'title' => $this->title,
-            'page' => $this->page, 
+            'page' => $this->page,
+            'metaImage' => $portofolio->image_project
+                ? Storage::disk('cloudinary')->url($portofolio->image_project)
+                : null,
         ]);
     }
 }

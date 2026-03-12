@@ -1,6 +1,10 @@
 @php
     $image = \App\Models\ImageProfile::first();
     $sosialMedia = \App\Models\User::first();
+    $defaultPreviewImage = $image?->foto_resume
+        ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_resume)
+        : asset('template/assets/img/content/foto-resume.jpg');
+    $metaPreviewImage = $metaImage ?? $defaultPreviewImage;
 @endphp
 
 <!DOCTYPE html>
@@ -25,7 +29,7 @@
     <meta property="og:description" content="@lang('translate.meta_description')">
 
     {{-- Instagram & Threads --}}
-    <meta property="og:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}">
+    <meta property="og:image" content="{{ $metaPreviewImage }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Portofolio Rizky Chandra">
@@ -35,7 +39,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="{{ $title ?? 'Portofolio Rizky Chandra' }}">
     <meta name="twitter:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer.">
-    <meta name="twitter:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}">
+    <meta name="twitter:image" content="{{ $metaPreviewImage }}">
 
     {{-- Link Alternate untuk SEO Multibahasa --}}
     <link rel="alternate" hreflang="id" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'id'])) }}">
