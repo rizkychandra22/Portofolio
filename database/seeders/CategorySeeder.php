@@ -15,15 +15,20 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'data_filter_category' => 'filter-web',
-                'name_category_id' => 'Aplikasi Web',
-                'name_category_en' => 'Web Aplication',
+                'data_filter_category' => 'filter-business',
+                'name_category_id' => 'Sistem Bisnis',
+                'name_category_en' => 'Business System',
             ],
             [
                 'data_filter_category' => 'filter-management',
-                'name_category_id' => 'Manajemen Sistem',
+                'name_category_id' => 'Sistem Manajemen',
                 'name_category_en' => 'Management System',
-            ]
+            ],
+            [
+                'data_filter_category' => 'filter-monitoring',
+                'name_category_id' => 'Sistem Monitoring',
+                'name_category_en' => 'Monitoring System',
+            ],
         ];
 
         foreach($categories as $item) {
