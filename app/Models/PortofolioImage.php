@@ -38,17 +38,15 @@ class PortofolioImage extends Model
                 $newFile = $model->image_path;
 
                 if ($oldFile && $newFile && $oldFile !== $newFile) {
-                    if (Storage::disk('cloudinary')->exists($oldFile)) {
-                        Storage::disk('cloudinary')->delete($oldFile);
-                    }
+                    rescue(fn () => Storage::disk('cloudinary')->delete($oldFile), report: false);
                 }
             }
         });
 
         static::forceDeleting(function ($model) {
             $file = $model->getRawOriginal('image_path'); 
-            if ($file && Storage::disk('cloudinary')->exists($file)) {
-                Storage::disk('cloudinary')->delete($file);
+            if ($file) {
+                rescue(fn () => Storage::disk('cloudinary')->delete($file), report: false);
             }
         });
     }

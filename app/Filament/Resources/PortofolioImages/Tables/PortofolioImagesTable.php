@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\PortofolioImages\Tables;
 
-use App\Models\PortofolioImage;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -47,10 +46,11 @@ class PortofolioImagesTable
                     ->ring(3)
                     ->overlap(3)
                     ->limitedRemainingText()
+                    ->extraImgAttributes(['loading' => 'lazy', 'decoding' => 'async'])
                     ->getStateUsing(function (Model $record) {
-                        return PortofolioImage::where('portofolio_id', $record->portofolio_id)
-                            ->pluck('image_path')
-                            ->toArray();
+                        return $record->portofolio
+                            ? $record->portofolio->images->pluck('image_path')->toArray()
+                            : [];
                     }),
                 TextColumn::make('created_at')
                     ->label('Created')

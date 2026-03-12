@@ -38,7 +38,7 @@
                         <div class="hero-visual">
                             <div class="profile-container">
                                 <div class="profile-background"></div>
-                                <img src="{{ $imageHome?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($imageHome->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}" crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high">
+                                <img src="{{ ($imageHome?->foto_home) ? Storage::disk('cloudinary')->url($imageHome->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}" crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high">
                             </div>
                         </div>
                     </div>

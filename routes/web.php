@@ -17,7 +17,7 @@ use App\Livewire\Contact;
 */
 
 Route::get('/', function () {
-    return redirect()->route('home', ['locale' => 'id']);
+    return redirect()->route('home', ['locale' => 'en']);
 });
 Route::prefix('lang/{locale}')
     ->where(['locale' => 'en|id'])
@@ -40,4 +40,4 @@ Route::get('/view/cv/rizky-chandra-khusuma', function () {
 })->name('view.cv');
 
 // Redirect User Login
-Route::redirect('/user', '/dashboard/user/login');
+Route::redirect('/user', '/dashboard/login');

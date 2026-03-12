@@ -40,31 +40,37 @@ class Portofolio extends Model
         static::updating(function ($model) {
             if ($model->isDirty('image_project')) {
                 $oldFile = $model->getOriginal('image_project');
-                if ($oldFile && Storage::disk('cloudinary')->exists($oldFile)) {
-                    Storage::disk('cloudinary')->delete($oldFile);
+                if ($oldFile) {
+                    rescue(fn () => Storage::disk('cloudinary')->delete($oldFile), report: false);
                 }
             }
         });
 
         // 2. Cascade Soft Delete ke Gambar & Deskripsi
         static::deleting(function ($model) {
-            $model->images()->get()->each->delete();
-            $model->descriptions()->get()->each->delete();
+            $model->images()->delete();
+            $model->descriptions()->delete();
         });
 
         // 3. Cascade Restore (Agar relasi database ikut aktif lagi)
         static::restoring(function ($model) {
-            $model->images()->onlyTrashed()->get()->each->restore();
-            $model->descriptions()->onlyTrashed()->get()->each->restore();
+            $model->images()->onlyTrashed()->restore();
+            $model->descriptions()->onlyTrashed()->restore();
         });
 
         // 4. Cascade Force Delete (Hapus Permanen file gambar)
         static::forceDeleting(function ($model) {
-            if ($model->image_project && Storage::disk('cloudinary')->exists($model->image_project)) {
-                Storage::disk('cloudinary')->delete($model->image_project);
+            if ($model->image_project) {
+                rescue(fn () => Storage::disk('cloudinary')->delete($model->image_project), report: false);
             }
-            $model->images()->withTrashed()->get()->each->forceDelete();
-            $model->descriptions()->withTrashed()->get()->each->forceDelete();
+            // Hapus file cloudinary untuk setiap gambar
+            $model->images()->withTrashed()->get()->each(function ($image) {
+                if ($image->image_path) {
+                    rescue(fn () => Storage::disk('cloudinary')->delete($image->image_path), report: false);
+                }
+            });
+            $model->images()->withTrashed()->forceDelete();
+            $model->descriptions()->withTrashed()->forceDelete();
         });
     }
 }

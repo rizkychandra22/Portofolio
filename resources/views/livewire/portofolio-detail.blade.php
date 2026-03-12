@@ -39,7 +39,7 @@
                             {{-- Menampilkan Gambar Utama Project --}}
                             <div class="swiper-slide">
                                 <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project) }}" class="glightbox" data-gallery="portfolio-gallery">
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project) }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high">
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project) }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high" decoding="async">
                                 </a>
                             </div>
 
@@ -47,7 +47,7 @@
                             @foreach($portofolio->images as $galeri)
                                 <div class="swiper-slide">
                                     <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path) }}" class="glightbox" data-gallery="portfolio-gallery">
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path) }}" crossorigin="anonymous" class="img-fluid" loading="lazy">
+                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path) }}" crossorigin="anonymous" class="img-fluid" loading="lazy" decoding="async">
                                     </a>
                                 </div>
                             @endforeach

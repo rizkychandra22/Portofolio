@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesRelationManager extends RelationManager
 {
@@ -43,6 +44,7 @@ class ImagesRelationManager extends RelationManager
                     ->icon('heroicon-o-plus-circle')
                     ->modalHeading('Upload Gallery Images')
                     ->using(function (array $data): Model {
+                        set_time_limit(300);
                         $images = $data['image_path'] ?? [];
                         $firstRecord = null;
 
@@ -56,7 +58,8 @@ class ImagesRelationManager extends RelationManager
                         }
 
                         return $firstRecord;
-                    }),
+                    })
+                    ->after(fn () => Storage::disk('local')->deleteDirectory('livewire-tmp')),
             ])
             ->actions([
                 EditAction::make()
@@ -72,33 +75,47 @@ class ImagesRelationManager extends RelationManager
                     }) 
                     // Menyimpan perubahan dari Form Modal
                     ->using(function (Model $record, array $data): Model {
+                        set_time_limit(300);
                         $newImages = $data['image_path'] ?? [];
                         $existingImages = PortofolioImage::where('portofolio_id', $record->portofolio_id)
                             ->pluck('image_path')
                             ->toArray();
 
-                        // 1. Hapus gambar yang di-unselect user dari Database
+                        // 1. Hapus gambar yang di-unselect user dari Cloudinary + Database
                         $deletedImages = array_diff($existingImages, $newImages);
-                        foreach ($deletedImages as $path) {
+                        if (!empty($deletedImages)) {
+                            foreach ($deletedImages as $path) {
+                                rescue(fn () => Storage::disk('cloudinary')->delete($path), report: false);
+                            }
                             PortofolioImage::where('portofolio_id', $record->portofolio_id)
-                                ->where('image_path', $path)
+                                ->whereIn('image_path', $deletedImages)
                                 ->forceDelete();
                         }
 
-                        // 2. Tambah gambar yang baru diupload ke Database
+                        // 2. Tambah gambar yang baru diupload ke Database (batch)
                         $imagesToAdd = array_diff($newImages, $existingImages);
-                        foreach ($imagesToAdd as $path) {
-                            PortofolioImage::create([
+                        if (!empty($imagesToAdd)) {
+                            $insertData = array_map(fn ($path) => [
                                 'portofolio_id' => $record->portofolio_id,
-                                'image_path'    => $path,
-                            ]);
+                                'image_path' => $path,
+                                'created_at' => now(),
+                                'updated_at' => now(),
+                            ], $imagesToAdd);
+                            PortofolioImage::insert($insertData);
                         }
+
+                        Storage::disk('local')->deleteDirectory('livewire-tmp');
 
                         return $record;
                     }), 
                 DeleteAction::make()
                     ->after(function (Model $record) {
-                        // Hapus semua baris gambar terkait saat satu grup dihapus
+                        // Hapus file cloudinary + semua baris gambar terkait saat satu grup dihapus
+                        $images = PortofolioImage::where('portofolio_id', $record->portofolio_id)
+                            ->pluck('image_path');
+                        foreach ($images as $path) {
+                            rescue(fn () => Storage::disk('cloudinary')->delete($path), report: false);
+                        }
                         PortofolioImage::where('portofolio_id', $record->portofolio_id)->forceDelete();
                     }),
             ]);

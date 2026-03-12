@@ -12,6 +12,7 @@ use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileImages extends Page implements Forms\Contracts\HasForms
@@ -116,15 +117,17 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
         );
 
         foreach ($data as $field => $newPath) {
-            if (! empty($profile->$field) && $profile->$field !== $newPath &&
-                Storage::disk('cloudinary')->exists($profile->$field)
-            ) {
-                Storage::disk('cloudinary')->delete($profile->$field);
+            if (! empty($profile->$field) && $profile->$field !== $newPath) {
+                rescue(fn () => Storage::disk('cloudinary')->delete($profile->$field), report: false);
             }
             $profile->$field = $newPath;
         }
 
         $profile->save();
+
+        // Invalidate cache
+        Cache::forget('image_profile');
+        Cache::forget('filament_avatar_url');
 
         // Refresh preview
         $this->oldImage = [
@@ -143,5 +146,8 @@ class ProfileImages extends Page implements Forms\Contracts\HasForms
             ->body('Foto profile berhasil diperbarui')
             ->success()
             ->send();
+
+        // Bersihkan livewire-tmp setelah submit
+        Storage::disk('local')->deleteDirectory('livewire-tmp');
     }
 }

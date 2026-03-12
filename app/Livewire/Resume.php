@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\ImageProfile;
 use App\Models\User;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Resume extends Component
@@ -21,8 +22,8 @@ class Resume extends Component
 
     public function render()
     {
-        $imageResume = ImageProfile::first();
-        $sosialMedia = User::first();
+        $imageResume = Cache::remember('image_profile', 60 * 60, fn () => ImageProfile::first());
+        $sosialMedia = Cache::remember('user_sosmed', 60 * 60, fn () => User::first());
         
         return view('livewire.resume', [
             'imageResume' => $imageResume,

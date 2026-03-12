@@ -6,6 +6,7 @@ use App\Filament\Resources\PortofolioImages\PortofolioImageResource;
 use App\Models\PortofolioImage;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class CreatePortofolioImage extends CreateRecord
 {
@@ -13,6 +14,7 @@ class CreatePortofolioImage extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
+        set_time_limit(300);
         $images = array_filter((array) ($data['image_path'] ?? []));
         $firstRecord = null;
 
@@ -33,5 +35,10 @@ class CreatePortofolioImage extends CreateRecord
             'portofolio_id' => $data['portofolio_id'],
             'image_path'    => '',
         ]);
+    }
+
+    protected function afterCreate(): void
+    {
+        Storage::disk('local')->deleteDirectory('livewire-tmp');
     }
 }

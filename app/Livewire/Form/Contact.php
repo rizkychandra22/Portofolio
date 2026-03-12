@@ -49,7 +49,7 @@ class Contact extends Component
             $htmlContent = view('emails.contact', $data)->render();
 
             // Kirim via API Resend
-            $response = Http::withToken(config('services.resend.key'))
+            $response = Http::timeout(10)->withToken(config('services.resend.key'))
                 ->post('https://api.resend.com/emails', [
                     'from'      => config('app.name') . " <" . config('mail.from.address') . ">",
                     'to'        => 'rizkychandra2204@gmail.com',

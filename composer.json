@@ -10,12 +10,10 @@
         "ext-zip": "*",
         "cloudinary-labs/cloudinary-laravel": "3.0.2",
         "filament/filament": "^4.7",
-        "google/apiclient": "^2.19",
-        "laravel/framework": "^11.0",
-        "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
         "stichoza/google-translate-php": "^5.3",
-        "symfony/postmark-mailer": "^7.4"
+        "laravel/framework": "^11.0",
+        "laravel/tinker": "^2.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -41,8 +39,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

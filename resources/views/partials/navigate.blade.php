@@ -38,14 +38,14 @@
                 {{-- Tombol Indonesia --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'id'])) : url('/lang/id') }}"
                     class="{{ app()->getLocale() == 'id' ? 'text-primary' : '' }}">
-                    <img src="{{ asset('snapfolio/assets/img/flag-id.png') }}" width="18" class="me-1"> 
+                    <img src="{{ asset('template/assets/img/flag-id.png') }}" width="18" class="me-1"> 
                     {{ app()->getLocale() == 'id' ? 'Indonesia' : 'Indonesian' }}
                 </a>
                 <span class="text-muted">|</span>
                 {{-- Tombol English --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'en'])) : url('/lang/en') }}"
                     class="{{ app()->getLocale() == 'en' ? 'text-primary' : '' }}">
-                    <img src="{{ asset('snapfolio/assets/img/flag-gb.png') }}" width="18" class="me-1"> 
+                    <img src="{{ asset('template/assets/img/flag-gb.png') }}" width="18" class="me-1"> 
                     {{ app()->getLocale() == 'id' ? 'Inggris' : 'English' }}
                 </a>
             </div>

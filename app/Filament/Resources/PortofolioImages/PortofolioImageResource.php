@@ -84,7 +84,7 @@ class PortofolioImageResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with(['portofolio'])
+            ->with(['portofolio.images'])
             ->whereIn('id', function ($query) {
                 $query->selectRaw('MIN(id)')
                     ->from('portofolio_images')

@@ -33,7 +33,7 @@
                             @forelse ($portofolio as $item)    
                                 <div class="col-lg-6 col-md-6 portfolio-item isotope-item {{ $item->category->data_filter_category ?? '' }}">
                                     <div class="portfolio-wrap">
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" crossorigin="anonymous" fetchpriority="high" class="img-fluid" alt="{{ $item->{'name_project_' . app()->getLocale()} ?? '' }}">
+                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" crossorigin="anonymous" loading="lazy" decoding="async" class="img-fluid" alt="{{ $item->{'name_project_' . app()->getLocale()} ?? '' }}">
                                         <div class="portfolio-info">
                                             <div class="content">
                                                 <span class="category">
@@ -41,7 +41,7 @@
                                                 </span>
                                                 <h4>{{ $item->{'name_project_' . app()->getLocale()} ?? '' }}</h4>
                                                 <div class="portfolio-links">
-                                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" crossorigin="anonymous" class="glightbox" 
+                                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" class="glightbox" 
                                                        title="{{ $item->category->{'name_category_' . app()->getLocale()} ?? '' }} | {{ $item->{'name_project_' . app()->getLocale()} ?? '' }}">
                                                        <i class="fa-solid fa-plus"></i>
                                                     </a>

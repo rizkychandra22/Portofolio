@@ -1,6 +1,13 @@
-/node_modules
-/vendor
 /.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.env.production
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -10,21 +17,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-.env
-.env.backup
-.env.production
-# /public/build
-# /public/hot
-# /public/storage
-/storage/*
-/storage/*.key
-/portofolio_backup.sql
-/project-portofolio_backup.sql
-
-# Kecualikan folder yang memang ingin di-track
-!/storage/app/public/livewire-tmp/*
-!/storage/app/public/portofolio/*
-!/storage/app/public/portofolio-galery/*
-!/storage/app/public/profile/*
-!/storage/app/document/*
-

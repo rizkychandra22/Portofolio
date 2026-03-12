@@ -9,9 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class PortofolioForm
 {
@@ -60,21 +58,13 @@ class PortofolioForm
                         TextInput::make('name_project_id')
                             ->label('Name Project')
                             ->placeholder('Contoh: Aplikasi Web E-Commerce')
-                            ->required()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (string $state, Set $set) {
-                                if (blank($state)) return;
-                                try {
-                                    $tr = new GoogleTranslate();
-                                    $translated = $tr->setSource('id')->setTarget('en')->translate($state);
-                                    $set('name_project_en', $translated);
-                                } catch (\Exception $e) {}
-                            }),
+                            ->required(),
                         TextInput::make('link_project')
                             ->label('Link Project')
                             ->placeholder('Contoh: https://...')
                             ->url(),
-                        Hidden::make('name_project_en'),
+                        Hidden::make('name_project_en')
+                            ->dehydrated(),
                     ])->columns(2)->columnSpanFull()
             ]);
     }

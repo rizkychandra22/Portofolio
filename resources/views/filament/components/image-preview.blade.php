@@ -9,6 +9,8 @@
                 src="{{ Storage::disk('cloudinary')->url($path) }}"
                 class="w-full h-full object-cover object-center"
                 alt="Preview Image"
+                loading="lazy"
+                decoding="async"
             >
         </div>
     @else

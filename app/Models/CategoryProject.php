@@ -26,15 +26,21 @@ class CategoryProject extends Model
         parent::boot();
 
         static::deleting(function ($category) {
-            $category->portofolios()->get()->each->delete();
+            foreach ($category->portofolios()->get() as $portofolio) {
+                $portofolio->delete();
+            }
         });
 
         static::restoring(function ($category) {
-            $category->portofolios()->onlyTrashed()->get()->each->restore();
+            foreach ($category->portofolios()->onlyTrashed()->get() as $portofolio) {
+                $portofolio->restore();
+            }
         });
 
         static::forceDeleting(function ($category) {
-            $category->portofolios()->withTrashed()->get()->each->forceDelete();
+            foreach ($category->portofolios()->withTrashed()->get() as $portofolio) {
+                $portofolio->forceDelete();
+            }
         });
     }
 }

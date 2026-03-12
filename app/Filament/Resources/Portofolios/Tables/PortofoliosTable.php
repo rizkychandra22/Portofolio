@@ -30,7 +30,8 @@ class PortofoliosTable
                     ->size(70)
                     ->disk('cloudinary')
                     ->visibility('public')
-                    ->square(),
+                    ->square()
+                    ->extraImgAttributes(['loading' => 'lazy', 'decoding' => 'async']),
                 TextColumn::make('category.name_category_id')
                     ->label('Category')
                     ->searchable()

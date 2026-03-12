@@ -25,7 +25,7 @@
     <meta property="og:description" content="@lang('translate.meta_description')">
 
     {{-- Instagram & Threads --}}
-    <meta property="og:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
+    <meta property="og:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Portofolio Rizky Chandra">
@@ -35,7 +35,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="{{ $title ?? 'Portofolio Rizky Chandra' }}">
     <meta name="twitter:description" content="Explore the portfolio of Rizky Chandra, a passionate web developer.">
-    <meta name="twitter:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('snapfolio/assets/img/content/foto-home.jpg') }}">
+    <meta name="twitter:image" content="{{ $image?->foto_home ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}">
 
     {{-- Link Alternate untuk SEO Multibahasa --}}
     <link rel="alternate" hreflang="id" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'id'])) }}">
@@ -43,7 +43,7 @@
     <link rel="alternate" hreflang="x-default" href="{{ url('/lang/en') }}">
 
     {{-- Favicons --}}
-    <link href="{{ $sosialMedia?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($sosialMedia->foto_resume) : asset('snapfolio/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
+    <link href="{{ $image?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_resume) : asset('template/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
@@ -53,13 +53,13 @@
     {{-- Vendor CSS Files --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/aos/aos.css') }}">
-    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/glightbox/css/glightbox.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('snapfolio/assets/vendor/swiper/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/glightbox/css/glightbox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.css') }}">
 
     {{-- Main CSS File --}}
-    <link rel="stylesheet" href="{{ asset('snapfolio/assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/css/main.css') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -113,17 +113,17 @@
 
     <!-- Vendor JS Files -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/typed.js/typed.umd.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('snapfolio/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/aos/aos.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/typed.js/typed.umd.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     
-    <script src="{{ asset('snapfolio/assets/js/main.js') }}"></script>
+    <script src="{{ asset('template/assets/js/main.js') }}"></script>
 
     @livewireScripts
     @stack('scripts')

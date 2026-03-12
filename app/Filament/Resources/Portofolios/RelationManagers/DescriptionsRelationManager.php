@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Portofolios\RelationManagers;
 
 use App\Filament\Resources\PortofolioDescriptions\PortofolioDescriptionResource;
+use App\Helpers\TranslateHelper;
 use App\Models\PortofolioDescription;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -20,6 +21,17 @@ class DescriptionsRelationManager extends RelationManager
 
     protected static ?string $relatedResource = PortofolioDescriptionResource::class;
 
+    private static function translateData(array $data): array
+    {
+        if (!empty($data['title_id'])) {
+            $data['title_en'] = TranslateHelper::toEnglish($data['title_id']) ?? $data['title_en'] ?? null;
+        }
+        if (!empty($data['content_id'])) {
+            $data['content_en'] = TranslateHelper::toEnglish(strip_tags($data['content_id'])) ?? $data['content_en'] ?? null;
+        }
+        return $data;
+    }
+
     public function form(Schema $schema, bool $isRelation = true): Schema
     {
         return PortofolioDescriptionResource::form($schema, $isRelation);
@@ -33,12 +45,14 @@ class DescriptionsRelationManager extends RelationManager
                     ->modal()
                     ->label('Create New') 
                     ->icon('heroicon-o-plus-circle')
-                    ->modalHeading('Create Meta Content'),
+                    ->modalHeading('Create Meta Content')
+                    ->mutateFormDataUsing(fn (array $data) => self::translateData($data)),
             ])
             
             ->actions([
                 EditAction::make()
-                    ->modal(),
+                    ->modal()
+                    ->mutateFormDataUsing(fn (array $data) => self::translateData($data)),
                 DeleteAction::make()
                     ->after(function (Model $record) {
                         // Hapus semua baris deskripsi dan fitur terkait saat satu grup dihapus
