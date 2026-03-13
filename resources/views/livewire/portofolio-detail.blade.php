@@ -1,12 +1,12 @@
 <div>
     <div class="page-title dark-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
-            <h1 class="mb-2 mb-lg-0">{{ app()->getLocale() == 'id' ? 'Detail Portofolio' : 'Portofolio Details' }}</h1>
+            <h1 class="mb-2 mb-lg-0">{{ app()->getLocale() == 'id' ? 'Detail Proyek' : 'Project Details' }}</h1>
             <nav class="breadcrumbs">
                 <ol>
                     <li><a href="{{ route('home', ['locale' => app()->getLocale() ]) }}">{{ app()->getLocale() == 'id' ? 'Beranda' : 'Home' }}</a></li>
-                    <li><a href="{{ route('portofolio', ['locale' => app()->getLocale() ]) }}">Portofolio</a></li>
-                    <li class="current">{{ app()->getLocale() == 'id' ? 'Detail Portofolio' : 'Portofolio Details' }}</li>
+                    <li><a href="{{ route('portofolio', ['locale' => app()->getLocale() ]) }}">{{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}</a></li>
+                    <li class="current">{{ app()->getLocale() == 'id' ? 'Detail Proyek' : 'Project Details' }}</li>
                 </ol>
             </nav>
         </div>

@@ -50,9 +50,9 @@ class Contact extends Component
 
             // Kirim via API Resend
             $response = Http::timeout(10)->withToken(config('services.resend.key'))
-                ->post('https://api.resend.com/emails', [
+                ->post(config('services.resend.url'), [
                     'from'      => config('app.name') . " <" . config('mail.from.address') . ">",
-                    'to'        => 'rizkychandra2204@gmail.com',
+                    'to'        => config('services.resend.email'),
                     'reply_to'  => $this->email,
                     'subject'   => 'Pesan Baru: ' . $this->subject,
                     'html'      => $htmlContent, 

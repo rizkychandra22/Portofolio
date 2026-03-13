@@ -1,7 +1,7 @@
 <div>
     <section id="portfolio" class="portfolio section" style="min-height: 70vh;">
         <div class="container section-title" data-aos="fade-up">
-            <h2>Portofolio</h2>
+            <h2>{{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}</h2>
             <p>
                 {{ app()->getLocale() == 'id' 
                     ? 'Kumpulan proyek pengembangan web yang berfokus pada efisiensi sistem, skalabilitas kode, dan solusi digital yang tepat guna.' 

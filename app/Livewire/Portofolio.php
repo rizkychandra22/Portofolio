@@ -10,8 +10,8 @@ use Livewire\Component;
 class Portofolio extends Component
 {
     public $title = 'Rizky Chandra';
-    public $page_en = 'Project Portofolio';   
-    public $page_id = 'Proyek Portofolio';   
+    public $page_en = 'Project';   
+    public $page_id = 'Proyek';   
 
     public function mount($locale = null)
     {

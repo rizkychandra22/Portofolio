@@ -8,27 +8,27 @@
             @endphp
 
             <li>
-                <a href="{{ route('home', ['locale' => $currentLocale]) }}" @class(['active' => request()->routeIs('home')])>
+                <a href="{{ route('home', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('home')])>
                     <i class="bi bi-house navicon"></i> {{ app()->getLocale() == 'id' ? 'Beranda' : 'Home' }}
                 </a>
             </li>
             <li>
-                <a href="{{ route('about', ['locale' => $currentLocale]) }}" @class(['active' => request()->routeIs('about')])>
-                    <i class="bi bi-person navicon"></i> {{ app()->getLocale() == 'id' ? 'Tentang' : 'About' }}
+                <a href="{{ route('about', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('about')])>
+                    <i class="bi bi-person-exclamation navicon"></i> {{ app()->getLocale() == 'id' ? 'Tentang' : 'About' }}
                 </a>
             </li>
             <li>
-                <a href="{{ route('resume', ['locale' => $currentLocale]) }}" @class(['active' => request()->routeIs('resume')])>
-                    <i class="bi bi-file-earmark-text navicon"></i> Resume
+                <a href="{{ route('resume', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('resume')])>
+                    <i class="bi bi-file-earmark-text navicon"></i> {{ app()->getLocale() == 'id' ? 'Lampiran' : 'Resume' }}
                 </a>
             </li>
             <li>
-                <a href="{{ route('portofolio', ['locale' => $currentLocale]) }}" @class(['active' => request()->routeIs('portofolio') || request()->routeIs('portofolio-detail')])>
-                    <i class="bi bi-images navicon"></i> Portofolio
+                <a href="{{ route('portofolio', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('portofolio') || request()->routeIs('portofolio-detail')])>
+                    <i class="bi bi-folder navicon"></i> {{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}
                 </a>
             </li>
             <li>
-                <a href="{{ route('contact', ['locale' => $currentLocale]) }}" @class(['active' => request()->routeIs('contact')])>
+                <a href="{{ route('contact', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('contact')])>
                     <i class="bi bi-envelope navicon"></i> {{ app()->getLocale() == 'id' ? 'Kontak' : 'Contact' }}
                 </a>
             </li>
@@ -37,14 +37,14 @@
             <div class="d-flex justify-content-center align-items-center mt-3 gap-2">
                 {{-- Tombol Indonesia --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'id'])) : url('/lang/id') }}"
-                    class="{{ app()->getLocale() == 'id' ? 'text-primary' : '' }}">
+                    class="{{ app()->getLocale() == 'id' ? 'text-light rounded-lg bg-secondary py-1' : '' }}">
                     <img src="{{ asset('template/assets/img/flag-id.png') }}" width="18" class="me-1"> 
                     {{ app()->getLocale() == 'id' ? 'Indonesia' : 'Indonesian' }}
                 </a>
                 <span class="text-muted">|</span>
                 {{-- Tombol English --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'en'])) : url('/lang/en') }}"
-                    class="{{ app()->getLocale() == 'en' ? 'text-primary' : '' }}">
+                    class="{{ app()->getLocale() == 'en' ? 'text-light rounded-lg bg-secondary py-1' : '' }}">
                     <img src="{{ asset('template/assets/img/flag-gb.png') }}" width="18" class="me-1"> 
                     {{ app()->getLocale() == 'id' ? 'Inggris' : 'English' }}
                 </a>

@@ -32,8 +32,8 @@ class PortofolioDetail extends Component
             : $portofolio->category->name_category_en;
 
         $this->page = (app()->getLocale() == 'id') 
-            ? 'Detail Project #' . $portofolio->id . ' - ' . $currentCategoryName 
-            : 'Project Detail #' . $portofolio->id . ' - ' . $currentCategoryName;
+            ? 'Detail Proyek #' . $portofolio->id . ' - ' . $currentCategoryName 
+            : 'Project Details #' . $portofolio->id . ' - ' . $currentCategoryName;
         
         return view('livewire.portofolio-detail', [
             'portofolio' => $portofolio
