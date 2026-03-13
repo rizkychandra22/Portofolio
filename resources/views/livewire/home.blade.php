@@ -9,7 +9,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
                         <div class="hero-text">
-                            <h1>Porto<span class="accent-text">Folio</span></h1>
+                            <h1>{{ app()->getLocale() == 'id' ? 'Porto' : 'Port' }}<span class="accent-text">Folio</span></h1>
                             <h2>Rizky Chandra Khusuma</h2>
                             <p class="lead">{{ app()->getLocale() == 'id' ? 'Saya Seorang' : 'I am a' }} <span class="typed" data-typed-items="Web Developer, Back-end Developer, Front-end Developer, Full-Stack Developer"></span></p>
                             <p class="description">
