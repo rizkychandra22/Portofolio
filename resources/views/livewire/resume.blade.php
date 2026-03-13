@@ -1,7 +1,7 @@
 <div>
     <section id="resume" class="resume section">
         <div class="container section-title" data-aos="fade-up">
-            <h2>Resume</h2>
+            <h2>{{ app()->getLocale() == 'id' ? 'Lampiran' : 'Resume' }}</h2>
             <p>
                 {{ app()->getLocale() == 'id' 
                     ? 'Rangkuman perjalanan profesional dan akademik saya dalam membangun solusi digital. Berfokus pada pengembangan sistem informasi yang efisien, terukur, dan berdampak positif bagi operasional bisnis maupun institusi.'
