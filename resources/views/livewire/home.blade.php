@@ -19,7 +19,7 @@
                                 }}
                             </p>
                             <div class="hero-actions">
-                                <a href="{{ route('portofolio', ['locale' => app()->getLocale() ]) }}" class="btn btn-primary">
+                                <a href="{{ route('project', ['locale' => app()->getLocale() ]) }}" class="btn btn-primary">
                                     {{ app()->getLocale() == 'id' ? 'Lihat Proyek Saya' : 'View My Project' }}
                                 </a>
                                 <a href="{{ route('contact', ['locale' => app()->getLocale() ]) }}" class="btn btn-outline">

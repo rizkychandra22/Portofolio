@@ -23,8 +23,8 @@ class Portofolio extends Component
     public function render()
     {
         $currentPage = (app()->getLocale() == 'id') ? $this->page_id : $this->page_en;
-        $categories = CategoryProject::orderBy('name_category_id', 'asc')->get();
-        $portofolio = ModelsPortofolio::with('category')->latest()->get();
+        $categories = CategoryProject::orderBy('name_category_' . app()->getLocale(), 'asc')->get();
+        $portofolio = ModelsPortofolio::with('category')->orderBy('name_project_' . app()->getLocale(), 'asc')->latest()->get();
 
         return view('livewire.portofolio', [
             'categories' => $categories,

@@ -5,7 +5,7 @@
             <nav class="breadcrumbs">
                 <ol>
                     <li><a href="{{ route('home', ['locale' => app()->getLocale() ]) }}">{{ app()->getLocale() == 'id' ? 'Beranda' : 'Home' }}</a></li>
-                    <li><a href="{{ route('portofolio', ['locale' => app()->getLocale() ]) }}">{{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}</a></li>
+                    <li><a href="{{ route('project', ['locale' => app()->getLocale() ]) }}">{{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}</a></li>
                     <li class="current">{{ app()->getLocale() == 'id' ? 'Detail Proyek' : 'Project Details' }}</li>
                 </ol>
             </nav>

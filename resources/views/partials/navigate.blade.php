@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('portofolio', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('portofolio') || request()->routeIs('portofolio-detail')])>
+                <a href="{{ route('project', ['locale' => $currentLocale]) }}" @class(['active rounded-lg bg-secondary py-1' => request()->routeIs('project') || request()->routeIs('project-detail')])>
                     <i class="bi bi-folder navicon"></i> {{ app()->getLocale() == 'id' ? 'Proyek' : 'Project' }}
                 </a>
             </li>

@@ -45,7 +45,7 @@
                                                        title="{{ $item->category->{'name_category_' . app()->getLocale()} ?? '' }} | {{ $item->{'name_project_' . app()->getLocale()} ?? '' }}">
                                                        <i class="fa-solid fa-plus"></i>
                                                     </a>
-                                                    <a href="{{ route('portofolio-detail', ['locale' => app()->getLocale(), 'id' => $item->id]) }}" title="Detail Proyek">
+                                                    <a href="{{ route('project-detail', ['locale' => app()->getLocale(), 'id' => $item->id]) }}" title="Detail Proyek">
                                                         <i class="fa-solid fa-arrow-right"></i>
                                                     </a>
                                                 </div>
