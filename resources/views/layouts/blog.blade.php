@@ -64,15 +64,15 @@
     @if (! $isHomeRoute)
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @endif
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
     @if ($isHomeRoute)
         <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-reboot.min.css') }}">
         <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-grid.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-utilities.min.css') }}">
     @else
         <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     @endif
-    <link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}" media="print" data-deferred-style="aos">
+    <noscript><link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}"></noscript>
     @if ($isProjectRoute || $isProjectDetailRoute)
         <link rel="stylesheet" href="{{ asset('template/assets/vendor/glightbox/css/glightbox.min.css') }}">
     @endif
@@ -88,12 +88,6 @@
         @livewireStyles
     @endif
 
-    <style>
-        /* Memastikan kontainer isotope mengisi ruang ketika tidak ada gambar */
-        .isotope-container {
-            min-height: 200px !important;
-        }
-    </style>
 </head>
 
 <body class="index-page d-flex flex-column min-vh-100">
@@ -155,7 +149,9 @@
     @endif
     
     <script src="{{ asset('template/assets/js/main.js') }}" defer></script>
-    <script src="{{ asset('template/assets/js/customLayout.js') }}" defer></script>
+    @if (! $isHomeRoute)
+        <script src="{{ asset('template/assets/js/customLayout.js') }}" defer></script>
+    @endif
     @if ($isContactRoute)
         <script src="{{ asset('template/assets/js/customFormContact.js') }}" defer></script>
     @endif

@@ -10,6 +10,14 @@
   "use strict";
 
   /**
+   * Promote non-critical stylesheets (loaded with media=print)
+   * after parsing to avoid blocking first paint.
+   */
+  document.querySelectorAll('link[data-deferred-style]').forEach((stylesheet) => {
+    stylesheet.media = 'all';
+  });
+
+  /**
    * Header toggle
    */
   const headerToggleBtn = document.querySelector('.header-toggle');

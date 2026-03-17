@@ -4,7 +4,7 @@
             ? Storage::disk('cloudinary')->url($imageHome->foto_home)
             : asset('template/assets/img/content/foto-home.jpg');
         $homeImageOptimized = str_contains($homeImageSource, '/upload/')
-            ? str_replace('/upload/', '/upload/f_auto,q_auto,w_900,c_fill/', $homeImageSource)
+            ? str_replace('/upload/', '/upload/f_auto,q_auto,w_520,c_fill/', $homeImageSource)
             : $homeImageSource;
     @endphp
     <section id="hero" class="hero section">

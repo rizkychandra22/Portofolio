@@ -6,6 +6,44 @@
 * License: https://bootstrapmade.com/license/
 */
 
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("../vendor/bootstrap-icons/fonts/bootstrap-icons.woff2") format("woff2"),
+       url("../vendor/bootstrap-icons/fonts/bootstrap-icons.woff") format("woff");
+  font-display: swap;
+}
+
+/* Lightweight utility fallback for home route (without bootstrap-utilities) */
+.d-flex { display: flex !important; }
+.flex-column { flex-direction: column !important; }
+.flex-fill { flex: 1 1 auto !important; }
+.min-vh-100 { min-height: 100vh !important; }
+.justify-content-center { justify-content: center !important; }
+.align-items-center { align-items: center !important; }
+.align-items-start { align-items: flex-start !important; }
+.position-relative { position: relative !important; }
+.text-center { text-align: center !important; }
+.text-light { color: rgba(255, 255, 255, 1) !important; }
+.text-muted { color: rgba(255, 255, 255, 0.62) !important; }
+.bg-secondary { background-color: #6c757d !important; }
+.rounded-lg { border-radius: 0.5rem !important; }
+.py-1 {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}
+.px-1 {
+  padding-left: 0.25rem !important;
+  padding-right: 0.25rem !important;
+}
+.me-1 { margin-right: 0.25rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+
+/* Ensure isotope area keeps height when assets are loading */
+.isotope-container {
+  min-height: 200px !important;
+}
+
 /*--------------------------------------------------------------
 # Font & Color Variables
 # Help: https://bootstrapmade.com/color-system/
