@@ -10,6 +10,7 @@
     $isResumeRoute = request()->routeIs('resume');
     $isProjectRoute = request()->routeIs('project');
     $isProjectDetailRoute = request()->routeIs('project-detail');
+    $isContactRoute = request()->routeIs('contact');
 @endphp
 
 <!DOCTYPE html>
@@ -154,70 +155,14 @@
     @endif
     
     <script src="{{ asset('template/assets/js/main.js') }}" defer></script>
+    <script src="{{ asset('template/assets/js/customLayout.js') }}" defer></script>
+    @if ($isContactRoute)
+        <script src="{{ asset('template/assets/js/customFormContact.js') }}" defer></script>
+    @endif
 
     @if (! $isHomeRoute)
         @livewireScripts
     @endif
     @stack('scripts')
-
-    @if (! $isHomeRoute)
-        <script>
-            document.addEventListener('livewire:navigated', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Reset UI State
-                const preloader = document.querySelector('#preloader');
-                if (preloader) { preloader.remove(); }
-
-                // Re-init AOS (Animasi)
-                if (typeof AOS !== 'undefined') {
-                    AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
-                }
-
-                // Re-init Glightbox
-                if (typeof GLightbox !== 'undefined') {
-                    GLightbox({ selector: '.glightbox' });
-                }
-
-                // Re-init Swiper
-                if (typeof Swiper !== 'undefined') {
-                    document.querySelectorAll('.init-swiper').forEach(function(swiperElement) {
-                        let configElement = swiperElement.querySelector('.swiper-config');
-                        if (configElement) {
-                            let config = JSON.parse(configElement.innerHTML.trim());
-                            new Swiper(swiperElement, config);
-                        }
-                    });
-                }
-
-                // Re-init Isotope
-                if (typeof Isotope !== 'undefined') {
-                    document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
-                        let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
-                        let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
-                        let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
-                        let container = isotopeItem.querySelector('.isotope-container');
-                        
-                        if (container) {
-                            let initIsotope = new Isotope(container, {
-                                itemSelector: '.isotope-item',
-                                layoutMode: layout,
-                                filter: filter,
-                                sortBy: sort
-                            });
-
-                            isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-                                filters.addEventListener('click', function() {
-                                    isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
-                                    this.classList.add('filter-active');
-                                    initIsotope.arrange({ filter: this.getAttribute('data-filter') });
-                                }, false);
-                            });
-                        }
-                    });
-                }
-            });
-        </script>
-    @endif
 </body>
 </html>

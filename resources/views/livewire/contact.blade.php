@@ -73,17 +73,3 @@
         </div>
     </section>
 </div>
-
-<script>
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.hook('commit', ({ component, succeed }) => {
-            succeed(() => {
-                setTimeout(() => {
-                    if (typeof AOS !== 'undefined') {
-                        AOS.refresh();
-                    }
-                }, 1);
-            })
-        })
-    });
-</script>
