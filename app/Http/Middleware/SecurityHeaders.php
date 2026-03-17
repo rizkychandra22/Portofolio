@@ -34,7 +34,7 @@ class SecurityHeaders
 
             // Keep CSP consistent on all portfolio pages to avoid score variance per-route.
             $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
-                "script-src 'self' 'unsafe-inline'; script-src-elem 'self'; ".
+                "script-src 'self' 'unsafe-inline'; ".
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
                 "img-src 'self' data: https://res.cloudinary.com; ".
                 "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
@@ -42,7 +42,7 @@ class SecurityHeaders
 
             if ($isLaravelCloudDomain) {
                 $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
-                    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; script-src-elem 'self' https://challenges.cloudflare.com; ".
+                    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; ".
                     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
                     "img-src 'self' data: https://res.cloudinary.com; ".
                     "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
