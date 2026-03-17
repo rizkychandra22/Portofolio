@@ -53,7 +53,7 @@
     <link rel="canonical" href="{{ url()->current() }}">
 
     {{-- Favicons --}}
-    <link href="{{ $image?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_resume) : asset('template/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
+    <link href="{{ asset('template/assets/img/content/foto-resume.jpg') }}" rel="icon">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
