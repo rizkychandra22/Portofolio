@@ -38,7 +38,7 @@ class SecurityHeaders
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
                 "img-src 'self' data: https://res.cloudinary.com; ".
                 "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
-                "connect-src 'self'; frame-src 'self'; upgrade-insecure-requests";
+                "connect-src 'self'; frame-src 'self' https://www.google.com https://maps.google.com; upgrade-insecure-requests";
 
             if ($isLaravelCloudDomain) {
                 $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
@@ -46,7 +46,7 @@ class SecurityHeaders
                     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
                     "img-src 'self' data: https://res.cloudinary.com; ".
                     "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
-                    "connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com; upgrade-insecure-requests";
+                    "connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://maps.google.com; upgrade-insecure-requests";
             }
 
             $response->headers->set('Content-Security-Policy', $baseCsp);

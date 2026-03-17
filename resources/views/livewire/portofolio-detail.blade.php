@@ -1,4 +1,10 @@
 <div>
+    @php
+        $mainImageSource = \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project);
+        $mainImageDisplay = str_contains($mainImageSource, '/upload/')
+            ? str_replace('/upload/', '/upload/f_auto,q_auto,w_1200,c_limit/', $mainImageSource)
+            : $mainImageSource;
+    @endphp
     <div class="page-title dark-background">
         <div class="container d-lg-flex justify-content-between align-items-center">
             <h1 class="mb-2 mb-lg-0">{{ app()->getLocale() == 'id' ? 'Detail Proyek' : 'Project Details' }}</h1>
@@ -38,16 +44,22 @@
                         <div class="swiper-wrapper align-items-center">
                             {{-- Menampilkan Gambar Utama Project --}}
                             <div class="swiper-slide">
-                                <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project) }}" class="glightbox" data-gallery="portfolio-gallery">
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($portofolio->image_project) }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high" decoding="async">
+                                <a href="{{ $mainImageSource }}" class="glightbox" data-gallery="portfolio-gallery">
+                                    <img src="{{ $mainImageDisplay }}" crossorigin="anonymous" alt="{{ $portofolio->{'name_project_' . app()->getLocale()} ?? '' }}" class="img-fluid" fetchpriority="high" decoding="async">
                                 </a>
                             </div>
 
                             {{-- Menampilkan Gambar Tambahan dari Tabel portofolio_images --}}
                             @foreach($portofolio->images as $galeri)
+                                @php
+                                    $galleryImageSource = \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path);
+                                    $galleryImageDisplay = str_contains($galleryImageSource, '/upload/')
+                                        ? str_replace('/upload/', '/upload/f_auto,q_auto,w_1200,c_limit/', $galleryImageSource)
+                                        : $galleryImageSource;
+                                @endphp
                                 <div class="swiper-slide">
-                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path) }}" class="glightbox" data-gallery="portfolio-gallery">
-                                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($galeri->image_path) }}" crossorigin="anonymous" class="img-fluid" loading="lazy" decoding="async">
+                                    <a href="{{ $galleryImageSource }}" class="glightbox" data-gallery="portfolio-gallery">
+                                        <img src="{{ $galleryImageDisplay }}" crossorigin="anonymous" class="img-fluid" loading="lazy" decoding="async">
                                     </a>
                                 </div>
                             @endforeach
