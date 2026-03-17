@@ -24,20 +24,33 @@ class SecurityHeaders
         $response->headers->set('Cross-Origin-Resource-Policy', 'same-site');
         $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
 
-        if ($request->routeIs('home')) {
-            $host = strtolower($request->getHost());
-            $isLaravelCloudDomain = str_ends_with($host, '.laravel.cloud');
-
-            $csp = $isLaravelCloudDomain
-                ? "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; script-src-elem 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com; upgrade-insecure-requests"
-                : "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; frame-src 'self'; upgrade-insecure-requests";
-
-            $response->headers->set('Content-Security-Policy', $csp);
-        }
-
         $contentType = strtolower((string) $response->headers->get('Content-Type', ''));
         $isHtmlResponse = str_contains($contentType, 'text/html');
         $isSafeMethod = $request->isMethod('GET') || $request->isMethod('HEAD');
+
+        if ($isHtmlResponse) {
+            $host = strtolower($request->getHost());
+            $isLaravelCloudDomain = str_ends_with($host, '.laravel.cloud');
+
+            // Keep CSP consistent on all portfolio pages to avoid score variance per-route.
+            $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
+                "script-src 'self' 'unsafe-inline'; script-src-elem 'self'; ".
+                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
+                "img-src 'self' data: https://res.cloudinary.com; ".
+                "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
+                "connect-src 'self'; frame-src 'self'; upgrade-insecure-requests";
+
+            if ($isLaravelCloudDomain) {
+                $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
+                    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; script-src-elem 'self' https://challenges.cloudflare.com; ".
+                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
+                    "img-src 'self' data: https://res.cloudinary.com; ".
+                    "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
+                    "connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com; upgrade-insecure-requests";
+            }
+
+            $response->headers->set('Content-Security-Policy', $baseCsp);
+        }
 
         if ($isHtmlResponse && $isSafeMethod && ! $response->headers->has('Cache-Control')) {
             // Keep page revalidation behavior while allowing bfcache (avoid no-store).
