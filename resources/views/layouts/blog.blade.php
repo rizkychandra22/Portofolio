@@ -24,7 +24,7 @@
     <meta name="description" content="{{ __('translate.seo_description') }}">
     <meta name="keywords" content="{{ __('translate.seo_keyword') }}">
     <meta name="author" content="Rizky Chandra Khusuma">
-    {{-- <meta name="robots" content="{{ app()->isProduction() ? 'index, follow' : 'noindex, nofollow' }}"> --}}
+    <meta name="robots" content="index, follow">
 
     {{-- Open Graph Meta (Sosial Media) --}}
     <meta property="og:type" content="website">
@@ -57,14 +57,20 @@
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@500;700&family=Nunito:wght@400;600&display=swap" />
 
     {{-- Vendor CSS Files --}}
     @if (! $isHomeRoute)
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @endif
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    @if ($isHomeRoute)
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-reboot.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-grid.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap-utilities.min.css') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    @endif
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}">
     @if ($isProjectRoute || $isProjectDetailRoute)
         <link rel="stylesheet" href="{{ asset('template/assets/vendor/glightbox/css/glightbox.min.css') }}">
@@ -76,7 +82,7 @@
     {{-- Main CSS File --}}
     <link rel="stylesheet" href="{{ asset('template/assets/css/main.css') }}">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
     @if (! $isHomeRoute)
         @livewireStyles
     @endif
