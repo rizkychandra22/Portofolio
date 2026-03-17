@@ -24,13 +24,6 @@ class SecurityHeaders
         $response->headers->set('Cross-Origin-Resource-Policy', 'same-site');
         $response->headers->set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
 
-        if ($request->routeIs('home')) {
-            $response->headers->set(
-                'Content-Security-Policy',
-                "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://res.cloudinary.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self'; frame-src 'self'; upgrade-insecure-requests"
-            );
-        }
-
         $contentType = strtolower((string) $response->headers->get('Content-Type', ''));
         $isHtmlResponse = str_contains($contentType, 'text/html');
         $isSafeMethod = $request->isMethod('GET') || $request->isMethod('HEAD');
