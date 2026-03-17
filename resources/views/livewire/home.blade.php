@@ -3,9 +3,16 @@
         $homeImageSource = ($imageHome?->foto_home)
             ? Storage::disk('cloudinary')->url($imageHome->foto_home)
             : asset('template/assets/img/content/foto-home.jpg');
-        $homeImageOptimized = str_contains($homeImageSource, '/upload/')
+        $isCloudinaryImage = str_contains($homeImageSource, '/upload/');
+        $homeImageOptimized = $isCloudinaryImage
             ? str_replace('/upload/', '/upload/f_auto,q_auto,w_520,c_fill/', $homeImageSource)
             : $homeImageSource;
+        $homeImageOptimizedSmall = $isCloudinaryImage
+            ? str_replace('/upload/', '/upload/f_auto,q_auto,w_320,c_fill/', $homeImageSource)
+            : $homeImageSource;
+        $homeImageSrcSet = $isCloudinaryImage
+            ? $homeImageOptimizedSmall . ' 320w, ' . $homeImageOptimized . ' 520w'
+            : null;
     @endphp
     <section id="hero" class="hero section">
         <div class="background-elements">
@@ -46,7 +53,7 @@
                         <div class="hero-visual">
                             <div class="profile-container">
                                 <div class="profile-background"></div>
-                                <img src="{{ $homeImageOptimized }}" crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high" width="400" height="400" sizes="(max-width: 576px) 78vw, (max-width: 992px) 350px, 400px">
+                                <img src="{{ $homeImageOptimized }}" @if ($homeImageSrcSet) srcset="{{ $homeImageSrcSet }}" @endif crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high" decoding="async" width="400" height="400" sizes="(max-width: 576px) 78vw, (max-width: 992px) 350px, 400px">
                             </div>
                         </div>
                     </div>
