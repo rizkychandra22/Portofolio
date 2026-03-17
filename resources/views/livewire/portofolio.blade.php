@@ -41,11 +41,11 @@
                                                 </span>
                                                 <h4>{{ $item->{'name_project_' . app()->getLocale()} ?? '' }}</h4>
                                                 <div class="portfolio-links">
-                                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" class="glightbox" 
+                                                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($item->image_project) }}" class="glightbox" aria-label="{{ app()->getLocale() == 'id' ? 'Lihat gambar proyek' : 'View project image' }}"
                                                        title="{{ $item->category->{'name_category_' . app()->getLocale()} ?? '' }} | {{ $item->{'name_project_' . app()->getLocale()} ?? '' }}">
                                                        <i class="fa-solid fa-plus"></i>
                                                     </a>
-                                                    <a href="{{ route('project-detail', ['locale' => app()->getLocale(), 'id' => $item->id]) }}" title="Detail Proyek">
+                                                    <a href="{{ route('project-detail', ['locale' => app()->getLocale(), 'id' => $item->id]) }}" aria-label="{{ app()->getLocale() == 'id' ? 'Buka detail proyek' : 'Open project details' }}" title="Detail Proyek">
                                                         <i class="fa-solid fa-arrow-right"></i>
                                                     </a>
                                                 </div>

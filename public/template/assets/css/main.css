@@ -29,7 +29,7 @@
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: rgba(236, 236, 236, 0.59);  /* The default color of the main navmenu links */
+  --nav-color: rgba(236, 236, 236, 0.82);  /* The default color of the main navmenu links */
   --nav-hover-color: #ffffff; /* Applied to main navmenu links when they are hovered over or active */
   --nav-mobile-background-color: #393939; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #393939; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
@@ -625,6 +625,7 @@ section,
   font-size: 24px;
   margin-bottom: 20px;
   color: var(--default-color);
+  line-height: 1.5;
 }
 
 .hero .hero-text .lead span {
@@ -632,6 +633,8 @@ section,
   font-weight: 600;
   border-bottom: 2px solid var(--accent-color);
   padding-bottom: 2px;
+  display: inline-block;
+  line-height: 1.3;
 }
 
 .hero .hero-text .description {
@@ -833,6 +836,99 @@ section,
   .hero .background-elements .bg-circle.circle-3 {
     width: 100px;
     height: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    min-height: auto;
+    padding: 90px 0 48px;
+  }
+
+  .hero .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hero .hero-text {
+    margin-bottom: 36px;
+  }
+
+  .hero .hero-text h1 {
+    font-size: clamp(2rem, 11vw, 2.5rem);
+    margin-bottom: 10px;
+  }
+
+  .hero .hero-text h2 {
+    font-size: 1.45rem;
+    margin-bottom: 8px;
+  }
+
+  .hero .hero-text .lead {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+
+  .hero .hero-text .description {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    max-width: 100%;
+  }
+
+  .hero .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+    align-items: stretch;
+  }
+
+  .hero .hero-actions .btn {
+    width: auto;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+
+  .hero .social-links {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero .social-links a {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .hero .hero-visual .profile-container {
+    width: min(78vw, 260px);
+    height: min(78vw, 260px);
+  }
+
+  .hero .hero-visual .profile-container .profile-background {
+    top: 10px;
+    left: 10px;
+    border-radius: 24px;
+  }
+
+  .hero .hero-visual .profile-container .profile-image {
+    border-radius: 24px;
+  }
+
+  .hero .background-elements .bg-circle.circle-1 {
+    width: 150px;
+    height: 150px;
+    right: -40px;
+    top: 8%;
+  }
+
+  .hero .background-elements .bg-circle.circle-2 {
+    width: 120px;
+    height: 120px;
+    left: -45px;
+    bottom: 18%;
   }
 }
 
@@ -1406,12 +1502,20 @@ section,
 .resume .resume-side .contact-info li {
   margin-bottom: 1rem;
   color: var(--default-color);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .resume .resume-side .contact-info li i {
   width: 25px;
   color: var(--accent-color);
-  margin-right: 0.5rem;
+  margin-right: 0;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
 }
 
 .resume .resume-side .skill-item {
@@ -1509,6 +1613,43 @@ section,
 @media (max-width: 991.98px) {
   .resume .resume-side {
     margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .resume .resume-side {
+    padding: 1.25rem;
+  }
+
+  .resume .resume-side h3 {
+    font-size: 1.2rem;
+  }
+
+  .resume .resume-side .profile-img img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .resume .resume-section {
+    margin-bottom: 2rem;
+  }
+
+  .resume .resume-section h3 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .resume .resume-section .resume-item {
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .resume .resume-section .resume-item h4 {
+    font-size: 1.05rem;
+  }
+
+  .resume .resume-section .resume-item h5 {
+    font-size: 0.9rem;
   }
 }
 

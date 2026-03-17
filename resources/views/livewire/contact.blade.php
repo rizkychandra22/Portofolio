@@ -79,7 +79,9 @@
         Livewire.hook('commit', ({ component, succeed }) => {
             succeed(() => {
                 setTimeout(() => {
-                    AOS.refresh();
+                    if (typeof AOS !== 'undefined') {
+                        AOS.refresh();
+                    }
                 }, 1);
             })
         })

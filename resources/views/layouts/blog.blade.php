@@ -5,13 +5,21 @@
         ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_resume)
         : asset('template/assets/img/content/foto-resume.jpg');
     $metaPreviewImage = $metaImage ?? $defaultPreviewImage;
+    $isHomeRoute = request()->routeIs('home');
+    $isAboutRoute = request()->routeIs('about');
+    $isResumeRoute = request()->routeIs('resume');
+    $isProjectRoute = request()->routeIs('project');
+    $isProjectDetailRoute = request()->routeIs('project-detail');
+    $cspPolicy = $isHomeRoute
+        ? "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:; connect-src 'self'; frame-src https://www.google.com https://www.google.com/maps https://maps.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+        : "upgrade-insecure-requests";
 @endphp
 
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="{{ $cspPolicy }}">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -45,6 +53,7 @@
     <link rel="alternate" hreflang="id" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'id'])) }}">
     <link rel="alternate" hreflang="en" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['locale' => 'en'])) }}">
     <link rel="alternate" hreflang="x-default" href="{{ url('/lang/en') }}">
+    <link rel="canonical" href="{{ url()->current() }}">
 
     {{-- Favicons --}}
     <link href="{{ $image?->foto_resume ? \Illuminate\Support\Facades\Storage::disk('cloudinary')->url($image->foto_resume) : asset('template/assets/img/content/foto-resume.jpg') }}" rel="icon" crossorigin="anonymous">
@@ -55,18 +64,26 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
 
     {{-- Vendor CSS Files --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @if (! $isHomeRoute)
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @endif
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('template/assets/vendor/aos/aos.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/assets/vendor/glightbox/css/glightbox.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.css') }}">
+    @if ($isProjectRoute || $isProjectDetailRoute)
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/glightbox/css/glightbox.min.css') }}">
+    @endif
+    @if ($isProjectDetailRoute)
+        <link rel="stylesheet" href="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.css') }}">
+    @endif
 
     {{-- Main CSS File --}}
     <link rel="stylesheet" href="{{ asset('template/assets/css/main.css') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
+    @if (! $isHomeRoute)
+        @livewireStyles
+    @endif
 
     <style>
         /* Memastikan kontainer isotope mengisi ruang ketika tidak ada gambar */
@@ -79,7 +96,7 @@
 <body class="index-page d-flex flex-column min-vh-100">
 
     <header id="header" class="header dark-background d-flex flex-column justify-content-center">
-        <i class="header-toggle d-xl-none bi bi-list"></i>
+        <i class="header-toggle d-xl-none bi bi-list" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-controls="navmenu" aria-expanded="false"></i>
         @include('partials.navigate')
     </header>
 
@@ -110,89 +127,95 @@
     </footer>
 
     <!-- Scroll Top -->
-    <a href="" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" id="scroll-top" aria-label="Scroll to top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Preloader -->
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('template/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/aos/aos.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/typed.js/typed.umd.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+    <script src="{{ asset('template/assets/vendor/aos/aos.js') }}" defer></script>
+    @if ($isHomeRoute)
+        <script src="{{ asset('template/assets/vendor/typed.js/typed.umd.js') }}" defer></script>
+    @endif
+    @if ($isAboutRoute || $isResumeRoute)
+        <script src="{{ asset('template/assets/vendor/waypoints/noframework.waypoints.js') }}" defer></script>
+    @endif
+    @if ($isProjectRoute || $isProjectDetailRoute)
+        <script src="{{ asset('template/assets/vendor/glightbox/js/glightbox.min.js') }}" defer></script>
+    @endif
+    @if ($isProjectRoute)
+        <script src="{{ asset('template/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}" defer></script>
+        <script src="{{ asset('template/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}" defer></script>
+    @endif
+    @if ($isProjectDetailRoute)
+        <script src="{{ asset('template/assets/vendor/swiper/swiper-bundle.min.js') }}" defer></script>
+    @endif
     
-    <script src="{{ asset('template/assets/js/main.js') }}"></script>
+    <script src="{{ asset('template/assets/js/main.js') }}" defer></script>
 
-    @livewireScripts
+    @if (! $isHomeRoute)
+        @livewireScripts
+    @endif
     @stack('scripts')
 
-    <script>
-        document.addEventListener('livewire:navigated', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Reset UI State
-            const preloader = document.querySelector('#preloader');
-            if (preloader) { preloader.remove(); }
+    @if (! $isHomeRoute)
+        <script>
+            document.addEventListener('livewire:navigated', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Reset UI State
+                const preloader = document.querySelector('#preloader');
+                if (preloader) { preloader.remove(); }
 
-            // Re-init AOS (Animasi)
-            if (typeof AOS !== 'undefined') {
-                AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
-            }
+                // Re-init AOS (Animasi)
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
+                }
 
-            // Re-init Glightbox
-            if (typeof GLightbox !== 'undefined') {
-                GLightbox({ selector: '.glightbox' });
-            }
+                // Re-init Glightbox
+                if (typeof GLightbox !== 'undefined') {
+                    GLightbox({ selector: '.glightbox' });
+                }
 
-            // Re-init Swiper
-            if (typeof Swiper !== 'undefined') {
-                document.querySelectorAll('.init-swiper').forEach(function(swiperElement) {
-                    let configElement = swiperElement.querySelector('.swiper-config');
-                    if (configElement) {
-                        let config = JSON.parse(configElement.innerHTML.trim());
-                        new Swiper(swiperElement, config);
-                    }
-                });
-            }
+                // Re-init Swiper
+                if (typeof Swiper !== 'undefined') {
+                    document.querySelectorAll('.init-swiper').forEach(function(swiperElement) {
+                        let configElement = swiperElement.querySelector('.swiper-config');
+                        if (configElement) {
+                            let config = JSON.parse(configElement.innerHTML.trim());
+                            new Swiper(swiperElement, config);
+                        }
+                    });
+                }
 
-            // Re-init Isotope
-            if (typeof Isotope !== 'undefined') {
-                document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
-                    let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
-                    let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
-                    let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
-                    let container = isotopeItem.querySelector('.isotope-container');
-                    
-                    if (container) {
-                        let initIsotope = new Isotope(container, {
-                            itemSelector: '.isotope-item',
-                            layoutMode: layout,
-                            filter: filter,
-                            sortBy: sort
-                        });
+                // Re-init Isotope
+                if (typeof Isotope !== 'undefined') {
+                    document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
+                        let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
+                        let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
+                        let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
+                        let container = isotopeItem.querySelector('.isotope-container');
+                        
+                        if (container) {
+                            let initIsotope = new Isotope(container, {
+                                itemSelector: '.isotope-item',
+                                layoutMode: layout,
+                                filter: filter,
+                                sortBy: sort
+                            });
 
-                        isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-                            filters.addEventListener('click', function() {
-                                isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
-                                this.classList.add('filter-active');
-                                initIsotope.arrange({ filter: this.getAttribute('data-filter') });
-                            }, false);
-                        });
-                    }
-                });
-            }
-            
-            // Re-init PureCounter
-            if (typeof PureCounter !== 'undefined') {
-                new PureCounter();
-            }
-        });
-    </script>
+                            isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
+                                filters.addEventListener('click', function() {
+                                    isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
+                                    this.classList.add('filter-active');
+                                    initIsotope.arrange({ filter: this.getAttribute('data-filter') });
+                                }, false);
+                            });
+                        }
+                    });
+                }
+            });
+        </script>
+    @endif
 </body>
 </html>

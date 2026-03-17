@@ -17,15 +17,15 @@
                             <p class="profession">Web Developer &amp; Full-Stack Developer</p>
 
                             <div class="contact-links">
-                                <a href="mailto:{{ $sosialMedia->email ?? '' }}" target="_blank" class="contact-item">
+                                <a href="mailto:{{ $sosialMedia->email ?? '' }}" target="_blank" rel="noopener noreferrer" class="contact-item" aria-label="Send email">
                                     <i class="bi bi-envelope"></i>
                                     {{ $sosialMedia->email ?? '' }}
                                 </a>
-                                <a href="https://wa.me/{{ $sosialMedia->phone ?? '' }}" target="_blank" class="contact-item">
+                                <a href="https://wa.me/{{ $sosialMedia->phone ?? '' }}" target="_blank" rel="noopener noreferrer" class="contact-item" aria-label="Open WhatsApp chat">
                                     <i class="bi bi-telephone"></i>
                                     {{ $sosialMedia->phone ?? '' }}
                                 </a>
-                                <a href="https://google.com/maps/search/?api=1&query={{ $sosialMedia->address_id ?? '' }}" target="_blank" class="contact-item text-start">
+                                <a href="https://google.com/maps/search/?api=1&query={{ $sosialMedia->address_id ?? '' }}" target="_blank" rel="noopener noreferrer" class="contact-item text-start" aria-label="Open location in Google Maps">
                                     <i class="bi bi-geo-alt"></i>
                                     {{ $sosialMedia->{'address_' . app()->getLocale()} ?? '' }}
                                 </a>
@@ -94,11 +94,11 @@
                             </div>
                         </div>
                         <div class="cta-section d-inline justify-content-center">
-                            <a href="{{ route('view.cv') }}" target="_blank" class="btn btn-primary mt-2 mb-2 me-2">
+                            <a href="{{ route('view.cv') }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary mt-2 mb-2 me-2">
                                 <i class="fas fa-eye"></i>
                                 {{ app()->getLocale() == 'id' ? 'Lihat CV' : "Show CV" }}
                             </a>
-                            <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" class="btn btn-outline mt-2 mb-2">
+                            <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-2 mb-2">
                                 <i class="fas fa-comment-dots"></i>
                                 {{ app()->getLocale() == 'id' ? 'Berdiskusi' : "Let's Talk" }}
                             </a>

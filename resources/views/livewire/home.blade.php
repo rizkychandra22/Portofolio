@@ -1,4 +1,12 @@
 <div>
+    @php
+        $homeImageSource = ($imageHome?->foto_home)
+            ? Storage::disk('cloudinary')->url($imageHome->foto_home)
+            : asset('template/assets/img/content/foto-home.jpg');
+        $homeImageOptimized = str_contains($homeImageSource, '/upload/')
+            ? str_replace('/upload/', '/upload/f_auto,q_auto,w_900,c_fill/', $homeImageSource)
+            : $homeImageSource;
+    @endphp
     <section id="hero" class="hero section">
         <div class="background-elements">
             <div class="bg-circle circle-1"></div>
@@ -27,10 +35,10 @@
                                 </a>
                             </div>
                             <div class="social-links d-flex justify-content-center">
-                                <a href="https://linkedin.com/in/{{ $sosialMedia->linkedin ?? '' }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                                <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" class="discord"><i class="bi bi-discord"></i></a>
-                                <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" class="google-plus"><i class="bi bi-github"></i></a>
-                                <a href="https://instagram.com/{{ $sosialMedia->instagram ?? '' }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                                <a href="https://linkedin.com/in/{{ $sosialMedia->linkedin ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                                <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="Discord profile" class="discord"><i class="bi bi-discord"></i></a>
+                                <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" class="google-plus"><i class="bi bi-github"></i></a>
+                                <a href="https://instagram.com/{{ $sosialMedia->instagram ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile" class="instagram"><i class="bi bi-instagram"></i></a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +46,7 @@
                         <div class="hero-visual">
                             <div class="profile-container">
                                 <div class="profile-background"></div>
-                                <img src="{{ ($imageHome?->foto_home) ? Storage::disk('cloudinary')->url($imageHome->foto_home) : asset('template/assets/img/content/foto-home.jpg') }}" crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high">
+                                <img src="{{ $homeImageOptimized }}" crossorigin="anonymous" alt="Rizky Chandra Khusuma" class="profile-image" fetchpriority="high" width="400" height="400" sizes="(max-width: 576px) 78vw, (max-width: 992px) 350px, 400px">
                             </div>
                         </div>
                     </div>

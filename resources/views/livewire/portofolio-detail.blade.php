@@ -72,7 +72,7 @@
                             </li>
                             <li><strong>{{ app()->getLocale() == 'id' ? 'URL Proyek' : 'Project URL' }}</strong>: 
                                 @if($portofolio->link_project)
-                                    <a href="{{ $portofolio->link_project ?? '' }}" target="_blank" class="btn-link text-primary">
+                                    <a href="{{ $portofolio->link_project ?? '' }}" target="_blank" rel="noopener noreferrer" class="btn-link text-primary" aria-label="{{ app()->getLocale() == 'id' ? 'Buka tautan proyek' : 'Open project link' }}">
                                         <i class="fa-solid fa-link me-2"> {{ app()->getLocale() == 'id' ? 'Kunjungi' : 'Preview' }}</i> 
                                     </a>
                                 @else

@@ -34,28 +34,30 @@
             </li>
 
             {{-- Switcher Bahasa --}}
-            <div class="d-flex justify-content-center align-items-center mt-3 gap-2">
+            <li class="d-flex justify-content-center align-items-center mt-3 gap-2">
                 {{-- Tombol Indonesia --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'id'])) : url('/lang/id') }}"
+                    aria-label="{{ app()->getLocale() == 'id' ? 'Switch to Indonesian language' : 'Switch language to Indonesian' }}"
                     class="{{ app()->getLocale() == 'id' ? 'text-light rounded-lg bg-secondary py-1' : '' }}">
-                    <img src="{{ asset('template/assets/img/flag-id.png') }}" width="18" class="me-1"> 
+                    <img src="{{ asset('template/assets/img/flag-id.png') }}" width="18" height="12" alt="Indonesia flag" class="me-1" loading="lazy" decoding="async"> 
                     {{ app()->getLocale() == 'id' ? 'Indonesia' : 'Indonesian' }}
                 </a>
                 <span class="text-muted">|</span>
                 {{-- Tombol English --}}
                 <a href="{{ $currentRoute ? route($currentRoute, array_merge($routeParams, ['locale' => 'en'])) : url('/lang/en') }}"
+                    aria-label="{{ app()->getLocale() == 'id' ? 'Ganti bahasa ke Inggris' : 'Switch language to English' }}"
                     class="{{ app()->getLocale() == 'en' ? 'text-light rounded-lg bg-secondary py-1' : '' }}">
-                    <img src="{{ asset('template/assets/img/flag-gb.png') }}" width="18" class="me-1"> 
+                    <img src="{{ asset('template/assets/img/flag-gb.png') }}" width="18" height="12" alt="United Kingdom flag" class="me-1" loading="lazy" decoding="async"> 
                     {{ app()->getLocale() == 'id' ? 'Inggris' : 'English' }}
                 </a>
-            </div>
+            </li>
         </ul>
     </nav>
     <div class="social-links text-center">
-        <a href="https://linkedin.com/in/{{ $sosialMedia->linkedin ?? '' }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" class="discord"><i class="bi bi-discord"></i></a>
-        <a href="https://tiktok.com/{{ $sosialMedia->tiktok ?? '' }}" target="_blank" class="tiktok"><i class="bi bi-tiktok"></i></a>
-        <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" class="github"><i class="bi bi-github"></i></a>
-        <a href="https://instagram.com/{{ $sosialMedia->instagram ?? '' }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="https://linkedin.com/in/{{ $sosialMedia->linkedin ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="linkedin"><i class="bi bi-linkedin"></i></a>
+        <a href="https://discord.com/users/{{ $sosialMedia->discord ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="Discord profile" class="discord"><i class="bi bi-discord"></i></a>
+        <a href="https://tiktok.com/{{ $sosialMedia->tiktok ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok profile" class="tiktok"><i class="bi bi-tiktok"></i></a>
+        <a href="https://github.com/{{ $sosialMedia->github ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" class="github"><i class="bi bi-github"></i></a>
+        <a href="https://instagram.com/{{ $sosialMedia->instagram ?? '' }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram profile" class="instagram"><i class="bi bi-instagram"></i></a>
     </div>
 </div>
