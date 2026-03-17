@@ -58,7 +58,6 @@
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Ubuntu:wght@500;700&family=Nunito:wght@400;600&display=swap" />
 
     {{-- Vendor CSS Files --}}
@@ -84,8 +83,8 @@
     {{-- Main CSS File --}}
     <link rel="stylesheet" href="{{ asset('template/assets/css/main.css') }}">
 
+    @vite(['resources/css/app.css'])
     @if (! $isHomeRoute)
-        @vite(['resources/css/app.css'])
         @livewireStyles
     @endif
 
