@@ -24,7 +24,7 @@
     <meta name="description" content="{{ __('translate.seo_description') }}">
     <meta name="keywords" content="{{ __('translate.seo_keyword') }}">
     <meta name="author" content="Rizky Chandra Khusuma">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="{{ app()->isProduction() ? 'index, follow' : 'noindex, nofollow' }}">
 
     {{-- Open Graph Meta (Sosial Media) --}}
     <meta property="og:type" content="website">

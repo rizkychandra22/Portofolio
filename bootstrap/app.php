@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append(\App\Http\Middleware\SetLocale::class);
+        $middleware->append(\App\Http\Middleware\SetRobotsTag::class);
         $middleware->alias([
             'NotUser' => \App\Http\Middleware\NotUser::class,
         ]);
