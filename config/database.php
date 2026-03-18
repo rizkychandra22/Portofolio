@@ -91,7 +91,10 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'require',
+            'sslmode' => env('DB_SSLMODE', 'require'),
+            'options' => [
+                PDO::ATTR_EMULATE_PREPARES => true, 
+            ],
         ],
 
         'sqlsrv' => [
