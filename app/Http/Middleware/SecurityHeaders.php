@@ -143,11 +143,14 @@ class SecurityHeaders
             $response->headers->set('Content-Security-Policy', $baseCsp);
         }
 
-        if ($isHtmlResponse && $isSafeMethod && ! $response->headers->has('Cache-Control')) {
-            // Prevent edge caches from serving stale CSRF-bearing HTML on the Filament panel (fixes Livewire 419 in some setups).
+        if ($isHtmlResponse && $isSafeMethod) {
+            // Prevent caches (browser / edge) from serving stale CSRF-bearing HTML on the Filament panel.
+            // Use unconditional override because some stacks set their own Cache-Control / ETag.
             if ($request->is('dashboard') || $request->is('dashboard/*')) {
                 $response->headers->set('Cache-Control', 'private, no-store, max-age=0');
-            } else {
+                $response->headers->set('Pragma', 'no-cache');
+                $response->headers->set('Expires', '0');
+            } elseif (! $response->headers->has('Cache-Control')) {
                 // Keep page revalidation behavior while allowing bfcache (avoid no-store).
                 $response->headers->set('Cache-Control', 'private, no-cache, max-age=0, must-revalidate');
             }
