@@ -32,21 +32,105 @@ class SecurityHeaders
             $host = strtolower($request->getHost());
             $isLaravelCloudDomain = str_ends_with($host, '.laravel.cloud');
 
+            $viteHotFile = public_path('hot');
+            $hasViteDevServer = is_file($viteHotFile);
+            $viteDevServerUrl = $hasViteDevServer ? trim((string) @file_get_contents($viteHotFile)) : null;
+            $viteOrigins = [];
+            $viteConnectOrigins = [];
+
+            if ($viteDevServerUrl) {
+                $parsedViteUrl = parse_url($viteDevServerUrl);
+                $viteScheme = $parsedViteUrl['scheme'] ?? 'http';
+                $viteHost = $parsedViteUrl['host'] ?? null;
+                $vitePort = $parsedViteUrl['port'] ?? null;
+
+                if ($viteHost && $vitePort) {
+                    // CSP host-sources are inconsistent across browsers for IPv6 literals (e.g. `[::1]`),
+                    // so map loopback IPv6 to `localhost` for dev.
+                    if ($viteHost === '::1' || $viteHost === '[::1]') {
+                        $viteHostForUrl = 'localhost';
+                    } else {
+                        $viteHostForUrl = $viteHost;
+                    }
+
+                    $viteOrigin = "{$viteScheme}://{$viteHostForUrl}:{$vitePort}";
+                    $viteOrigins[] = $viteOrigin;
+
+                    $wsScheme = $viteScheme === 'https' ? 'wss' : 'ws';
+                    $viteConnectOrigins[] = "{$wsScheme}://{$viteHostForUrl}:{$vitePort}";
+                }
+
+                // Common local dev variants (useful when `hot` points to a different host).
+                $viteOrigins = array_values(array_unique(array_merge($viteOrigins, [
+                    'http://localhost:5173',
+                    'http://127.0.0.1:5173',
+                ])));
+                $viteConnectOrigins = array_values(array_unique(array_merge($viteConnectOrigins, [
+                    'ws://localhost:5173',
+                    'ws://127.0.0.1:5173',
+                ])));
+            }
+
             // Keep CSP consistent on all portfolio pages to avoid score variance per-route.
-            $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
-                "script-src 'self' 'unsafe-inline'; ".
-                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
-                "img-src 'self' data: https://res.cloudinary.com; ".
-                "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
-                "connect-src 'self'; frame-src 'self' https://www.google.com https://maps.google.com; upgrade-insecure-requests";
+            $scriptSrc = ["'self'", "'unsafe-inline'"];
+            $styleSrc = ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net'];
+            $imgSrc = ["'self'", 'data:', 'https://res.cloudinary.com'];
+            $fontSrc = ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net'];
+            $connectSrc = ["'self'"];
+            $frameSrc = ["'self'", 'https://www.google.com', 'https://maps.google.com'];
+
+            if (! $isLaravelCloudDomain && $viteDevServerUrl) {
+                // Allow Vite dev server assets + HMR; without this Filament/Livewire may fall back to plain form GET submits (`?`).
+                $scriptSrc = array_merge($scriptSrc, ["'unsafe-eval'"], $viteOrigins);
+                $styleSrc = array_merge($styleSrc, $viteOrigins);
+                $connectSrc = array_merge($connectSrc, $viteOrigins, $viteConnectOrigins);
+            }
+
+            $directives = [
+                "default-src 'self'",
+                "base-uri 'self'",
+                "object-src 'none'",
+                "frame-ancestors 'self'",
+                "form-action 'self'",
+                'script-src '.implode(' ', array_values(array_unique($scriptSrc))),
+                'style-src '.implode(' ', array_values(array_unique($styleSrc))),
+                'img-src '.implode(' ', array_values(array_unique($imgSrc))),
+                'font-src '.implode(' ', array_values(array_unique($fontSrc))),
+                'connect-src '.implode(' ', array_values(array_unique($connectSrc))),
+                'frame-src '.implode(' ', array_values(array_unique($frameSrc))),
+            ];
+
+            // Avoid breaking local dev (e.g., Vite's http dev server) by upgrading requests to https.
+            if ($request->isSecure() && ! $viteDevServerUrl) {
+                $directives[] = 'upgrade-insecure-requests';
+            }
+
+            $baseCsp = implode('; ', $directives);
 
             if ($isLaravelCloudDomain) {
-                $baseCsp = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; ".
-                    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; ".
-                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; ".
-                    "img-src 'self' data: https://res.cloudinary.com; ".
-                    "font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; ".
-                    "connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://maps.google.com; upgrade-insecure-requests";
+                $cloudScriptSrc = array_values(array_unique(array_merge($scriptSrc, ['https://challenges.cloudflare.com'])));
+                $cloudConnectSrc = array_values(array_unique(array_merge($connectSrc, ['https://challenges.cloudflare.com'])));
+                $cloudFrameSrc = array_values(array_unique(array_merge($frameSrc, ['https://challenges.cloudflare.com'])));
+
+                $cloudDirectives = [
+                    "default-src 'self'",
+                    "base-uri 'self'",
+                    "object-src 'none'",
+                    "frame-ancestors 'self'",
+                    "form-action 'self'",
+                    'script-src '.implode(' ', $cloudScriptSrc),
+                    'style-src '.implode(' ', array_values(array_unique($styleSrc))),
+                    'img-src '.implode(' ', array_values(array_unique($imgSrc))),
+                    'font-src '.implode(' ', array_values(array_unique($fontSrc))),
+                    'connect-src '.implode(' ', $cloudConnectSrc),
+                    'frame-src '.implode(' ', $cloudFrameSrc),
+                ];
+
+                if ($request->isSecure()) {
+                    $cloudDirectives[] = 'upgrade-insecure-requests';
+                }
+
+                $baseCsp = implode('; ', $cloudDirectives);
             }
 
             $response->headers->set('Content-Security-Policy', $baseCsp);

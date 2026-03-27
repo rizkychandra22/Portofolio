@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -33,10 +34,17 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->renderHook(
                 PanelsRenderHook::HEAD_END,
-                fn () => new HtmlString('
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-                ')
+                fn () => new HtmlString(
+                    FrontendAssets::styles().
+                    '
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+                    '
+                )
+            )
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
+                fn () => new HtmlString(FrontendAssets::scripts())
             )
             ->colors([
                 'primary' => Color::Amber
