@@ -144,8 +144,13 @@ class SecurityHeaders
         }
 
         if ($isHtmlResponse && $isSafeMethod && ! $response->headers->has('Cache-Control')) {
-            // Keep page revalidation behavior while allowing bfcache (avoid no-store).
-            $response->headers->set('Cache-Control', 'private, no-cache, max-age=0, must-revalidate');
+            // Prevent edge caches from serving stale CSRF-bearing HTML on the Filament panel (fixes Livewire 419 in some setups).
+            if ($request->is('dashboard') || $request->is('dashboard/*')) {
+                $response->headers->set('Cache-Control', 'private, no-store, max-age=0');
+            } else {
+                // Keep page revalidation behavior while allowing bfcache (avoid no-store).
+                $response->headers->set('Cache-Control', 'private, no-cache, max-age=0, must-revalidate');
+            }
         }
 
         return $response;
