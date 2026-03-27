@@ -150,6 +150,7 @@ class SecurityHeaders
                 $response->headers->set('Cache-Control', 'private, no-store, max-age=0');
                 $response->headers->set('Pragma', 'no-cache');
                 $response->headers->set('Expires', '0');
+                $response->headers->set('Vary', 'Cookie', false);
             } elseif (! $response->headers->has('Cache-Control')) {
                 // Keep page revalidation behavior while allowing bfcache (avoid no-store).
                 $response->headers->set('Cache-Control', 'private, no-cache, max-age=0, must-revalidate');

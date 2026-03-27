@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $adminEmail = config('filament.admin_email') ?: 'rizkychandra2204@gmail.com';
+        $adminEmail = config('filament.admin_email');
 
         User::firstOrCreate(
             [
