@@ -115,11 +115,11 @@
                     <div class="copyright text-center">
                         <p>© <span>Copyright</span> <strong class="px-1 sitename">Rizky_Chandra</strong> <span>All Rights Reserved</span></p>
                     </div>
-                    <div class="credits">
-                        Designed with <strong><a href="https://bootstrapmade.com/">Bootstrap v5.0</a></strong>
-                    </div>
                 '
             !!}
+                    {{-- <div class="credits">
+                        Designed with <strong><a href="https://bootstrapmade.com/">Bootstrap v5.0</a></strong>
+                    </div> --}}
         </div>
     </footer>
 
