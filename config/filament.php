@@ -117,4 +117,16 @@ return [
 
     'system_route_prefix' => 'filament',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Email (Panel Access)
+    |--------------------------------------------------------------------------
+    |
+    | Used by `App\Models\User::canAccessPanel()` to determine who can access
+    | the Filament admin panel.
+    |
+    */
+
+    'admin_email' => env('RESEND_EMAIL'),
+
 ];
