@@ -31,6 +31,7 @@ class SecurityHeaders
         if ($isHtmlResponse) {
             $host = strtolower($request->getHost());
             $isLaravelCloudDomain = str_ends_with($host, '.laravel.cloud');
+            $isFilamentPanel = $request->is('dashboard') || $request->is('dashboard/*');
 
             $viteHotFile = public_path('hot');
             $hasViteDevServer = is_file($viteHotFile);
@@ -79,9 +80,15 @@ class SecurityHeaders
             $connectSrc = ["'self'"];
             $frameSrc = ["'self'", 'https://www.google.com', 'https://maps.google.com'];
 
+            // Filament uses Alpine expressions that rely on `new Function(...)` in many environments.
+            if ($isFilamentPanel) {
+                $scriptSrc[] = "'unsafe-eval'";
+            }
+
             if (! $isLaravelCloudDomain && $viteDevServerUrl) {
                 // Allow Vite dev server assets + HMR; without this Filament/Livewire may fall back to plain form GET submits (`?`).
-                $scriptSrc = array_merge($scriptSrc, ["'unsafe-eval'"], $viteOrigins);
+                $scriptSrc[] = "'unsafe-eval'";
+                $scriptSrc = array_merge($scriptSrc, $viteOrigins);
                 $styleSrc = array_merge($styleSrc, $viteOrigins);
                 $connectSrc = array_merge($connectSrc, $viteOrigins, $viteConnectOrigins);
             }
