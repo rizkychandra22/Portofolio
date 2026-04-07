@@ -1588,7 +1588,7 @@ section,
 
 .resume .resume-section .resume-item .company {
   font-size: 0.95rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--heading-color);
 }
 

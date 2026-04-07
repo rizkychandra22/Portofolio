@@ -19,11 +19,11 @@
                         {!! app()->getLocale() == 'id' ?
                             '   
                                 <h3>Ringkasan Profesional</h3>
-                                <p>Web Developer yang berfokus pada solusi backend dengan pengalaman membangun sistem informasi manajemen yang skalabel. Ahli dalam Laravel & Livewire, serta berdedikasi menciptakan sistem yang efisien untuk digitalisasi proses bisnis.</p>
+                                <p>Web Developer yang berfokus pada solusi backend dengan pengalaman membangun sistem informasi manajemen yang skalabel. Memiliki keahlian dalam ekosistem framework Laravel, serta berdedikasi menciptakan sistem yang efisien untuk digitalisasi proses bisnis.</p>
                                 <h3 class="mt-4">Informasi Kontak</h3>
                             ' : '
                                 <h3>Professional Summary</h3>
-                                <p>Web Developer focused on backend solutions with experience building scalable management information systems. Expert in Laravel & Livewire, and dedicated to creating efficient systems for digitizing business processes.</p>
+                                <p>Web Developer focused on backend solutions with experience building scalable management information systems. Having expertise in the Laravel framework ecosystem, and dedicated to creating efficient systems for digitizing business processes.</p>
                                 <h3 class="mt-4">Contact Information</h3>
                             '
                         !!}
@@ -79,9 +79,50 @@
                     <div class="resume-section" data-aos="fade-up">
                         <h3><i class="fas fa-briefcase me-2"></i>{{ app()->getLocale() == 'id' ? 'Ringkasan Profesional' : 'Professional Summary' }}</h3>
                         <div class="resume-item">
+                            <h4>Backend Developer</h4>
+                            <p class="company"><i class="bi bi-calendar-check"></i> Februari - Maret (2026)</p>
+                            <h5 class="company"><i class="bi bi-building"></i> {{ app()->getLocale() == 'id' ? 'Industri Peternakan Ayam' : 'Poultry Farming Industry' }}</h5>
+                            <h5 class="company"><i class="bi bi-code-slash"></i> {{ app()->getLocale() == 'id' ? 'Proyek Mandiri: Sistem Scan Telur' : 'Personal Project: Scan Egg System' }}</h5>
+                            <ul>
+                                {!! app()->getLocale() == 'id' ?
+                                    '
+                                        <li>Mengembangkan sistem edge computing untuk mengumpulkan data real-time dari alat scan peternakan ayam menggunakan Express dan Node.js dengan arsitektur yang robust.</li>
+                                        <li>Implementasi real-time CSV monitoring dengan dual-layer file watcher dan debounce mechanism untuk reliabilitas tinggi, memastikan perubahan data terdeteksi instant.</li>
+                                        <li>Membangun HTTP API client dengan authentication, timeout handling, dan robust error recovery untuk transmisi data aman ke server pusat.</li>
+                                        <li>Menerapkan health monitoring otomatis dengan stale file detection dan watcher reconnection mechanism untuk production-ready system yang mampu mendeteksi alat scan offline.</li>
+                                        <li>Optimisasi performa dengan async/await pattern dan efficient resource management khusus untuk edge devices dengan keterbatasan resource.</li>
+                                    ' : '
+                                        <li>Developing edge computing system to collect real-time data from poultry farm scanning devices using Express and Node.js with robust architecture.</li>
+                                        <li>Implementation of real-time CSV monitoring with dual-layer file watcher and debounce mechanism for high reliability, ensuring data changes are detected instantly.</li>
+                                        <li>Building HTTP API client with authentication, timeout handling, and robust error recovery for secure data transmission to central server.</li>
+                                        <li>Implementing automatic health monitoring with stale file detection and watcher reconnection mechanism for production-ready system capable of detecting offline scanning devices.</li>
+                                        <li>Performance optimization with async/await pattern and efficient resource management specifically for edge devices with limited resources.</li>
+                                    '
+                                !!}
+                            </ul>
+                        </div>
+                        <div class="resume-item">
+                            <h4>Full Stack Developer</h4>
+                            <p class="company"><i class="bi bi-calendar-check"></i> 2024 - 2025</p>
+                            <h5 class="company"><i class="bi bi-building"></i> Independent Project</h5>
+                            <h5 class="company"><i class="bi bi-code-slash"></i> {{ app()->getLocale() == 'id' ? 'Proyek Mandiri: Sistem Pelacakan IoT' : 'Personal Project: IoT Tracking System' }}</h5>
+                            <ul>
+                                {!! app()->getLocale() == 'id' ?
+                                    '   
+                                        <li>Merancang sistem pelacakan berbasis IoT secara real-time menggunakan Laravel Framework.</li>
+                                        <li>Mengoptimalkan performa maps lokasi yang real-time menggunakan Google Maps API.</li>
+                                    ' : '
+                                        <li>Designing a real-time IoT-based tracking system using the Laravel Framework.</li>
+                                        <li>Optimizes real-time location map performance using the Google Maps API.</li>
+                                    '
+                                !!}
+                            </ul>
+                        </div>
+                        <div class="resume-item">
                             <h4>Web Developer</h4>
-                            <h5>2023 - 2024</h5>
-                            <p class="company"><i class="bi bi-code-slash"></i> SDN Caringin Ngumbang & CV Kormaras</p>
+                            <p class="company"><i class="bi bi-calendar-check"></i> 2023 - 2024</p>
+                            <h5 class="company"><i class="bi bi-building"></i> SDN Caringin Ngumbang & CV Kormaras</h5>
+                            <h5 class="company"><i class="bi bi-code-slash"></i> {{ app()->getLocale() == 'id' ? 'Magang & Kerja Praktik kuliah' : 'Internship & Practical Work' }}</h5>
                             <ul>
                                 {!! app()->getLocale() =='id' ?
                                     '   
@@ -94,22 +135,6 @@
                                         <li>Building a Warehouse Stock Management application using Laravel for efficient inventory control.</li>
                                         <li>Implement optimal database architecture and ensure system data security.</li>
                                         <li>Work with stakeholders to translate business needs into technical features.</li>
-                                    '
-                                !!}
-                            </ul>
-                        </div>
-                        <div class="resume-item">
-                            <h4>Independent Project: Laravel Tracking System</h4>
-                            <h5>2024 - 2025</h5>
-                            <p class="company"><i class="bi bi-code-slash"></i> Personal Development</p>
-                            <ul>
-                                {!! app()->getLocale() == 'id' ?
-                                    '   
-                                        <li>Merancang sistem pelacakan data real-time menggunakan Laravel Framework.</li>
-                                        <li>Mengoptimalkan performa maps lokasi yang real-time menggunakan Google Maps API.</li>
-                                    ' : '
-                                        <li>Designing a real-time data tracking system using the Laravel Framework.</li>
-                                        <li>Optimizes real-time location map performance using the Google Maps API.</li>
                                     '
                                 !!}
                             </ul>
