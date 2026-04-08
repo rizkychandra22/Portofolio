@@ -145,7 +145,7 @@
                         <h3><i class="fa-solid fa-graduation-cap me-2"></i>{{ app()->getLocale() == 'id' ? 'Pendidikan & Pengalaman Kampus' : 'Education & Campus Experience' }}</h3>
                         <div class="resume-item">
                             <h4>{{ app()->getLocale() == 'id' ? 'Sarjana Teknik Informatika (S.Kom)' : 'Bachelor of Informatics Engineering (S.Kom)' }}</h4>
-                            <h5>2021 - 2025</h5>
+                            <h5 class="company"><i class="bi bi-calendar-check"></i> 2021 - 2025</h5>
                             <p class="company"><i class="bi bi-laptop"></i> @lang('translate.kampus')</p>
                             <p>{{ app()->getLocale() == 'id' 
                                 ? 'Lulus dengan IPK 3.28. Berfokus pada rekayasa perangkat lunak dan pengembangan sistem informasi.'
@@ -156,7 +156,7 @@
 
                         <div class="resume-item">
                             <h4>{{ app()->getLocale() == 'id' ? 'Pengembangan Sumber Daya Mahasiswa (PSDM)' : 'Student Resource Development (PSDM)' }}</h4>
-                            <h5>{{ app()->getLocale() == 'id' ? 'Satu' : 'One' }} Periode</h5>
+                            <h5 class="company"><i class="bi bi-calendar-check"></i> {{ app()->getLocale() == 'id' ? 'Satu' : 'One' }} Periode</h5>
                             <p class="company"><i class="bi bi-building"></i> {{ __('translate.kampus') }}</p>
                             <p>{{ app()->getLocale() == 'id' 
                                 ? 'Mengelola koordinasi tim dan strategi pengembangan potensi anggota dalam lingkup organisasi mahasiswa teknik informatika.' 
@@ -167,7 +167,7 @@
                         
                         <div class="resume-item">
                             <h4>{{ app()->getLocale() == 'id' ? 'Aktivitas Ekstra: Lingkung Seni Sunda' : 'Extra Activities: Sundanese Arts Circle' }}</h4>
-                            <h5>{{ app()->getLocale() == 'id' ? 'Dua' : 'Two' }} Periode</h5>
+                            <h5 class="company"><i class="bi bi-calendar-check"></i> {{ app()->getLocale() == 'id' ? 'Dua' : 'Two' }} Periode</h5>
                             <p class="company"><i class="bi bi-building"></i> @lang('translate.kampus')</p>
                             <p>{{ app()->getLocale() == 'id' 
                                 ? 'Berpartisipasi aktif dalam pelestarian budaya lokal, menunjukkan keseimbangan antara disiplin teknis dan kreativitas seni musik.'
@@ -181,7 +181,7 @@
                         <h3><i class="fas fa-trophy me-2"></i>{{ app()->getLocale() == 'id' ? 'Sertifikasi Penghargaan' : 'Award Certification' }}</h3>
                         <div class="resume-item">
                             <h4>{{ app()->getLocale() == 'id' ? 'Tim Pelaksana Program PPK Ormawa' : 'PPK Ormawa Program Implementation Team' }}</h4>
-                            <h5>Juni 2023 - November 2023</h5>
+                            <h5 class="company"><i class="bi bi-calendar-check"></i> Juni 2023 - November 2023</h5>
                             <p class="company"><i class="bi bi-award"></i> Kemendikbudristek & {{ __('translate.kampus') }}</p>
                             <ul>
                                 {!! app()->getLocale() == 'id' ? 
@@ -197,7 +197,7 @@
                         </div>
                         <div class="resume-item">
                             <h4>{{ app()->getLocale() == 'id' ? 'Pelatihan Pemograman Mobile' : 'Mobile Programming Training' }}</h4>
-                            <h5>September 2023</h5>
+                            <h5 class="company"><i class="bi bi-calendar-check"></i> September 2023</h5>
                             <p class="company"><i class="bi bi-award"></i> {{ app()->getLocale() == 'id' ? 'Departemen Teknik Informatika (UMMI)' : 'Informatics Engineering Department (UMMI)' }}</p>
                             <ul>
                                 {!! app()->getLocale() == 'id' ? 
