@@ -12,7 +12,7 @@
     $isProjectDetailRoute = request()->routeIs('project-detail');
     $cspPolicy = $isHomeRoute
         ? "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:; connect-src 'self'; frame-src https://www.google.com https://www.google.com/maps https://maps.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
-        : "upgrade-insecure-requests";
+        : "frame-ancestors 'self'; upgrade-insecure-requests";
 @endphp
 
 <!DOCTYPE html>
