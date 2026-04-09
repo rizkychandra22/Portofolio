@@ -14,7 +14,7 @@ class Portofolio extends Model
     
     protected $fillable = [
         'category_project_id', 'name_project_id', 'name_project_en',
-        'image_project', 'date_project', 'link_project',
+        'image_project', 'date_project', 'link_project', 'link_demo_project'
     ];
 
     public function category(): BelongsTo 
