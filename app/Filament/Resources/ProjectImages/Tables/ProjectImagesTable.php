@@ -1,50 +1,57 @@
 <?php
 
-namespace App\Filament\Resources\CategoryProjects\Tables;
+namespace App\Filament\Resources\ProjectImages\Tables;
 
-use Filament\Tables\Table;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Tables\Filters\Filter;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\TextColumn; 
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Tables\Filters\TrashedFilter; 
+use Filament\Actions\RestoreAction;
+use Filament\Actions\RestoreBulkAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
-class CategoryProjectsTable
+class ProjectImagesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('projects_count')
-                    ->label('Counts')
-                    ->counts('projects')
-                    ->badge() 
-                    ->color('success')
-                    ->sortable()
-                    ->suffix(fn ($state) => $state === 1 ? ' Project' : ' Projects'),
-                TextColumn::make('name_category_id')
-                    ->label('Category')
+                TextColumn::make('project.name_project_id')
+                    ->label('Name Project')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('name_category_en')
-                    ->label('Category (EN)')
+                TextColumn::make('project.name_project_en')
+                    ->label('Name Project (EN)')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('data_filter_category')
-                    ->label('Sort Filter')
-                    ->badge() 
-                    ->color('info')
-                    ->searchable()
-                    ->sortable(),
+                    ->toggleable(isToggledHiddenByDefault:true),
+                ImageColumn::make('image_path')
+                    ->label('Image Project')
+                    ->disk('cloudinary')
+                    ->visibility('public')
+                    ->size(50)
+                    ->circular()
+                    ->stacked()
+                    ->limit(5)
+                    ->ring(3)
+                    ->overlap(3)
+                    ->limitedRemainingText()
+                    ->extraImgAttributes(['loading' => 'lazy', 'decoding' => 'async'])
+                    ->getStateUsing(function (Model $record) {
+                        return $record->project
+                            ? $record->project->images->pluck('image_path')->toArray()
+                            : [];
+                    }),
                 TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime('d-m-Y H:i')
@@ -59,6 +66,11 @@ class CategoryProjectsTable
 
             ->filters([
                 TrashedFilter::make(),
+                SelectFilter::make('project_id')
+                    ->relationship('project', 'name_project_id')
+                    ->label('Name Project')
+                    ->preload()
+                    ->searchable(),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('dari_tanggal')->label('Created From Date'),
@@ -70,7 +82,7 @@ class CategoryProjectsTable
                             ->when($data['sampai_tanggal'], fn ($q, $d) => $q->whereDate('created_at', '<=', $d));
                     })
             ])
-
+            
             ->recordActions([
                 EditAction::make(),
                 RestoreAction::make(),

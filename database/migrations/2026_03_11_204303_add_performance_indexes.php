@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('portofolios', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table) {
             $table->index('created_at');
         });
 
-        Schema::table('portofolio_images', function (Blueprint $table) {
+        Schema::table('project_images', function (Blueprint $table) {
             $table->index('created_at');
         });
 
-        Schema::table('portofolio_descriptions', function (Blueprint $table) {
+        Schema::table('project_descriptions', function (Blueprint $table) {
             $table->index('type');
             $table->index('created_at');
         });
@@ -24,15 +24,15 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('portofolios', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table) {
             $table->dropIndex(['created_at']);
         });
 
-        Schema::table('portofolio_images', function (Blueprint $table) {
+        Schema::table('project_images', function (Blueprint $table) {
             $table->dropIndex(['created_at']);
         });
 
-        Schema::table('portofolio_descriptions', function (Blueprint $table) {
+        Schema::table('project_descriptions', function (Blueprint $table) {
             $table->dropIndex(['type']);
             $table->dropIndex(['created_at']);
         });

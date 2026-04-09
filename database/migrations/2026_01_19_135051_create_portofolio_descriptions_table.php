@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portofolio_descriptions', function (Blueprint $table) {
+        Schema::create('project_descriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('portofolio_id')->constrained('portofolios')->cascadeOnDelete();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
             $table->enum('type', ['overview', 'feature']);
             $table->string('title_id')->nullable(); 
             $table->string('title_en')->nullable(); 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portofolio_descriptions');
+        Schema::dropIfExists('project_descriptions');
     }
 };

@@ -7,7 +7,7 @@ use App\Filament\Resources\CategoryProjects\Pages\EditCategoryProject;
 use App\Filament\Resources\CategoryProjects\Pages\ListCategoryProjects;
 use App\Filament\Resources\CategoryProjects\Schemas\CategoryProjectForm;
 use App\Filament\Resources\CategoryProjects\Tables\CategoryProjectsTable;
-use App\Filament\Resources\CategoryProjects\RelationManagers\PortofoliosRelationManager;
+use App\Filament\Resources\CategoryProjects\RelationManagers\ProjectsRelationManager;
 use App\Models\CategoryProject;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -43,7 +43,7 @@ class CategoryProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PortofoliosRelationManager::class,
+            ProjectsRelationManager::class,
         ];
     }
 

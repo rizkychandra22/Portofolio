@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Home;
 use App\Livewire\About;
 use App\Livewire\Resume;
-use App\Livewire\Portofolio;
-use App\Livewire\PortofolioDetail;
+use App\Livewire\Project;
+use App\Livewire\ProjectDetail;
 use App\Livewire\Contact;
 
 /*
@@ -25,8 +25,8 @@ Route::prefix('lang/{locale}')
         Route::get('/home', Home::class)->name('home');
         Route::get('/about', About::class)->name('about');
         Route::get('/resume', Resume::class)->name('resume');
-        Route::get('/project', Portofolio::class)->name('project');
-        Route::get('/project/{id}/details', PortofolioDetail::class)->name('project-detail');
+        Route::get('/project', Project::class)->name('project');
+        Route::get('/project/{id}/details', ProjectDetail::class)->name('project-detail');
         Route::get('/contact', Contact::class)->name('contact');
     });
 

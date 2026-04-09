@@ -16,9 +16,9 @@ class CategoryProject extends Model
         'name_category_en'
     ];
 
-    public function portofolios(): HasMany
+    public function projects(): HasMany
     {
-        return $this->hasMany(Portofolio::class, 'category_project_id');
+        return $this->hasMany(Project::class, 'category_project_id');
     }
 
     protected static function boot()
@@ -26,20 +26,20 @@ class CategoryProject extends Model
         parent::boot();
 
         static::deleting(function ($category) {
-            foreach ($category->portofolios()->get() as $portofolio) {
-                $portofolio->delete();
+            foreach ($category->projects()->get() as $project) {
+                $project->delete();
             }
         });
 
         static::restoring(function ($category) {
-            foreach ($category->portofolios()->onlyTrashed()->get() as $portofolio) {
-                $portofolio->restore();
+            foreach ($category->projects()->onlyTrashed()->get() as $project) {
+                $project->restore();
             }
         });
 
         static::forceDeleting(function ($category) {
-            foreach ($category->portofolios()->withTrashed()->get() as $portofolio) {
-                $portofolio->forceDelete();
+            foreach ($category->projects()->withTrashed()->get() as $project) {
+                $project->forceDelete();
             }
         });
     }
