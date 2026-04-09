@@ -36,7 +36,7 @@ class PortofolioForm
                             ->imageResizeTargetHeight(800)
                             ->imageResizeTargetWidth(1200)
                             ->imageResizeMode('cover'),
-                        Select::make('category_project_id')
+                        Select::make('category_project_id')->columnSpanFull()
                             ->label('Category')
                             ->placeholder('Select Category Project')
                             ->relationship('category', 'name_category_id')
@@ -61,6 +61,10 @@ class PortofolioForm
                             ->required(),
                         TextInput::make('link_project')
                             ->label('Link Project')
+                            ->placeholder('Contoh: https://...')
+                            ->url(),
+                        TextInput::make('link_demo_project')
+                            ->label('Link Demo Project')
                             ->placeholder('Contoh: https://...')
                             ->url(),
                         Hidden::make('name_project_en')

@@ -70,13 +70,22 @@
                             <li><strong>{{ app()->getLocale() == 'id' ? 'Tanggal Proyek' : 'Project Date' }}</strong>: 
                                 {{ \Carbon\Carbon::parse($portofolio->date_project)->locale(app()->getLocale())->translatedFormat('d F Y') }}
                             </li>
-                            <li><strong>{{ app()->getLocale() == 'id' ? 'URL Proyek' : 'Project URL' }}</strong>: 
+                            <li><strong>{{ app()->getLocale() == 'id' ? 'Link Proyek' : 'Project Link' }}</strong>: 
                                 @if($portofolio->link_project)
                                     <a href="{{ $portofolio->link_project ?? '' }}" target="_blank" rel="noopener noreferrer" class="btn-link text-primary" aria-label="{{ app()->getLocale() == 'id' ? 'Buka tautan proyek' : 'Open project link' }}">
-                                        <i class="fa-solid fa-link me-2"> {{ app()->getLocale() == 'id' ? 'Kunjungi' : 'Preview' }}</i> 
+                                        <i class="fa-solid fa-link me-2"> {{ app()->getLocale() == 'id' ? 'Lihat Website' : 'Show Website' }}</i> 
                                     </a>
                                 @else
-                                    <span><code>{{ app()->getLocale() == 'id' ? 'Tidak Tersedia' : 'Not Available' }}</code></span>
+                                    <span><code>{{ app()->getLocale() == 'id' ? 'Link Proyek Tidak Tersedia' : 'Project Link Not Available' }}</code></span>
+                                @endif
+                            </li>
+                            <li><strong>{{ app()->getLocale() == 'id' ? 'Link Demo' : 'Demo Link' }}</strong>: 
+                                @if($portofolio->link_demo_project)
+                                    <a href="{{ $portofolio->link_demo_project ?? '' }}" target="_blank" rel="noopener noreferrer" class="btn-link text-primary" aria-label="{{ app()->getLocale() == 'id' ? 'Buka tautan demo' : 'Open demo link' }}">
+                                        <i class="fa-solid fa-link me-2"> {{ app()->getLocale() == 'id' ? 'Lihat Demo' : 'Show Demo' }}</i> 
+                                    </a>
+                                @else
+                                    <span><code>{{ app()->getLocale() == 'id' ? 'Link Demo Tidak Tersedia' : 'Demo Link Not Available' }}</code></span>
                                 @endif
                             </li>
                         </ul>
