@@ -22,8 +22,8 @@
                             <p class="lead">{{ app()->getLocale() == 'id' ? 'Saya Seorang' : 'I am a' }} <span class="typed" data-typed-items="Web Developer, Back-end Developer, Front-end Developer, Full-Stack Developer"></span></p>
                             <p class="description">
                                 {{ app()->getLocale() == 'id' 
-                                    ? 'Pengembang website profesional dengan pengalaman lebih dari satu tahun dalam membangun aplikasi web secara efektif dan scalable untuk menciptakan solusi digital yang inovatif serta sesuai dengan kebutuhan pengguna.' 
-                                    : 'Professional website developer with over a year of experience in building effective and scalable web applications to create innovative digital solutions that meet user needs.'
+                                    ? 'Pengembang website profesional dengan pengalaman lebih dari dua tahun dalam membangun aplikasi web secara efektif dan scalable untuk menciptakan solusi digital yang inovatif serta sesuai dengan kebutuhan pengguna.' 
+                                    : 'Professional website developer with over two year of experience in building effective and scalable web applications to create innovative digital solutions that meet user needs.'
                                 }}
                             </p>
                             <div class="hero-actions">
