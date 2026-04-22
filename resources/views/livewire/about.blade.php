@@ -144,8 +144,8 @@
                             </div>
                             <div class="skill-item">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h4>JavaScript & Vue.js</h4>
-                                    <span class="skill-percentage">60%</span>
+                                    <h4>JavaScript & TailwindCSS</h4>
+                                    <span class="skill-percentage">50%</span>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"></div>
@@ -159,7 +159,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h4>Livewire & React</h4>
+                                    <h4>Livewire, React & Vue</h4>
                                     <span class="skill-percentage">70%</span>
                                 </div>
                                 <div class="progress">
