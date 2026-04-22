@@ -152,8 +152,8 @@
                                 </div>
                                 <div class="skill-tooltip">
                                     {{ app()->getLocale() == 'id' 
-                                        ? 'Fokus pada pengembangan logika sisi klien, manipulasi DOM yang efisien, dan membangun antarmuka pengguna yang reaktif.' 
-                                        : 'Focused on client-side logic development, efficient DOM manipulation, and building reactive user interfaces.' 
+                                        ? 'Fokus pada pengembangan logika dan tampilan sisi klien, manipulasi DOM yang efisien, dan membangun antarmuka pengguna yang reaktif.' 
+                                        : 'Focused on client-side logic and UI development, efficient DOM manipulation, and building reactive user interfaces.' 
                                     }}
                                 </div>
                             </div>
@@ -167,8 +167,8 @@
                                 </div>
                                 <div class="skill-tooltip">
                                     {{ app()->getLocale() == 'id' 
-                                        ? 'Spesialis dalam membangun aplikasi Single Page (SPA) yang dinamis menggunakan Livewire 3 dan arsitektur berbasis komponen pada React.' 
-                                        : 'Specialist in building dynamic Single Page Applications (SPA) using Livewire 3 and component-based architecture in React.' 
+                                        ? 'Spesialis dalam membangun aplikasi Single Page (SPA) yang dinamis menggunakan Livewire 3 dan arsitektur berbasis komponen pada React & Vue.' 
+                                        : 'Specialist in building dynamic Single Page Applications (SPA) using Livewire 3 and component-based architecture in React & Vue.' 
                                     }}
                                 </div>
                             </div>
@@ -181,7 +181,7 @@
                         <div class="skills-animation">
                             <div class="skill-item">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h4>PHP (Laravel & CodeIgniter)</h4>
+                                    <h4>PHP Framework (Laravel & CodeIgniter)</h4>
                                     <span class="skill-percentage">90%</span>
                                 </div>
                                 <div class="progress">
@@ -196,7 +196,7 @@
                             </div>
                             <div class="skill-item">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h4>Golang & Python</h4>
+                                    <h4>Express, Golang & Python</h4>
                                     <span class="skill-percentage">50%</span>
                                 </div>
                                 <div class="progress">
@@ -204,8 +204,8 @@
                                 </div>
                                 <div class="skill-tooltip">
                                     {{ app()->getLocale() == 'id' 
-                                        ? 'Memanfaatkan efisiensi konkurensi Go untuk layanan mikro (microservices) dan Python untuk otomatisasi serta pengolahan data.' 
-                                        : 'Leveraging Go\'s concurrency efficiency for microservices and Python for automation and data processing.' 
+                                        ? 'Memanfaatkan efisiensi konkurensi Go & Express untuk layanan mikro (microservices) dan Python untuk otomatisasi serta pengolahan data.' 
+                                        : 'Leveraging Go\'s & Express concurrency efficiency for microservices and Python for automation and data processing.' 
                                     }}
                                 </div>
                             </div>
