@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShowCV;
 use Illuminate\Support\Facades\Route;
 
 // Livewire Components
@@ -31,13 +32,7 @@ Route::prefix('lang/{locale}')
     });
 
 // View & Download CV
-Route::get('/view/cv/rizky-chandra-khusuma', function () {
-    $path = storage_path('app/document/CV_RizkyChandraKhusuma.pdf');
-    if (!file_exists($path)) {
-        abort(404);
-    }
-    return response()->file($path);
-})->name('view.cv');
+Route::get('/view/cv/rizky-chandra-khusuma', [ShowCV::class, 'showCV'])->name('view.cv');
 
 // Redirect User Login
 Route::redirect('/user', '/dashboard/login');

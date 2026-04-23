@@ -26,13 +26,14 @@ class FolderAwareCloudinaryAdapter extends CloudinaryStorageAdapter
     public function getUrl(string $path): string
     {
         [$id, $type] = $this->prepareResource($path);
+        $deliveryId = $this->toDeliveryId($id, $path, $type);
 
         $base = "https://res.cloudinary.com/{$this->cloudName}";
 
         return match ($type) {
-            'video' => "{$base}/video/upload/{$id}",
-            'raw'   => "{$base}/raw/upload/{$id}",
-            default => "{$base}/image/upload/f_auto,q_auto/{$id}",
+            'video' => "{$base}/video/upload/{$deliveryId}",
+            'raw'   => "{$base}/raw/upload/{$deliveryId}",
+            default => "{$base}/image/upload/f_auto,q_auto/{$deliveryId}",
         };
     }
 
@@ -65,14 +66,30 @@ class FolderAwareCloudinaryAdapter extends CloudinaryStorageAdapter
     public function getTransformedUrl(string $path, string $transforms): string
     {
         [$id, $type] = $this->prepareResource($path);
+        $deliveryId = $this->toDeliveryId($id, $path, $type);
 
         $base = "https://res.cloudinary.com/{$this->cloudName}";
 
         return match ($type) {
-            'video' => "{$base}/video/upload/{$transforms}/{$id}",
-            'raw'   => "{$base}/raw/upload/{$id}",
-            default => "{$base}/image/upload/{$transforms}/{$id}",
+            'video' => "{$base}/video/upload/{$transforms}/{$deliveryId}",
+            'raw'   => "{$base}/raw/upload/{$deliveryId}",
+            default => "{$base}/image/upload/{$transforms}/{$deliveryId}",
         };
+    }
+
+    private function toDeliveryId(string $id, string $path, string $type): string
+    {
+        if ($type !== 'raw') {
+            return $id;
+        }
+
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+        if (! empty($extension) && ! str_ends_with(strtolower($id), '.' . strtolower($extension))) {
+            return $id . '.' . $extension;
+        }
+
+        return $id;
     }
 
     private function buildUploadOptions(string $path): array
