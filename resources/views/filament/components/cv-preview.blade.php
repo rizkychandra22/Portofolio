@@ -1,44 +1,35 @@
 @php
     use Illuminate\Support\Facades\Storage;
-    $previewImage = $imageUrl ?? str_replace('.pdf', '.jpg', $url);
+    $previewImage = $imageUrl ?? ($url ? str_replace('.pdf', '.jpg', $url) : null);
 @endphp
 
 <style>
-    [data-field-wrapper] :where(.fi-fo-view) {
-        width: 100% !important;
-    }
-    .cv-preview-wrapper {
-        width: 100%;
+    [data-field-wrapper] :where(.fi-fo-view) { width: 100% !important; }
+    .cv-preview-wrapper { width: 100%; }
+
+    /* Desktop: Tampilkan Iframe */
+    @media (min-width: 1024px) {
+        .mobile-preview { display: none !important; }
+        .desktop-preview { display: block !important; }
     }
 
-    /* Sembunyikan iframe di layar kecil (HP) karena biasanya tidak jalan */
-    @media (max-width: 768px) {
-        .iframe-container {
-            display: none !important;
-        }
-        .mobile-preview-container {
-            display: block !important;
-        }
-    }
-
-    /* Sembunyikan preview gambar di layar besar (Desktop) */
-    @media (min-width: 769px) {
-        .mobile-preview-container {
-            display: none !important;
-        }
+    /* Mobile: Tampilkan Gambar */
+    @media (max-width: 1023px) {
+        .mobile-preview { display: block !important; }
+        .desktop-preview { display: none !important; }
     }
 </style>
 
-<div class="cv-preview-wrapper" style="width: 100%;">
+<div class="cv-preview-wrapper">
     <label class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
         File CV Aktif Saat Ini:
     </label>
     
     @if ($path && $url)
-        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm space-y-3" style="width: 100%;">
+        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm" style="width: 100%;">
             
-            {{-- DESKTOP VIEW: Iframe Mewah --}}
-            <div class="iframe-container rounded-md overflow-hidden border border-gray-200 dark:border-gray-700 bg-white" style="width: 100%; height: clamp(720px, 82vh, 1400px);">
+            {{-- PREVIEW LAPTOP --}}
+            <div class="desktop-preview rounded-md overflow-hidden border border-gray-200 bg-white" style="width: 100%; height: 750px;">
                 <iframe
                     src="{{ $url }}#toolbar=1&navpanes=0&zoom=page-width"
                     title="Preview CV"
@@ -46,14 +37,14 @@
                 ></iframe>
             </div>
 
-            {{-- MOBILE VIEW: Gambar Preview (Cloudinary JPG) --}}
-            <div class="mobile-preview-container hidden" style="width: 100%;">
-                <div class="rounded-lg overflow-hidden border border-gray-300 shadow-lg bg-white mb-4">
+            {{-- PREVIEW HP --}}
+            <div class="mobile-preview hidden" style="width: 100%;">
+                <div class="rounded-lg overflow-hidden border-2 border-gray-200 shadow-md bg-white mb-4">
                     <img 
                         src="{{ $previewImage }}" 
                         alt="CV Preview Mobile" 
                         class="w-full h-auto"
-                        onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=PDF+Preview+Ready';"
+                        onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=Format+PDF+Berhasil+Terunggah';"
                     >
                 </div>
                 <x-filament::button 
@@ -63,7 +54,7 @@
                     icon="heroicon-m-arrow-top-right-on-square"
                     class="w-full"
                 >
-                    Buka / Download Full PDF
+                    Buka Full PDF
                 </x-filament::button>
             </div>
 

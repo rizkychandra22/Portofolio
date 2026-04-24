@@ -118,7 +118,13 @@ class ManageCv extends Page implements Forms\Contracts\HasForms
 
         return rescue(function () use ($normalizedPath, $asImage) {
             $url = Storage::disk('cloudinary')->url($normalizedPath);
-            return $asImage ? str_replace('.pdf', '.jpg', $url) : $url;
+            
+            if ($asImage) {
+                $baseUrl = str_replace('.pdf', '.jpg', $url);
+                return str_replace('/upload/', '/upload/pg_1,f_jpg,w_800/', $baseUrl);
+            }
+
+            return $url;
         }, report: false);
     }
 }
