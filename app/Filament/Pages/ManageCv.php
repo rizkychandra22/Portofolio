@@ -49,14 +49,6 @@ class ManageCv extends Page implements Forms\Contracts\HasForms
                             ->label('Nama Dokumen')
                             ->required(),
 
-                        ViewField::make('preview_cv')
-                            ->view('filament.components.cv-preview')
-                            ->viewData(fn () => [
-                                'path' => $this->oldFilePath,
-                                'url' => $this->resolveCvUrl($this->oldFilePath),
-                            ])
-                            ->columnSpanFull(),
-
                         FileUpload::make('file_path')
                             ->label('Upload File CV (PDF)')
                             ->disk('cloudinary')
@@ -70,7 +62,15 @@ class ManageCv extends Page implements Forms\Contracts\HasForms
                             ->dehydrateStateUsing(fn ($state) =>
                                 is_array($state) ? collect($state)->first() : $state
                             ),
-                    ]),
+
+                        ViewField::make('preview_cv')->columnSpanFull()
+                            ->view('filament.components.cv-preview')
+                            ->viewData([
+                                'path' => $this->oldFilePath,
+                                'url' => $this->resolveCvUrl($this->oldFilePath),
+                                'imageUrl' => $this->resolveCvUrl($this->oldFilePath, true),
+                            ]),
+                    ])->columns(2),
             ])
             ->statePath('data');
     }
@@ -111,17 +111,14 @@ class ManageCv extends Page implements Forms\Contracts\HasForms
         Storage::disk('local')->deleteDirectory('livewire-tmp');
     }
 
-    protected function resolveCvUrl(?string $path): ?string
+    protected function resolveCvUrl(?string $path, bool $asImage = false): ?string
     {
-        if (blank($path)) {
-            return null;
-        }
-
+        if (blank($path)) return null;
         $normalizedPath = ltrim(str_replace('\\', '/', $path), '/');
 
-        return rescue(
-            fn () => Storage::disk('cloudinary')->url($normalizedPath),
-            report: false,
-        );
+        return rescue(function () use ($normalizedPath, $asImage) {
+            $url = Storage::disk('cloudinary')->url($normalizedPath);
+            return $asImage ? str_replace('.pdf', '.jpg', $url) : $url;
+        }, report: false);
     }
 }
