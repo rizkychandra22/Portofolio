@@ -5,22 +5,21 @@
 
 <style>
     [data-field-wrapper] :where(.fi-fo-view) { width: 100% !important; }
-    .cv-preview-wrapper { width: 100%; }
-
-    /* Desktop: Tampilkan Iframe */
+    
+    /* Desktop: Sembunyikan gambar, tampilkan iframe */
     @media (min-width: 1024px) {
-        .mobile-preview { display: none !important; }
-        .desktop-preview { display: block !important; }
+        .cv-mobile-preview { display: none !important; }
+        .cv-desktop-preview { display: block !important; }
     }
 
-    /* Mobile: Tampilkan Gambar */
+    /* Mobile: Sembunyikan iframe, tampilkan gambar */
     @media (max-width: 1023px) {
-        .mobile-preview { display: block !important; }
-        .desktop-preview { display: none !important; }
+        .cv-mobile-preview { display: block !important; }
+        .cv-desktop-preview { display: none !important; }
     }
 </style>
 
-<div class="cv-preview-wrapper">
+<div class="cv-preview-wrapper" style="width: 100%;">
     <label class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
         File CV Aktif Saat Ini:
     </label>
@@ -28,8 +27,8 @@
     @if ($path && $url)
         <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm" style="width: 100%;">
             
-            {{-- PREVIEW LAPTOP --}}
-            <div class="desktop-preview rounded-md overflow-hidden border border-gray-200 bg-white" style="width: 100%; height: 750px;">
+            {{-- TAMPILAN LAPTOP (Iframe) --}}
+            <div class="cv-desktop-preview rounded-md overflow-hidden border border-gray-200 bg-white" style="width: 100%; height: 750px;">
                 <iframe
                     src="{{ $url }}#toolbar=1&navpanes=0&zoom=page-width"
                     title="Preview CV"
@@ -37,14 +36,14 @@
                 ></iframe>
             </div>
 
-            {{-- PREVIEW HP --}}
-            <div class="mobile-preview hidden" style="width: 100%;">
+            {{-- TAMPILAN HP (Gambar JPG) --}}
+            <div class="cv-mobile-preview hidden" style="width: 100%;">
                 <div class="rounded-lg overflow-hidden border-2 border-gray-200 shadow-md bg-white mb-4">
                     <img 
                         src="{{ $previewImage }}" 
                         alt="CV Preview Mobile" 
                         class="w-full h-auto"
-                        onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=Format+PDF+Berhasil+Terunggah';"
+                        onerror="this.onerror=null;this.src='https://placehold.co/400x600?text=Preview+Tersedia+di+Desktop';"
                     >
                 </div>
                 <x-filament::button 
@@ -54,7 +53,7 @@
                     icon="heroicon-m-arrow-top-right-on-square"
                     class="w-full"
                 >
-                    Buka Full PDF
+                    Download / Buka PDF
                 </x-filament::button>
             </div>
 

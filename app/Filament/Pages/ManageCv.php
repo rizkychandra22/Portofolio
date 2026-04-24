@@ -121,7 +121,7 @@ class ManageCv extends Page implements Forms\Contracts\HasForms
             
             if ($asImage) {
                 $baseUrl = str_replace('.pdf', '.jpg', $url);
-                return str_replace('/upload/', '/upload/pg_1,f_jpg,w_800/', $baseUrl);
+                return str_replace('/upload/', '/upload/pg_1,f_jpg,w_1000/', $baseUrl);
             }
 
             return $url;
